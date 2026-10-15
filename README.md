@@ -21,6 +21,8 @@ bash scripts/test_offline.sh
 
 然后在这个目录中开始接力，先阅读 `AGENTS.md` 和 `handoff/CURRENT_STATE.json`。
 不复制原电脑的 Codex 登录信息；新电脑独立登录。不要依靠旧对话推断当前安全状态。
+环境前提和双机工作方法见 [接力与回退](handoff/WORKFLOW.md)，
+本次迁移验证结果见 [VALIDATION.json](handoff/VALIDATION.json)。
 
 ## 目录
 

@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-15",
+  "source_commit_tested": "237a02bd8e6527c3be0f15c4d0ffc411b2e27122",
+  "migration_copy_tests": {
+    "command": "bash scripts/test_offline.sh",
+    "car_pytest_passed": 488,
+    "drone_pytest_passed": 789,
+    "native_streaming_motion_asan_ubsan_passed": true,
+    "native_rectangle_and_bench_suite_passed": true,
+    "description_package_built_in_local_isolated_install": true,
+    "exit_code": 0
+  },
+  "fresh_clone_tests": {
+    "separate_directory_and_git_object_copy": true,
+    "same_host_not_another_physical_pc": true,
+    "car_pytest_passed": 488,
+    "drone_pytest_passed": 789,
+    "native_streaming_motion_and_rectangle_passed": true,
+    "exit_code": 0
+  },
+  "stm32_build": {
+    "compiler": "14.3.1+st.2",
+    "targets_passed": ["mecanum_f407_four_link_readonly", "mecanum_f407_four_link_bench", "mecanum_f407_four_link_motion"],
+    "readonly_sha256": "12d4224f5337b42d3bdc3eef30f4142e957d65d900d61b64d8b8fb22033e9aa6",
+    "motion_sha256": "6c9f7649920e1ef0850656e28781e52e1ec67e14bee624a28093b036a60f0d89",
+    "readonly_and_motion_equal_primary_builds": true,
+    "flashed": false
+  },
+  "drone_firmware_source": {
+    "two_patch_reconstruction_passed": true,
+    "repaired_files_byte_identical_to_primary": 13,
+    "full_rebuild_in_migration_copy": false,
+    "bootloader_binary_published": false
+  },
+  "public_audit": {
+    "common_token_private_key_and_generated_file_scan_passed": true,
+    "actual_local_wifi_password_not_found_in_selected_files": true,
+    "complete_backups_private_credentials_and_vicon_sdk_excluded": true,
+    "not_a_formal_secret_or_license_audit": true
+  },
+  "not_verified_here": [
+    "Clean OS installation or execution on another physical PC",
+    "ESP-IDF rebuild from this exported checkout",
+    "Live Vicon receiver build without separately provided proprietary dependencies",
+    "Autonomous drone flight or loaded car trajectory tracking"
+  ],
+  "hardware_commands_sent": false,
+  "primary_workspaces_modified": false,
+  "network_proxy_or_adapter_settings_modified": false
+}

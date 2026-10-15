@@ -1,0 +1,336 @@
+diff --git a/boards/micoair/h743-v2/default.px4board b/boards/micoair/h743-v2/default.px4board
+index 86264fd9..d923fc04 100644
+--- a/boards/micoair/h743-v2/default.px4board
++++ b/boards/micoair/h743-v2/default.px4board
+@@ -10,10 +10,11 @@ CONFIG_BOARD_SERIAL_TEL4="/dev/ttyS7"
+ CONFIG_BOARD_SERIAL_RC="/dev/ttyS5"
+ CONFIG_DRIVERS_ADC_BOARD_ADC=y
+ CONFIG_COMMON_BAROMETERS=y
++CONFIG_DRIVERS_CDCACM_AUTOSTART=y
+ CONFIG_DRIVERS_DSHOT=y
+ CONFIG_DRIVERS_GPS=y
+ CONFIG_DRIVERS_IMU_BOSCH_BMI088=y
+-CONFIG_DRIVERS_IMU_INVENSENSE_ICM42688P=y
++CONFIG_DRIVERS_IMU_BOSCH_BMI270=y
+ CONFIG_COMMON_INS=y
+ CONFIG_COMMON_MAGNETOMETER=y
+ CONFIG_DRIVERS_PPS_CAPTURE=y
+diff --git a/boards/micoair/h743-v2/firmware.prototype b/boards/micoair/h743-v2/firmware.prototype
+index a4b51670..3f1a41de 100644
+--- a/boards/micoair/h743-v2/firmware.prototype
++++ b/boards/micoair/h743-v2/firmware.prototype
+@@ -1,5 +1,5 @@
+ {
+-    "board_id": 1178,
++    "board_id": 1179,
+     "magic": "PX4FWv1",
+     "description": "Firmware for the MicoAir743v2 board",
+     "image": "",
+diff --git a/boards/micoair/h743-v2/init/rc.board_defaults b/boards/micoair/h743-v2/init/rc.board_defaults
+index 17b2656f..2115bc88 100644
+--- a/boards/micoair/h743-v2/init/rc.board_defaults
++++ b/boards/micoair/h743-v2/init/rc.board_defaults
+@@ -12,6 +12,9 @@ param set-default SYS_HAS_MAG 1
+ param set-default PWM_MAIN_TIM0 -4
+ param set-default RC_INPUT_PROTO -1
+ 
++param set-default MAV_2_CONFIG 104
++param set-default SER_TEL4_BAUD 115200
++
+ param set-default IMU_GYRO_CUTOFF 80
+ param set-default SYS_AUTOSTART 4001
+ param set-default MC_PITCHRATE_K 0.4
+diff --git a/boards/micoair/h743-v2/init/rc.board_sensors b/boards/micoair/h743-v2/init/rc.board_sensors
+index d1e101b4..d51032a1 100644
+--- a/boards/micoair/h743-v2/init/rc.board_sensors
++++ b/boards/micoair/h743-v2/init/rc.board_sensors
+@@ -9,8 +9,8 @@ board_adc start
+ bmi088 -s -b 2 -A -R 6 start
+ bmi088 -s -b 2 -G -R 6 start
+ 
+-# # Internal SPI bus ICM42688 accel/gyro
+-icm42688p -s -b 3 -R 2 start
++# Internal SPI bus BMI270 accel/gyro (matches the installed factory startup script)
++bmi270 -s -b 3 -R 0 start
+ 
+ # Internal baro
+ spl06 -I -a 0x77 start
+diff --git a/boards/micoair/h743-v2/src/board_config.h b/boards/micoair/h743-v2/src/board_config.h
+index ac67d638..97f36585 100644
+--- a/boards/micoair/h743-v2/src/board_config.h
++++ b/boards/micoair/h743-v2/src/board_config.h
+@@ -104,8 +104,8 @@
+ 
+ /* PWM
+  */
+-#define DIRECT_PWM_OUTPUT_CHANNELS   9
+-#define DIRECT_INPUT_TIMER_CHANNELS  9
++#define DIRECT_PWM_OUTPUT_CHANNELS   10
++#define DIRECT_INPUT_TIMER_CHANNELS  10
+ 
+ #define BOARD_HAS_PWM  DIRECT_PWM_OUTPUT_CHANNELS
+ 
+@@ -151,7 +151,7 @@
+ 
+ #define FLASH_BASED_PARAMS
+ 
+-#define BOARD_NUM_IO_TIMERS 4
++#define BOARD_NUM_IO_TIMERS 5
+ 
+ 
+ __BEGIN_DECLS
+diff --git a/boards/micoair/h743-v2/src/hw_config.h b/boards/micoair/h743-v2/src/hw_config.h
+index 5ef1c4a8..a74346ed 100644
+--- a/boards/micoair/h743-v2/src/hw_config.h
++++ b/boards/micoair/h743-v2/src/hw_config.h
+@@ -96,7 +96,7 @@
+ #define INTERFACE_USART                1
+ #define INTERFACE_USART_CONFIG         "/dev/ttyS0,115200"
+ #define BOOT_DELAY_ADDRESS             0x000001a0
+-#define BOARD_TYPE                     1178
++#define BOARD_TYPE                     1179
+ #define BOARD_FLASH_SECTORS            (14)
+ #define BOARD_FLASH_SIZE               (16 * 128 * 1024)
+ #define APP_RESERVATION_SIZE 	       (1 * 128 * 1024)
+diff --git a/boards/micoair/h743-v2/src/spi.cpp b/boards/micoair/h743-v2/src/spi.cpp
+index a80749c6..d8876bc1 100644
+--- a/boards/micoair/h743-v2/src/spi.cpp
++++ b/boards/micoair/h743-v2/src/spi.cpp
+@@ -42,7 +42,7 @@ constexpr px4_spi_bus_t px4_spi_buses[SPI_BUS_MAX_BUS_ITEMS] = {
+ 		initSPIDevice(DRV_ACC_DEVTYPE_BMI088, SPI::CS{GPIO::PortD, GPIO::Pin4}, SPI::DRDY{GPIO::PortC, GPIO::Pin14}),
+ 	}),
+ 	initSPIBus(SPI::Bus::SPI3, {
+-		initSPIDevice(DRV_IMU_DEVTYPE_ICM42688P, SPI::CS{GPIO::PortA, GPIO::Pin15}, SPI::DRDY{GPIO::PortB, GPIO::Pin7}),
++		initSPIDevice(DRV_IMU_DEVTYPE_BMI270, SPI::CS{GPIO::PortA, GPIO::Pin15}, SPI::DRDY{GPIO::PortB, GPIO::Pin7}),
+ 	}),
+ };
+ 
+diff --git a/boards/micoair/h743-v2/src/timer_config.cpp b/boards/micoair/h743-v2/src/timer_config.cpp
+index b2bca633..be33feed 100644
+--- a/boards/micoair/h743-v2/src/timer_config.cpp
++++ b/boards/micoair/h743-v2/src/timer_config.cpp
+@@ -37,6 +37,7 @@ constexpr io_timers_t io_timers[MAX_IO_TIMERS] = {
+ 	initIOTimer(Timer::Timer1, DMA{DMA::Index1}),
+ 	initIOTimer(Timer::Timer3, DMA{DMA::Index1}),
+ 	initIOTimer(Timer::Timer4, DMA{DMA::Index1}),
++	initIOTimer(Timer::Timer15),
+ };
+ 
+ constexpr timer_io_channels_t timer_io_channels[MAX_TIMER_IO_CHANNELS] = {
+@@ -48,7 +49,8 @@ constexpr timer_io_channels_t timer_io_channels[MAX_TIMER_IO_CHANNELS] = {
+ 	initIOTimerChannel(io_timers, {Timer::Timer3, Timer::Channel3}, {GPIO::PortB, GPIO::Pin0}),
+ 	initIOTimerChannel(io_timers, {Timer::Timer4, Timer::Channel1}, {GPIO::PortD, GPIO::Pin12}),
+ 	initIOTimerChannel(io_timers, {Timer::Timer4, Timer::Channel2}, {GPIO::PortD, GPIO::Pin13}),
+-	initIOTimerChannel(io_timers, {Timer::Timer4, Timer::Channel3}, {GPIO::PortD, GPIO::Pin14}),
++	initIOTimerChannel(io_timers, {Timer::Timer15, Timer::Channel1}, {GPIO::PortE, GPIO::Pin5}),
++	initIOTimerChannel(io_timers, {Timer::Timer15, Timer::Channel2}, {GPIO::PortE, GPIO::Pin6}),
+ };
+ 
+ constexpr io_timers_channel_mapping_t io_timers_channel_mapping =
+diff --git a/src/modules/mavlink/mavlink_main.cpp b/src/modules/mavlink/mavlink_main.cpp
+index 36aec9ec..9c1069c2 100644
+--- a/src/modules/mavlink/mavlink_main.cpp
++++ b/src/modules/mavlink/mavlink_main.cpp
+@@ -1265,6 +1265,30 @@ Mavlink::close_shell()
+ 	}
+ }
+ 
++void
++Mavlink::handleMavlinkShellOutput()
++{
++	mavlink_serial_control_t msg{};
++	{
++		// 指针检查和使用必须同锁；不能在锁外先检查已被接收线程删除的对象。
++		const LockGuard lg{_mavlink_shell_mutex};
++
++		if (_mavlink_shell && _mavlink_shell->available() > 0
++		    && get_free_tx_buf() >= MAVLINK_MSG_ID_SERIAL_CONTROL_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES) {
++			msg.flags = SERIAL_CONTROL_FLAG_REPLY;
++			msg.device = SERIAL_CONTROL_DEV_SHELL;
++			msg.count = _mavlink_shell->read(msg.data, sizeof(msg.data));
++			msg.target_system = _mavlink_shell->targetSysid();
++			msg.target_component = _mavlink_shell->targetCompid();
++		}
++	}
++
++	// 串口发送可能等待缓冲区，不能在持有Shell生命周期锁时执行。
++	if (msg.count > 0) {
++		mavlink_msg_serial_control_send_struct(get_channel(), &msg);
++	}
++}
++
+ void
+ Mavlink::update_rate_mult()
+ {
+@@ -2113,6 +2137,7 @@ Mavlink::task_main(int argc, char *argv[])
+ 
+ 	pthread_mutex_init(&_message_buffer_mutex, nullptr);
+ 	pthread_mutex_init(&_send_mutex, nullptr);
++	pthread_mutex_init(&_mavlink_shell_mutex, nullptr);
+ 	pthread_mutex_init(&_radio_status_mutex, nullptr);
+ 
+ 	/* if we are passing on mavlink messages, we need to prepare a buffer for this instance */
+@@ -2381,20 +2406,7 @@ Mavlink::task_main(int argc, char *argv[])
+ 			mavlink_msg_command_long_send_struct(get_channel(), &msg);
+ 		}
+ 
+-		/* check for shell output */
+-		if (_mavlink_shell && _mavlink_shell->available() > 0) {
+-			if (get_free_tx_buf() >= MAVLINK_MSG_ID_SERIAL_CONTROL_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES) {
+-				mavlink_serial_control_t msg;
+-				msg.baudrate = 0;
+-				msg.flags = SERIAL_CONTROL_FLAG_REPLY;
+-				msg.timeout = 0;
+-				msg.device = SERIAL_CONTROL_DEV_SHELL;
+-				msg.count = _mavlink_shell->read(msg.data, sizeof(msg.data));
+-				msg.target_system = _mavlink_shell->targetSysid();
+-				msg.target_component = _mavlink_shell->targetCompid();
+-				mavlink_msg_serial_control_send_struct(get_channel(), &msg);
+-			}
+-		}
++		handleMavlinkShellOutput();
+ 
+ 		check_requested_subscriptions();
+ 
+@@ -2513,6 +2525,10 @@ Mavlink::task_main(int argc, char *argv[])
+ 	}
+ 
+ 	_receiver.stop();
++	{
++		const LockGuard lg{_mavlink_shell_mutex};
++		close_shell();
++	}
+ 
+ 	delete _subscribe_to_stream;
+ 	_subscribe_to_stream = nullptr;
+@@ -2538,6 +2554,7 @@ Mavlink::task_main(int argc, char *argv[])
+ 	}
+ 
+ 	pthread_mutex_destroy(&_send_mutex);
++	pthread_mutex_destroy(&_mavlink_shell_mutex);
+ 	pthread_mutex_destroy(&_radio_status_mutex);
+ 	pthread_mutex_destroy(&_message_buffer_mutex);
+ 
+diff --git a/src/modules/mavlink/mavlink_main.h b/src/modules/mavlink/mavlink_main.h
+index 1ba71c6a..9df00061 100644
+--- a/src/modules/mavlink/mavlink_main.h
++++ b/src/modules/mavlink/mavlink_main.h
+@@ -483,6 +483,8 @@ public:
+ 	MavlinkShell		*get_shell();
+ 	/** close the Mavlink shell if it is open */
+ 	void			close_shell();
++	pthread_mutex_t		&get_shell_mutex() { return _mavlink_shell_mutex; }
++	void			handleMavlinkShellOutput();
+ 
+ 	/** get ulog streaming if active, nullptr otherwise */
+ 	MavlinkULog		*get_ulog_streaming() { return _mavlink_ulog; }
+@@ -651,6 +653,7 @@ private:
+ 	VariableLengthRingbuffer _message_buffer{};
+ 
+ 	pthread_mutex_t		_send_mutex {};
++	pthread_mutex_t		_mavlink_shell_mutex {};
+ 	pthread_mutex_t         _radio_status_mutex {};
+ 
+ 	DEFINE_PARAMETERS(
+diff --git a/src/modules/mavlink/mavlink_receiver.cpp b/src/modules/mavlink/mavlink_receiver.cpp
+index 96f34c69..75925c1f 100644
+--- a/src/modules/mavlink/mavlink_receiver.cpp
++++ b/src/modules/mavlink/mavlink_receiver.cpp
+@@ -60,6 +60,7 @@
+ #include "mavlink_command_sender.h"
+ #include "mavlink_main.h"
+ #include "mavlink_receiver.h"
++#include <containers/LockGuard.hpp>
+ 
+ #include <lib/drivers/device/Device.hpp> // For DeviceId union
+ 
+@@ -1757,17 +1758,28 @@ MavlinkReceiver::handle_message_serial_control(mavlink_message_t *msg)
+ 		return;
+ 	}
+ 
+-	MavlinkShell *shell = _mavlink->get_shell();
++	MavlinkShell *shell = nullptr;
++	{
++		const LockGuard lg{_mavlink->get_shell_mutex()};
++		shell = _mavlink->get_shell();
++
++		if (shell && serial_control_mavlink.count > 0
++		    && serial_control_mavlink.count <= sizeof(serial_control_mavlink.data)) {
++			shell->setTargetID(msg->sysid, msg->compid);
++		}
++	}
+ 
+ 	if (shell) {
+ 		// we ignore the timeout, EXCLUSIVE & BLOCKING flags of the SERIAL_CONTROL message
+-		if (serial_control_mavlink.count > 0) {
+-			shell->setTargetID(msg->sysid, msg->compid);
++		if (serial_control_mavlink.count > 0
++		    && serial_control_mavlink.count <= sizeof(serial_control_mavlink.data)) {
++			// 创建/删除只有本接收线程执行；管道写可能阻塞，须释放锁让主线程排空输出。
+ 			shell->write(serial_control_mavlink.data, serial_control_mavlink.count);
+ 		}
+ 
+ 		// if no response requested, assume the shell is no longer used
+ 		if ((serial_control_mavlink.flags & SERIAL_CONTROL_FLAG_RESPOND) == 0) {
++			const LockGuard lg{_mavlink->get_shell_mutex()};
+ 			_mavlink->close_shell();
+ 		}
+ 	}
+diff --git a/src/modules/mavlink/mavlink_timesync.cpp b/src/modules/mavlink/mavlink_timesync.cpp
+index 7bbe8f8d..f95fd484 100644
+--- a/src/modules/mavlink/mavlink_timesync.cpp
++++ b/src/modules/mavlink/mavlink_timesync.cpp
+@@ -57,14 +57,22 @@ MavlinkTimesync::handle_message(const mavlink_message_t *msg)
+ 			mavlink_timesync_t tsync = {};
+ 			mavlink_msg_timesync_decode(msg, &tsync);
+ 
++			// MAVLink2扩展可指定目标；其它组件的同步报文不能改本机时钟滤波器。
++			if ((tsync.target_system != 0 && tsync.target_system != mavlink_system.sysid)
++			    || (tsync.target_component != 0 && tsync.target_component != mavlink_system.compid)) {
++				return;
++			}
++
+ 			const uint64_t now = hrt_absolute_time();
+ 
+ 			if (tsync.tc1 == 0) {			// Message originating from remote system, timestamp and return it
+ 
+-				mavlink_timesync_t rsync;
++				mavlink_timesync_t rsync{};
+ 
+ 				rsync.tc1 = now * 1000ULL;
+ 				rsync.ts1 = tsync.ts1;
++				rsync.target_system = msg->sysid;
++				rsync.target_component = msg->compid;
+ 
+ 				mavlink_msg_timesync_send_struct(_mavlink->get_channel(), &rsync);
+ 
+diff --git a/src/modules/sensors/vehicle_imu/VehicleIMU.cpp b/src/modules/sensors/vehicle_imu/VehicleIMU.cpp
+index 8ca2464b..85737c28 100644
+--- a/src/modules/sensors/vehicle_imu/VehicleIMU.cpp
++++ b/src/modules/sensors/vehicle_imu/VehicleIMU.cpp
+@@ -529,7 +529,7 @@ bool VehicleIMU::Publish()
+ {
+ 	bool updated = false;
+ 
+-	vehicle_imu_s imu;
++	vehicle_imu_s imu{};
+ 	Vector3f delta_angle;
+ 	Vector3f delta_velocity;
+ 
+@@ -645,6 +645,8 @@ bool VehicleIMU::Publish()
+ 			imu.gyro_device_id = _gyro_calibration.device_id();
+ 			delta_angle_corrected.copyTo(imu.delta_angle);
+ 			delta_velocity_corrected.copyTo(imu.delta_velocity);
++			// 每次积分发布当前削顶标志，避免把未初始化字节送进传感器投票和EKF。
++			imu.delta_angle_clipping = _delta_angle_clipping;
+ 			imu.delta_velocity_clipping = _delta_velocity_clipping;
+ 			imu.accel_calibration_count = _accel_calibration.calibration_count();
+ 			imu.gyro_calibration_count = _gyro_calibration.calibration_count();
+@@ -652,6 +654,7 @@ bool VehicleIMU::Publish()
+ 			_vehicle_imu_pub.publish(imu);
+ 
+ 			// reset clip counts
++			_delta_angle_clipping = 0;
+ 			_delta_velocity_clipping = 0;
+ 
+ 			// record gyro publication latency and integrated samples

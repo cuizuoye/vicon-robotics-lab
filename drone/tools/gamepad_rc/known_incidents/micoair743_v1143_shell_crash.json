@@ -1,0 +1,37 @@
+{
+  "uid2": "000000000000000000000000000000000000",
+  "firmware": "1.14.3",
+  "git_hash": "33bdd21f40d044e2524ea4c522fbf3c2418ea64a",
+  "block_active_benches": true,
+  "reason": "Two retained mavlink_if3 HardFault dumps during active wireless manual benches; suspected shell-close race; exact cause not proven",
+  "evidence": "trs_manual_retry_20261013_bB3ZUH/fault_logs_readonly.json",
+  "upstream_related_fix": "https://github.com/PX4/PX4-Autopilot/pull/25082",
+  "do_not_delete_sd_fault_logs_or_bypass_preflight": true,
+  "additional_offline_evidence": "micoair_shell_firmware_20261013_ikdyTI/assessment.json",
+  "second_fault_shell_close_race_confidence": "high from original-package disassembly; matching ELF not obtained",
+  "candidate_source_repair_prepared_not_flashed": false,
+  "requires_vendor_1179_source_and_build_compatibility_review": true,
+  "first_application_candidate_installed": {
+    "date": "2026-10-14",
+    "package_sha256": "7692ee31dda3de857325d130c618bd1de07957e29429ca14e6ff18717e409ded",
+    "evidence": "firmware_install_20261014_Uc0iSy/verification.json",
+    "upload_crc_verified": true,
+    "parameters_926_unchanged": true,
+    "readonly_regression_30s_passed": true,
+    "shell_open_close_stress_not_yet_verified": true,
+    "flight_ready": false
+  },
+  "additional_imu_candidate_prepared_not_flashed": false,
+  "additional_imu_issue": "Original-source field assignment/reset repaired; consolidated app observed gyro_clipping=0",
+  "consolidated_application_installed": {
+    "date": "2026-10-14",
+    "package_sha256": "4fbaa8f64a66d1e5f138355dfa78f150a8fc4bd97780e19f499018afc60a143b",
+    "evidence": "firmware_consolidated_20261014_cthIHT/",
+    "upload_crc_verified": true,
+    "timesync_reply_target_verified": true,
+    "normal_shell_cycles_passed": 10,
+    "gyro_clipping_observed": 0,
+    "concurrent_shell_hardware_stress_not_verified": true,
+    "flight_ready": false
+  }
+}

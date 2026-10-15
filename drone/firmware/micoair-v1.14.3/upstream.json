@@ -1,0 +1,18 @@
+{
+  "url": "https://github.com/PX4/PX4-Autopilot.git",
+  "commit": "33bdd21f40d044e2524ea4c522fbf3c2418ea64a",
+  "url_provenance": "local assessment; source clone has no origin remote",
+  "patch_sha256": "202a334729ee6be3b1572d0e1c27faa7372027a33a93457a58a1d1f01e109567",
+  "build_target": "micoair_h743-v2_default",
+  "board_id": 1179,
+  "verified_compiler": "10.2.1 20201103",
+  "installed_package_sha256": "4fbaa8f64a66d1e5f138355dfa78f150a8fc4bd97780e19f499018afc60a143b",
+  "factory_binary_included": false,
+  "flight_authorized": false,
+  "public_base_commit": "1dacb4cdef2d7145754fc788fa8dc482eed74b40",
+  "public_base_tag": "v1.14.3",
+  "vendor_board_patch_sha256": "6aebc1d0137fd450ceb295cccb505aa86b197ced2ce9ed8638f7c371d167f2d5",
+  "source_reconstruction_verified_files": 13,
+  "bootloader_binary_excluded": true,
+  "full_firmware_rebuild_in_handoff_verified": false
+}

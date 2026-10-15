@@ -1,0 +1,124 @@
+{
+  "date": "2026-10-09",
+  "purpose": "approximate profile for staged suspended bench; not precision calibration",
+  "user_decision": "Adopt FL repeat 3179/3; RR endpoint +2 does not block approximate adoption.",
+  "repeatability_verified": false,
+  "precision_calibration_verified": false,
+  "strict_diagnostic_preserved": true,
+  "runtime_isolation_threshold_relaxed": false,
+  "nominal_wheel_diameter_m": 0.06,
+  "applied_in": "Src/speed_bench_control.c:speed_bench_init and Src/forward_bench_control.c:forward_bench_init; not four_speed_defaults",
+  "flashed_firmware": "forward_pi_v1",
+  "firmware_status_updated": "2026-10-10",
+  "motion_firmware_flashed": true,
+  "fl_first_suspended_pi_trial_passed": true,
+  "fl_trial_report": "SPEED_PI_FL_FIRST_TRIAL_2026-10-09.md",
+  "hardware_pi_tuned": false,
+  "parameter_reuse_policy": {
+    "user_requested_skip_repeated_per_wheel_tuning": true,
+    "common_gains_are_initial_not_fully_tuned": true,
+    "per_wheel_cpr_and_signs_retained": true,
+    "fr_rl_rr_hardware_speed_loops_verified": true,
+    "four_wheel_hardware_coordination_verified": true,
+    "hardware_verification_scope": "one suspended forward50 trial before roller-layout correction; not tuning, loaded driving, strafing, rotation or Vicon/Wi-Fi motion",
+    "loaded_motion_verified": false
+  },
+  "uart_command_loss_trial_passed": true,
+  "mechanical_layout_update": {
+    "date": "2026-10-10",
+    "operator_confirmed_x_layout_after_correction": true,
+    "operator_confirmed_manual_rotation_smooth": true,
+    "approximate_wheelbase_mm": 122,
+    "approximate_track_width_mm": 170,
+    "precision_dimensions_verified": false,
+    "motion_after_layout_correction_verified": false,
+    "drive_planner_software_only": true,
+    "report": "MECANUM_DRIVE_PLAN_2026-10-10.md"
+  },
+  "command_loss_report": "SPEED_PI_COMMAND_LOSS_2026-10-09.md",
+  "previous_single_wheel_checkpoint": {
+    "propulsion_battery_disconnected_confirmed": true,
+    "firmware_fault_latched": 4,
+    "run_used": true,
+    "mcu_ms": 307840,
+    "new_four_forward_module_offline_only": true
+  },
+  "last_checkpoint": {
+    "date": "2026-10-10",
+    "propulsion_battery_disconnected_confirmed": true,
+    "firmware_fault_latched": 0,
+    "run_used": true,
+    "mcu_ms": 776350,
+    "four_forward_integrated_and_flashed": true,
+    "independent_readback_verified": true,
+    "all_eight_pwm_ccr_zero": true,
+    "unpowered_serial_audit_passed": true,
+    "four_wheel_motion_trial_executed": true,
+    "four_wheel_suspended_forward_trial_passed": true,
+    "operator_confirmed_forward_and_self_stop": true,
+    "post_run_no_power_check_passed": true,
+    "preflash_old_firmware_uart_fault": 256,
+    "preflash_uart_fault_cause_resolved": false,
+    "report": "FOUR_FORWARD_PI_INTEGRATION_2026-10-10.md",
+    "trial_record": "forward_pi_forward50_once_20261010_ms702150.json",
+    "post_run_record": "forward_pi_postrun_nopower_20261010_ms776350.json"
+  },
+  "wheels": [
+    {
+      "name": "FL",
+      "counts_per_rev": 1059.6666666666667,
+      "motor_sign": 1,
+      "encoder_sign": 1,
+      "source": "four_cpr_fl_repeat3_diagnostic_20261009_ms16839849.json"
+    },
+    {
+      "name": "FR",
+      "counts_per_rev": 1049,
+      "motor_sign": -1,
+      "encoder_sign": -1,
+      "source": "four_cpr_fr1_initial_estimate_20261009_ms15895670.json"
+    },
+    {
+      "name": "RL",
+      "counts_per_rev": 1055.6666666666667,
+      "motor_sign": 1,
+      "encoder_sign": 1,
+      "source": "four_cpr_rl3_initial_estimate_20261009_ms16070889.json"
+    },
+    {
+      "name": "RR",
+      "counts_per_rev": 1061,
+      "motor_sign": -1,
+      "encoder_sign": -1,
+      "source": "four_cpr_rr3_initial_estimate_20261009_ms16427405.json"
+    }
+  ],
+  "historical_single_wheel_trial_limits": {
+    "single_wheel_only": true,
+    "target_whitelist_cps": [
+      -300,
+      -200,
+      -100,
+      100,
+      200,
+      300
+    ],
+    "max_abs_duty_permille": 100,
+    "max_run_ms": 5000,
+    "target_timeout_ms": 150
+  },
+  "active_forward_group_limits": {
+    "forward_only": true,
+    "nominal_wheel_edge_speed_mm_s": 50,
+    "max_abs_duty_permille": 100,
+    "max_run_ms": 5000,
+    "host_run_limit_s": 4.7,
+    "target_timeout_ms": 150,
+    "one_shot_per_boot": true,
+    "any_wheel_fault_stops_group": true
+  },
+  "untuned_trial_gains": {
+    "kp_permille_per_cps": 0.1,
+    "ki_permille_per_count": 0.5
+  }
+}

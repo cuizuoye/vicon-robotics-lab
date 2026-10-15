@@ -1,0 +1,53 @@
+{
+  "snapshot_date": "2026-10-15",
+  "scope": "PUBLIC SOFTWARE HANDOFF, NOT LIVE HARDWARE AUTHORIZATION",
+  "development_paused_on_primary": true,
+  "baseline_tag": "baseline-2026-10-15",
+  "car": {
+    "actual_mcu_image": "four_link_readonly, NO PWM",
+    "actual_mcu_image_sha256": "12d4224f5337b42d3bdc3eef30f4142e957d65d900d61b64d8b8fb22033e9aa6",
+    "candidate_motion_image": "mecanum_f407_four_link_motion, 4WM1",
+    "candidate_motion_image_sha256": "6c9f7649920e1ef0850656e28781e52e1ec67e14bee624a28093b036a60f0d89",
+    "candidate_motion_flashed": false,
+    "candidate_motion_hardware_executed": false,
+    "loaded_driving_or_real_vicon_tracking_verified": false,
+    "primary_python_regressions_passed": 488,
+    "native_sanitizers_and_arm_build_passed": true,
+    "wireless_full_readonly_path_verified": true,
+    "wireless_disconnect_new_hello_required_verified": true,
+    "mcu_lease_ms": 150,
+    "esp_session_ms": 750,
+    "body_topic": "/vicon/car01/car01",
+    "world_frame": "map",
+    "display_only_yaw_offset_rad": 2.356194490192345,
+    "precise_heading_and_center_calibration_complete": false,
+    "manual_forward_left_turn_occlusion_checked": true,
+    "battery_unavailable_at_pause": true,
+    "next": "When battery is ready, confirm onboard logic power first; then separately authorize backup/flash, unpowered checks, suspended acceptance and a conservative floor trial."
+  },
+  "drone": {
+    "real_firmware": "custom PX4 1.14.3, MicoAir743-V2-35A, board id1179",
+    "sitl_firmware_is_separate": "PX4 v1.17 series; never copy SITL success or parameters to the real FC",
+    "installed_package_sha256": "4fbaa8f64a66d1e5f138355dfa78f150a8fc4bd97780e19f499018afc60a143b",
+    "props_treated_as_installed": true,
+    "flight_authorized": false,
+    "rigid_body_revision": "MircoAir-rebuilt-20261015-U2klYU",
+    "one_use_rebuilt_static_xyz_yaw_acceptance_passed": true,
+    "full_extrinsics_or_imu_center_verified": false,
+    "global_revision_guard_cleared": false,
+    "no_usb_continuous_fusion_verified": false,
+    "persistent_home_stop_service_flight_acceptance_passed": false,
+    "computer_gamepad_is_independent_rc": false,
+    "old_incident_and_physical_holds_retained": true,
+    "live_sessions_running_after_last_drone_test": false,
+    "private_permits_and_calibration_not_in_public_snapshot": true,
+    "next": "Offline safety/transport review only by default. New physical confirmation and locally revalidated identities/extrinsics are required before any live test."
+  },
+  "rollback": {
+    "primary_workspaces_overwritten": false,
+    "use_separate_dev_branches": true,
+    "default_non_destructive_restore": "git worktree add --detach ../vicon-baseline baseline-2026-10-15",
+    "git_does_not_restore_hardware_firmware_or_parameters": true,
+    "never_force_push_or_reset_hard_by_default": true
+  }
+}

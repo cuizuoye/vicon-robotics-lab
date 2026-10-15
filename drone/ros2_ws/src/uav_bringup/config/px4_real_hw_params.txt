@@ -1,0 +1,66 @@
+# =============================================================================
+# 真机参数清单 —— 四旋翼 + 机载计算机(ROS 2) + Vicon 动捕，PX4 v1.17
+#
+# 名字都对照 px4_firmware 源码核对过；标 <按实际> 的必须用你的硬件实测/查手册，
+# 标 [确认] 的建议在 QGC 参数页搜前缀确认取值（不同飞控支持范围不同）。
+#
+# 写入方式: QGC -> Vehicle Setup -> Parameters（改完 Save & Reboot），
+#           或 MAVSDK/脚本批量写。
+# =============================================================================
+
+# ---------- 1. 机架与动力 ----------
+SYS_AUTOSTART   4001        # 4001 = Generic Quadcopter X；用厂家机架就填厂家给的编号
+CA_AIRFRAME     0           # 0 = 多旋翼
+MPC_THR_HOVER   <按实际>     # 默认 0.5；填悬停时的实际油门(0.4~0.7)，影响高度控制
+# 电调/电机（QGC 里搜 MOT_ / DSHOT_ 前缀，按你的电调协议选）
+# MOT_PWM_TYPE  <0=PWM 5=DShot300 6=DShot600>            [确认]
+# DSHOT_CONFIG  <按电调支持>                              [确认]
+
+# ---------- 2. uXRCE-DDS：飞控 <-> 机载计算机 ----------
+UXRCE_DDS_CFG   102         # 102 = TELEM2（官方建议给 companion 的口）；0 = 关闭
+SER_TEL2_BAUD   921600      # 必须与 Agent 的 -b 一致（scripts/41 里的 AGENT_BAUD）
+UXRCE_DDS_DOM_ID 0          # 必须与机载计算机的 ROS_DOMAIN_ID 相同
+UXRCE_DDS_SYNCT 1           # 时间同步：把 ROS 侧时间戳换算到 PX4 时基
+
+# 以太网方案（Pixhawk 6X 等带网口的飞控，更省一根线）
+# UXRCE_DDS_CFG   1000      # 1000 = Ethernet
+# UXRCE_DDS_PRT   8888
+# UXRCE_DDS_AG_IP <机载计算机 IP 的 int32 形式>   # 127.0.0.1 = 2130706433
+
+# ---------- 3. MAVLink / 地面站走另一个口 ----------
+MAV_0_CONFIG    101         # 101 = TELEM1 -> 接数传模块或 QGC USB
+MAV_0_BAUD      <按实际>     # 与数传模块波特率一致                     [确认]
+
+# ---------- 4. 动捕(外部位姿) ----------
+EKF2_EV_CTRL    11          # bit0 水平位置 + bit1 垂直位置 + bit3 偏航；要融合速度用 15
+EKF2_HGT_REF    3           # 高度参考 = Vision
+EKF2_MAG_TYPE   5           # 室内不用磁罗盘（航向由动捕提供）
+EKF2_GPS_CTRL   0           # 不用 GPS
+EKF2_BARO_CTRL  0           # 只用动捕高度时关掉；想留气压兜底可设 1
+EKF2_RNG_CTRL   0           # 无测距
+EKF2_EV_NOISE_MD 0          # 用消息里的方差，参数值作为下限
+EKF2_EVP_NOISE  0.01        # 位置噪声下限 [m]
+EKF2_EVA_NOISE  0.05        # 姿态噪声下限 [rad]
+EKF2_EVV_NOISE  0.01        # 速度噪声下限 [m/s]
+EKF2_EV_DELAY   <按实测>     # [ms] 动捕->飞控链路延时，0~300，影响跟踪品质
+EKF2_EV_POS_X   <按实测>     # 动捕刚体中心相对重心的偏移 [m]（前）
+EKF2_EV_POS_Y   <按实测>     # 右
+EKF2_EV_POS_Z   <按实测>     # 下
+COM_ARM_WO_GPS  1           # 无 GPS 也允许解锁（室内必须）
+
+# ---------- 5. Failsafe / 安全策略 ----------
+NAV_DLL_ACT     0           # 地面站丢失动作: 0=无。设 2(返航) 会要求必须连 GCS 才能解锁
+COM_DL_LOSS_T   10          # 地面站丢失判定时间 [s]
+COM_OF_LOSS_T   1.0         # offboard 丢失后等待时间 [s]
+COM_OBL_RC_ACT  0           # offboard 丢失动作: 0=Position 1=Altitude 4=Land 5=Hold 7=Disarm
+COM_RC_IN_MODE  1           # 1 = 只用 MAVLink(无遥控器)；有遥控器建议 0 或 5
+COM_DISARM_LAND 2.0         # 落地后自动上锁延时 [s]
+COM_LOW_BAT_ACT 3           # 0=只告警 2=降落 3=临界返航/紧急降落
+BAT1_N_CELLS    <按实际>     # 电池节数                                  [确认]
+BAT1_CAPACITY   <按实际>     # 容量 mAh                                  [确认]
+# BAT1_V_DIV / BAT1_A_PER_V  电源模块电压/电流标定（用 QGC 的电源校准向导）[确认]
+
+# ---------- 6. 室内保守限制 ----------
+MPC_XY_VEL_MAX  3.0         # 水平最大速度 [m/s]
+MPC_Z_VEL_MAX_UP 2.0        # 上升最大速度
+MPC_Z_VEL_MAX_DN 1.5        # 下降最大速度

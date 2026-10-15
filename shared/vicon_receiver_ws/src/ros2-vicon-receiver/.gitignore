@@ -1,0 +1,29 @@
+# Colcon / ament build artifacts
+build/
+install/
+log/
+
+# CMake cache and aux
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Editors / IDE
+.vscode/
+.idea/
+.project
+.cproject
+CMakeLists.txt.user
+*.user
+qtcreator-*
+
+# Python bytecode (if any helper scripts)
+__pycache__/
+*.pyc
+
+# Temporary / backups
+*~
+*.swp
+*.swo
+.#*

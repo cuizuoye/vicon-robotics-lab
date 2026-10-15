@@ -1,0 +1,12 @@
+menu "Isolated SoftAP UDP bench (no motor UART)"
+    config SAP_SSID
+        string "Bench hotspot name"
+        default "Mecanum-Bench-S3"
+    config SAP_PASSWORD
+        string "Bench hotspot WPA2 passphrase (8..63 bytes)"
+        default ""
+    config SAP_CHANNEL
+        int "2.4 GHz channel"
+        range 1 11
+        default 6
+endmenu

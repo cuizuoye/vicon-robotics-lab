@@ -1,0 +1,5 @@
+# 约束文件: 防止 PX4 的 requirements.txt 把 ROS 2 Jazzy 依赖搞坏
+#   numpy 2.x 会顶掉系统的 numpy 1.26（scipy / 部分 ROS 工具不兼容）
+#   setuptools >=80 与 colcon-core 的要求(<80)冲突
+numpy<2
+setuptools<80

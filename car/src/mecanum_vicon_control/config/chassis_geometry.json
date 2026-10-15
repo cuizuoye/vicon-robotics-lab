@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "wheelbase_mm": 122.0,
+  "track_width_mm": 170.0,
+  "nominal_wheel_diameter_mm": 60.0,
+  "dimensions_confirmed": true,
+  "precision_dimensions_verified": false,
+  "roller_layout": "X",
+  "x_layout_confirmed": true,
+  "layout_confirmation_source": "Operator confirmed X arrangement after exchanging right-side wheels; hand rotation smooth; dimensions unchanged.",
+  "prior_observed_roller_axes_top_view": {
+    "FL": "\\",
+    "FR": "\\",
+    "RL": "/",
+    "RR": "/"
+  },
+  "observed_roller_axes_top_view":
+  {
+    "FL": "\\",
+    "FR": "/",
+    "RL": "/",
+    "RR": "\\"
+  },
+  "wheel_swap_pending": [],
+  "note": "Approximate L=122mm/W=170mm, nominal wheels=60mm. Geometry is adopted for offline planning only, not motion authorization or precision calibration."
+}

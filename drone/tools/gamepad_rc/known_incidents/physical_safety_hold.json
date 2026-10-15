@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-15T11:54:37+08:00",
+  "uid2": "000000000000000000000000000000000000",
+  "block_props_off_benches": true,
+  "reason": "Propellers remain installed; removing them requires dismantling the protective frame. User subsequently confirmed USB removed, battery-only supply and motors stationary for one guarded communication-only probe; this does not clear the props-off active-bench hold.",
+  "current_operator_report": {
+    "propellers_treated_as_installed": true,
+    "propulsion_battery_disconnected": true,
+    "fc_usb_connected": true,
+    "motors_stationary_before_probe": true
+  },
+  "historical_physical_confirmation_status": "Conflicts with earlier props-off confirmations; not independently verified. Do not present earlier software results as verified props-off safety acceptance.",
+  "latest_operator_event": {
+    "report": "Motors beeped sequentially and propellers moved very slightly; operator considers it similar to self-test. Operator subsequently confirmed propulsion battery removed.",
+    "cause_confirmed": false,
+    "full_time_correlated_flight_log_available": false,
+    "diagnostic_capture": "../../../drone_resume_20261015_5kmsHP3Q/trs_shell_integrity_capture.json",
+    "capture_tx": "One GCS heartbeat, one AUTOPILOT_VERSION request, one fixed actuator_armed listener; no arm, calibration, reboot or actuator command.",
+    "capture_limit": "Only 0.8 seconds before a host compatibility error; not evidence covering the full operator-observed event."
+  },
+  "allowed_next_scope": "After reported motor/propeller movement, keep propulsion battery disconnected. Offline repair/replay and subsequently operator-confirmed USB-only non-actuating diagnostics only; no battery-only repeat, active fusion, actuator, arming, unlock or flight authorization. Any further powered test requires separate physical-scope review.",
+  "completed_readonly_evidence": "../../../drone_resume_20261015_5kmsHP3Q/guarded_battery_trs_readonly_30s.json",
+  "do_not_auto_clear": true,
+  "no_device_commands_sent_by_this_record": true,
+  "flight_authorized": false
+}

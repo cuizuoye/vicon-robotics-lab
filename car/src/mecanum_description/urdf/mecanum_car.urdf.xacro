@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="vicon_mecanum_car">
+  <!--
+    当前底盘尺寸是软件开发占位值。硬件到达后只需修改启动参数，无需重画模型。
+    wheelbase：前后轮中心距；track_width：左右轮中心距。
+  -->
+  <xacro:arg name="chassis_length" default="0.24"/>
+  <xacro:arg name="chassis_width" default="0.20"/>
+  <xacro:arg name="chassis_height" default="0.06"/>
+  <xacro:arg name="wheelbase" default="0.18"/>
+  <xacro:arg name="track_width" default="0.16"/>
+  <xacro:arg name="wheel_diameter" default="0.060"/>
+  <xacro:arg name="wheel_width" default="0.0306"/>
+
+  <xacro:property name="chassis_length" value="$(arg chassis_length)"/>
+  <xacro:property name="chassis_width" value="$(arg chassis_width)"/>
+  <xacro:property name="chassis_height" value="$(arg chassis_height)"/>
+  <xacro:property name="wheelbase" value="$(arg wheelbase)"/>
+  <xacro:property name="track_width" value="$(arg track_width)"/>
+  <xacro:property name="wheel_radius" value="${0.5 * float('$(arg wheel_diameter)')}"/>
+  <xacro:property name="wheel_width" value="$(arg wheel_width)"/>
+
+  <material name="chassis_blue">
+    <color rgba="0.08 0.32 0.75 1.0"/>
+  </material>
+  <material name="wheel_dark">
+    <color rgba="0.08 0.08 0.09 1.0"/>
+  </material>
+  <material name="camera_green">
+    <color rgba="0.10 0.65 0.25 1.0"/>
+  </material>
+
+  <link name="base_footprint"/>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+      <material name="chassis_blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+    </collision>
+    <!-- 质量和惯量也是占位值，未来做动力学仿真时必须实测。 -->
+    <inertial>
+      <mass value="2.0"/>
+      <inertia ixx="0.008" ixy="0.0" ixz="0.0"
+               iyy="0.012" iyz="0.0" izz="0.018"/>
+    </inertial>
+  </link>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${wheel_radius + 0.5 * chassis_height}" rpy="0 0 0"/>
+  </joint>
+
+  <xacro:macro name="wheel" params="name x y">
+    <link name="${name}">
+      <visual>
+        <!-- 圆柱仅表示60 mm麦轮外廓，不绘制独立滚子。 -->
+        <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+        <material name="wheel_dark"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi / 2.0} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.07"/>
+        <inertia ixx="0.00004" ixy="0.0" ixz="0.0"
+                 iyy="0.00004" iyz="0.0" izz="0.00006"/>
+      </inertial>
+    </link>
+    <joint name="${name}_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${name}"/>
+      <origin xyz="${x} ${y} ${-0.5 * chassis_height}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel name="wheel_front_left"  x="${ wheelbase / 2.0}" y="${ track_width / 2.0}"/>
+  <xacro:wheel name="wheel_front_right" x="${ wheelbase / 2.0}" y="${-track_width / 2.0}"/>
+  <xacro:wheel name="wheel_rear_left"   x="${-wheelbase / 2.0}" y="${ track_width / 2.0}"/>
+  <xacro:wheel name="wheel_rear_right"  x="${-wheelbase / 2.0}" y="${-track_width / 2.0}"/>
+
+  <!-- 刚体原点和base_link的真实偏移由car_state_bridge参数标定。 -->
+  <link name="vicon_rigid_body"/>
+  <joint name="vicon_rigid_body_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="vicon_rigid_body"/>
+    <origin xyz="0 0 ${0.5 * chassis_height}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- K230D仅作外观和camera_link占位，安装位置到货后测量。 -->
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.07 0.04 0.02"/>
+      </geometry>
+      <material name="camera_green"/>
+    </visual>
+  </link>
+  <joint name="camera_mount_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+    <origin xyz="${0.25 * chassis_length} 0 ${0.5 * chassis_height + 0.02}" rpy="0 0 0"/>
+  </joint>
+</robot>
+

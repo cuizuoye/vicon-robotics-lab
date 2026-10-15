@@ -1,0 +1,18 @@
+{
+    "idf.currentSetup": "/home/PRIMARY_USER/.espressif/v6.1/esp-idf",
+    "python.analysis.stubPath": "/home/PRIMARY_USER/.kendryte/k230_canmv_pylance/a482b1bd1f79554d/typings",
+    "idf.customExtraVars": {
+        "IDF_TARGET": "esp32s3"
+    },
+    "clangd.path": "/home/PRIMARY_USER/.espressif/tools/esp-clangd/esp-21.1.3_20260408/esp-clangd/bin/clangd",
+    "clangd.arguments": [
+      "--background-index",
+      "--query-driver=**",
+      "--compile-commands-dir=/home/PRIMARY_USER/vicon_mecanum_ws/esp32/mecanum_wifi_bridge/build"
+    ],
+    "idf.flashType": "DFU",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.port": "/dev/ttyACM0"
+}

@@ -1,0 +1,52 @@
+{
+  "device": {
+    "name": "BEITONG",
+    "vid": "057e",
+    "pid": "2009"
+  },
+  "axes": {
+    "ABS_X": {
+      "min": -32606,
+      "center": -16379,
+      "max": -458,
+      "invert": false
+    },
+    "ABS_Y": {
+      "min": 32542,
+      "center": 16379,
+      "max": 342,
+      "invert": false
+    },
+    "ABS_RX": {
+      "min": -32414,
+      "center": -16379,
+      "max": -240,
+      "invert": false
+    },
+    "ABS_RY": {
+      "min": 32518,
+      "center": 16379,
+      "max": 216,
+      "invert": false
+    }
+  },
+  "stick": {
+    "deadband": 0.03,
+    "expo": 0.25
+  },
+  "map": {
+    "roll": "ABS_RX",
+    "pitch": "ABS_RY",
+    "throttle": "ABS_Y",
+    "yaw": "ABS_X"
+  },
+  "buttons": {
+    "mode_next": "L1",
+    "mode_prev": "R1",
+    "arm_toggle": "PLUS",
+    "kill_hold": "HOME",
+    "offboard_toggle": "Y",
+    "goto_position": "A",
+    "goto_land": "B"
+  }
+}

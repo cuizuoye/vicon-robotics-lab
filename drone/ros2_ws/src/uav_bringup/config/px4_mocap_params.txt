@@ -1,0 +1,41 @@
+# =============================================================================
+# PX4 参数: 用 Vicon(动捕)/外部位姿作为 EKF2 的辅助源
+#   对应固件: PX4 v1.17 (参数含义取自 px4_firmware/src/modules/ekf2/params_*.yaml)
+#
+# 写入方式:
+#   A) QGroundControl -> Vehicle Setup -> Parameters (改完点 Save & Reboot)
+#   B) SITL 下在 pxh> 提示符: param set EKF2_EV_CTRL 11  然后 param save
+#   C) MAVSDK / mavlink 脚本批量写入
+#
+# 注意: EKF2 参数改动后一般需要重启飞控才生效。
+# =============================================================================
+
+EKF2_EV_CTRL        11     # 位掩码: bit0 水平位置 + bit1 垂直位置 + bit3 偏航 = 11
+                           #   想同时融合速度用 15；只融合位置用 3
+EKF2_HGT_REF        3      # 高度参考源: 0=气压 1=GPS 2=测距 3=Vision
+EKF2_EV_NOISE_MD    0      # 0=用消息里的 variance(参数值作为下限) 1=只用参数
+EKF2_EVP_NOISE      0.01   # 位置噪声下限 [m]，最小 0.01
+EKF2_EVA_NOISE      0.05   # 姿态噪声下限 [rad]，最小 0.05
+EKF2_EVV_NOISE      0.01   # 速度噪声下限 [m/s]，最小 0.01
+EKF2_EV_DELAY       0.0    # [ms] 动捕到飞控的延时补偿，需实测整定(0~300)
+EKF2_EVP_GATE       5.0    # 位置新息门限 [SD]
+
+# --- 动捕标记点/相机相对于机体重心(前-右-下坐标系)的安装位置 ---
+EKF2_EV_POS_X       0.0    # 记录动捕刚体中心相对重心的 X(前) 偏移 [m]
+EKF2_EV_POS_Y       0.0    # Y(右) [m]
+EKF2_EV_POS_Z       0.0    # Z(下) [m]
+
+# --- 室内只用动捕时，关掉其他位置/高度源，避免互相拉扯 ---
+EKF2_GPS_CTRL       0      # 位掩码: 7=默认(GPS 全开)，0=不用 GPS
+EKF2_BARO_CTRL      0      # 0=不用气压计高度
+EKF2_RNG_CTRL       0      # 0=不用测距高度
+EKF2_MAG_TYPE       5      # 0=自动 1=磁航向 5=不用磁罗盘 6=仅初始化用
+                           #   动捕提供偏航时用 5；室内电磁干扰大时尤其推荐
+
+# --- 时间同步: uXRCE-DDS 的时间戳换算开关(默认 1) ---
+UXRCE_DDS_SYNCT     1      # 1=启用 DDS 时间同步(消息时间戳自动换算到 PX4 时基)
+
+# --- 室内保守的飞行限制 ---
+MPC_XY_VEL_MAX      5.0    # 水平最大速度 [m/s]
+MPC_Z_VEL_MAX_UP    2.0    # 上升最大速度 [m/s]
+MPC_Z_VEL_MAX_DN    1.5    # 下降最大速度 [m/s]

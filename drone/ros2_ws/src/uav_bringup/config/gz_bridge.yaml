@@ -1,0 +1,87 @@
+# ros_gz_bridge 配置: Gazebo Harmonic <-> ROS 2
+# 用法: ros2 launch uav_bringup gz_bridge.launch.py
+#
+# 下面的话题名是对着实际运行的仿真（`gz topic -l`）核对过的，机型 gz_x500、
+# 模型名 x500_0、世界名 default。换机型/换世界后用 `gz topic -l | sort` 重新核对。
+#
+# 注意: 真正把传感器数据喂给飞控的是 PX4 自己的 gz_bridge 模块；这份配置的作用是
+#       "让 ROS 2 同时拿到同一批数据"，方便可视化、录包、真值对照算法验证。
+
+- ros_topic_name: "/clock"
+  gz_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  direction: GZ_TO_ROS
+
+# ---- 机体真值里程计 (用来和 PX4 的 EKF2 估计对照) ----
+# 注意: 默认机型 gz_x500 的模型里没有 OdometryPublisher，这个 gz 话题只有订阅者、
+#       没有发布者（`gz topic -i -t /model/x500_0/odometry_with_covariance` 可验证）。
+#       想要真值里程计就用自带该插件的机型:
+#           bash scripts/40_run_sitl.sh gz_x500_vision
+#       此时本条目会立即有数据。
+# gz 侧是 OdometryWithCovariance，ros_gz_bridge 支持它 -> nav_msgs/Odometry
+- ros_topic_name: "/gz/odometry"
+  gz_topic_name: "/model/x500_0/odometry_with_covariance"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.OdometryWithCovariance"
+  direction: GZ_TO_ROS
+
+# ---- 场景内模型位姿 -> TF: 默认不启用 ----
+# ros_gz_bridge 支持 gz.msgs.Pose_V -> tf2_msgs/TFMessage，但转换后每条 transform 的
+# frame_id / child_frame_id 都是空字符串（gz 的 Pose_V 里只有 name/id，桥接时丢掉了），
+# 拿去构建 TF 树或做真值对照没有意义，所以默认关掉；要看真值请用 gz_x500_vision。
+#- ros_topic_name: "/gz/pose_array"
+#  gz_topic_name: "/world/default/dynamic_pose/info"
+#  ros_type_name: "tf2_msgs/msg/TFMessage"
+#  gz_type_name: "gz.msgs.Pose_V"
+#  direction: GZ_TO_ROS
+
+# ---- 传感器 (话题名与 gz topic 完全一致) ----
+- ros_topic_name: "/gz/imu"
+  gz_topic_name: "/world/default/model/x500_0/link/base_link/sensor/imu_sensor/imu"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/gz/magnetometer"
+  gz_topic_name: "/world/default/model/x500_0/link/base_link/sensor/magnetometer_sensor/magnetometer"
+  ros_type_name: "sensor_msgs/msg/MagneticField"
+  gz_type_name: "gz.msgs.Magnetometer"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/gz/air_pressure"
+  gz_topic_name: "/world/default/model/x500_0/link/base_link/sensor/air_pressure_sensor/air_pressure"
+  ros_type_name: "sensor_msgs/msg/FluidPressure"
+  gz_type_name: "gz.msgs.FluidPressure"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/gz/navsat"
+  gz_topic_name: "/world/default/model/x500_0/link/base_link/sensor/navsat_sensor/navsat"
+  ros_type_name: "sensor_msgs/msg/NavSatFix"
+  gz_type_name: "gz.msgs.NavSat"
+  direction: GZ_TO_ROS
+
+# ---- 2D 激光 (gz_x500 自带 lidar) ----
+- ros_topic_name: "/gz/lidar/scan"
+  gz_topic_name: "/world/default/model/x500_0/link/link/sensor/lidar_2d_v2/scan"
+  ros_type_name: "sensor_msgs/msg/LaserScan"
+  gz_type_name: "gz.msgs.LaserScan"
+  direction: GZ_TO_ROS
+
+# ---- 以下两条默认不启用 ----
+# 1) 相机: 默认 gz_x500 没有图像传感器，换 gz_x500_mono_cam 等机型后
+#    先 `gz topic -l | grep image` 确认真实话题名，再取消注释。
+#- ros_topic_name: "/gz/camera/image"
+#  gz_topic_name: "/world/default/model/x500_0/link/camera_link/sensor/camera/image"
+#  ros_type_name: "sensor_msgs/msg/Image"
+#  gz_type_name: "gz.msgs.Image"
+#  direction: GZ_TO_ROS
+#
+# 2) ROS 2 -> Gazebo 的电机转速指令（调试用）需要 gz_msgs 的 ROS 消息包:
+#       sudo apt install ros-jazzy-gz-msgs
+#    装好后再取消注释。平时电机指令由 PX4 直接下发，不需要这条。
+#- ros_topic_name: "/gz/command/motor_speed"
+#  gz_topic_name: "/model/x500_0/command/motor_speed"
+#  ros_type_name: "gz_msgs/msg/Actuators"
+#  gz_type_name: "gz.msgs.Actuators"
+#  direction: ROS_TO_GZ

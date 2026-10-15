@@ -1,0 +1,77 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /gazebo_odom1
+        - /px4_odom1
+      Splitter Ratio: 0.6
+    Tree Height: 700
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Enabled: true
+      Name: Grid
+      Cell Size: 1
+      Plane Cell Count: 20
+      Color: 160; 160; 164
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Name: TF
+      Show Names: true
+      Marker Scale: 0.5
+    - Class: rviz_default_plugins/Odometry
+      Enabled: true
+      Name: gazebo_odom
+      Topic:
+        Value: /gz/odometry
+        Depth: 10
+        Durability Policy: Volatile
+        Reliability Policy: Best Effort
+      Color: 0; 170; 255
+      Keep: 1
+      Shape: Axes
+      Position Tolerance: 0.05
+      Angle Tolerance: 0.05
+    - Class: rviz_default_plugins/Odometry
+      Enabled: true
+      Name: px4_odom
+      Topic:
+        Value: /px4/odometry_enu
+        Depth: 10
+        Durability Policy: Volatile
+        Reliability Policy: Reliable
+      Color: 255; 85; 0
+      Keep: 1
+      Shape: Axes
+      Position Tolerance: 0.05
+      Angle Tolerance: 0.05
+    - Class: rviz_default_plugins/Image
+      Enabled: false
+      Name: camera
+      Topic:
+        Value: /gz/camera/image
+        Depth: 5
+        Durability Policy: Volatile
+        Reliability Policy: Best Effort
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: map
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+  Value: true
+Window Geometry:
+  Height: 900
+  Width: 1500
+  Displays:
+    collapsed: false
+  Views:
+    collapsed: false

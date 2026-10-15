@@ -1,0 +1,56 @@
+# =============================================================================
+# 室内 EKF2 高度源归位 —— MicoAir743v2-AIO-35A
+#
+# 固件: 实机 PX4 v1.14.3。下面每条"出厂默认"都取自 v1.14.3 的
+#       src/modules/ekf2/ekf2_params.c（从 GitHub 上 PX4 v1.14.3 标签拉的），
+#       **不是**本地那棵 v1.17.0 的源码树 —— v1.17.0 把 EKF2_OF_CTRL 的默认值
+#       从 0 改成了 1，照 v1.17.0 看会误判成"本来就是对的"。
+#
+# 场景: 室内飞行，【没有 GPS、没有光流、没有测距仪】，板上唯一的绝对高度源是
+#       气压计 SPL06-001（已确认工作正常）。飞控上原本是一套"室内测距仪+光流"
+#       的残留配置，结果唯一存在的那一个高度源反而被关掉了。
+#
+# 发现: 2026-10-12 直连 USB 用 MAVLink 读出，并与 QGC 4.4.211 下载的参数缓存
+#       （~/.config/QGroundControl/QGroundControl/ParamCache/1_1.v2，926 条）
+#       逐条交叉核对一致。
+#
+# 写入:
+#   python3 px4_params.py --link serial:/dev/ttyACM0 --file <本文件> --check
+#   python3 px4_params.py --link serial:/dev/ttyACM0 --file <本文件> --apply
+#   python3 px4_params.py --link serial:/dev/ttyACM0 --reboot
+#
+# !! EKF2_HGT_REF 带 @reboot_required，改完必须重启飞控才生效 !!
+# !! 本文件只管高度源。遥控那套在 px4_gamepad_rc_params.txt，两份别混 !!
+# =============================================================================
+
+
+EKF2_BARO_CTRL   1
+# 出厂默认 1 —— ekf2_params.c: PARAM_DEFINE_INT32(EKF2_BARO_CTRL, 1)，注释 @boolean，
+#                 短说明 "Barometric sensor height aiding"。
+# 飞控上被改成了 0 = 气压计高度融合【关闭】。
+# 四个里唯一真正致命的：板上唯一能用的绝对高度源被自己关掉了。
+
+EKF2_HGT_REF     0
+# ！！这里【不能照抄默认值】！！
+# 出厂默认是 1 = GPS —— ekf2_params.c: PARAM_DEFINE_INT32(EKF2_HGT_REF, 1)。
+# 但这架飞机【没有 GPS】，所以默认值对它是错的。
+# 源码 @value 枚举（v1.14.3 与 v1.17.0 一致）：
+#     0 Barometric pressure / 1 GPS / 2 Range sensor / 3 Vision
+# 室内唯一的绝对高度源是气压计，目标值就是 0 = Barometric pressure。
+# 飞控上原本是 2 = Range sensor，指向一个根本不存在的测距仪。
+# 源码长注释："When multiple height sources are enabled at the same time, the
+#             height estimate will always converge towards the reference height
+#             source selected by this parameter."
+# @reboot_required true —— 改完必须重启。
+
+EKF2_OF_CTRL     0
+# 出厂默认 0 —— ekf2_params.c: PARAM_DEFINE_INT32(EKF2_OF_CTRL, 0)，注释 @boolean，
+#                 短说明 "Optical flow aiding / Enable optical flow fusion."。
+# 飞控上被改成了 1 = 光流融合开着，但【机上没有任何光流硬件】，纯属空转。
+
+EKF2_RNG_CTRL    1
+# 出厂默认 1 = Enabled (conditional mode) ——
+#   ekf2_params.c: PARAM_DEFINE_INT32(EKF2_RNG_CTRL, 1)，
+#   @value 0 Disable range fusion / 1 Enabled (conditional mode) / 2 Enabled。
+# 飞控上被改成了 2 = 一直启用，但【机上没有测距仪】。
+# 这一条改不改都不影响实际行为（没有数据进来就是空转），顺手归位到默认值。

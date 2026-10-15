@@ -1,0 +1,256 @@
+# =============================================================================
+# 游戏手柄当遥控器 —— PX4 侧参数
+# 机型: MicoAir743v2-AIO-35A
+# 固件: 项目目标是 PX4 v1.17.0 （本地源码树就是 v1.17.0），
+#       但【实机跑的是 v1.14.3】—— 2026-10-10 用 MAVLink 读到
+#       flight_sw_version = 0x010E0300 -> 1.14.3 / os_sw_version 0x0B0000FF (NuttX 11.0.0)
+#       / board_version = 54 / vendor_id 7052 (= MicoAir)。
+#       这份表里每条源码引用都【额外在 v1.14.3 上复核过一遍】，
+#       结论见文末附录 "v1.14.3 vs v1.17.0 差异"。行号引用写的是 1.14.3 的。
+#
+# 场景: 飞控上【没有任何传统遥控器】，USB 游戏手柄是唯一的手动控制链路。
+#       手柄 -> PC 上的 tools/gamepad_rc/gamepad_rc.py
+#            -> MAVLink RC_CHANNELS_OVERRIDE (#70) -> 飞控
+#
+# 每个参数都对着 px4_firmware 源码核对过，出处标在行尾。
+# 写入: 本机【没装 QGC】，用 tools/gamepad_rc/px4_params.py 走 MAVLink 下发：
+#         python3 px4_params.py --link <URL> --dump before.txt   # 改前留底
+#         python3 px4_params.py --link <URL> --check             # 只读核对
+#         python3 px4_params.py --link <URL> --apply             # 下发并读回确认
+#       <URL> 例如 serial:/dev/ttyACM0:2000000（飞控 USB 直连）。
+#
+# ！！与 px4_real_hw_params.txt 冲突 ！！
+# 那份里写的是 COM_RC_IN_MODE 1。本文件以 COM_RC_IN_MODE 0 为准，理由见下。
+# 两份都别同时照抄，会互相覆盖。
+#
+# ！！第 1 节和第 2 节必须【一起写】，不能只改一个 ！！
+# 实机上这两组值的组合是这样的（2026-10-10 实测 dump）：
+#     COM_RC_IN_MODE = 1   （手柄输入被整体静默丢弃，所以下面这个雷还没炸）
+#     RC_MAP_ARM_SW  = 8   <- 但我们的手柄把 Offboard 放在 ch8
+#     RC_MAP_KILL_SW = 6   <- 而我们的手柄把解锁放在 ch6
+# 也就是说飞控上【解锁和急停正好是对调的】。现在因为 COM_RC_IN_MODE=1 全都收不到，
+# 所以没暴露。一旦单独把 COM_RC_IN_MODE 改成 0，直接跑手柄脚本就会变成：
+#     按 PLUS（想解锁，ch6）      -> 实际触发【急停 KILL】
+#     按 Y   （想开 Offboard，ch8）-> 实际触发【解锁 ARM】
+# 用 `px4_params.py --apply` 会按顺序把两组都写对，别手工只挑一个改。
+# =============================================================================
+
+
+# ---------- 1. 让 MAVLink 的 RC 覆盖被接受 ----------
+
+COM_RC_IN_MODE   0
+# 必须 0 (RC only)，不能是 1。
+#   ManualControlSelector.cpp:76-78  mode 1(MAVLink only) 要求 isMavlink(source)
+#   ManualControlSelector.cpp:122-135 isMavlink() 只认 SOURCE_MAVLINK_0..5
+#   rc_update.cpp:685                 RC_CHANNELS_OVERRIDE 出来是 SOURCE_RC
+# 所以 mode 1 会把手柄发的所有东西静默丢弃 —— 这正是原来那份参数表里的坑。
+# 也别用 4（DisableManualControl）。
+# 副作用: mode 0 不会跳过 RC 标定检查 (rcCalibrationCheck.cpp:66 只对 1 和 4 提前返回)，
+#        所以第 2 节必须配好。
+# 注意: mode 0 会拒收 MANUAL_CONTROL (#69)，但 MAVROS 的 offboard 设定值走的是
+#       另一条路（setpoint_raw / trajectory），不受影响；MAVLink 解锁/切模式命令也不受影响。
+
+RC_CHAN_CNT      8
+# 【1.14.3 上写了也没用，但保留】两个版本差别很大，别删：
+#   v1.17.0 (本地源码树)：rc_update.cpp:152-156 用它算 _rc_calibrated，:681 再把
+#       _rc_calibrated 赋给 manual_control_input.valid。为 0 则手柄输入一律无效。
+#   v1.14.3 (实机)：rc_update.cpp 里【根本没有】_rc_calibrated 这个东西（全文件搜不到
+#       rc_chan_cnt），参数说明也明写 "only meant for ground station use"
+#       (rc_params.c:1125-1136)。在这份固件上它是惰性的。
+#   顺带说：1.14.3 的 UpdateManualControlInput() 压根不给 .valid 赋值
+#   (rc_update.cpp:662-682)，真遥控器也是一样 —— 而 ManualControlSelector 选输入时
+#   只看时间戳和来源、不看 .valid (ManualControlSelector.cpp:66-88)，所以不影响。
+# 保留理由：无害；万一以后刷成 1.17.0，这一项就变成必需的。
+
+
+# ---------- 2. 通道映射（走完整 RC_MAP_*，这正是选 RC 覆盖这条路的原因）----------
+
+RC_MAP_ROLL      1     # 横滚 <- 手柄右杆左右
+RC_MAP_PITCH     2     # 俯仰 <- 手柄右杆上下
+RC_MAP_THROTTLE  3     # 油门 <- 手柄左杆上下
+RC_MAP_YAW       4     # 偏航 <- 手柄左杆左右
+RC_MAP_FLTMODE   5     # 模式档：单通道按 6 等分 (ManualControlSwitches.msg:17 MODE_SLOT_NUM=6)
+RC_MAP_ARM_SW    6     # 解锁/上锁开关
+RC_MAP_KILL_SW   7     # 急停开关 <- 本机唯一的手动兜底，必须配
+RC_MAP_OFFB_SW   8     # Offboard 开关 (ManualControl.cpp:221-228)
+
+# ---------- 2b. RC 标定：8 路全部归一到 1000 / 1500 / 2000 ----------
+# 【实机上这组值不是默认值，必须写】
+# 上游默认确实是 1000/1500/2000/REV=1/DZ=10 (1.14.3 rc_params.c:51,63,75,88,100)，
+# 但实测这块飞控上是【真正标定过】的：RC1/2/4~8 = MIN 982 / TRIM 1494 / MAX 2006，
+# 而且 ——
+#
+#   !! RC3_TRIM = 983，恰好等于 RC3_MIN !!
+#
+# 这是固定翼式的油门标定（杆到底=中点），对多旋翼是错的：
+#   1.14.3 ManualControl.cpp:334 判定"左杆拉到底"用的是 `input.throttle < -0.8f`，
+#   :344 的"左杆左下"同理。而 RCn_TRIM 的官方定义就是 "Mid point value"
+#   (rc_params.c:176-183)。所以约定是 -1 = 杆到底、0 = 杆居中、+1 = 杆到顶。
+#   TRIM 落在最低点时油门永远不可能为负 —— 杆居中是 +0.5 而不是悬停，
+#   Altitude / Position 模式下【只能升不能降】，打杆解锁手势也永远触发不了。
+#
+# 我们这条链路是"合成的 RC"：gamepad_rc.py 发出去的就是精确的 1000 / 1500 / 2000，
+# 所以唯一正确的标定就是恒等映射。好处不止油门：
+#   - 开关：2000 -> _rc.channels = +1.0 -> value 1.0 > 阈值 0.75 = ON；
+#           1000 -> -1.0 -> 0.0 < 0.75 = OFF (rc_update.cpp:558-568)。余量很大。
+#   - 模式档 ch5：脚本发的 6 个中点是 1083/1250/1417/1583/1750/1917，正好落进
+#     PX4 的 6 等分槽 (rc_update.cpp:578-601, slot_min=-1.05 slot_max=+1.05)。
+#     用飞控原来那组 982/1494/2006 时，slot1 的余量只剩约 6 个 PWM 计数
+#     （边界落在 1089），归一后约 24 个 —— 不会自己飘，但太薄，不值得留。
+#
+# 安全性（改之前专门查过，不怕挡住解锁）：
+#   rcCalibrationCheck.cpp:44,49,89-160 只要求 MIN >= 0、MAX <= 2500、
+#   MIN <= TRIM <= MAX、DZ <= 100，全部满足。而且该检查在 COM_RC_IN_MODE = 0 时
+#   【一定会跑】(同文件 :79)，所以第 1 节改了它就跑。
+#   该检查遍历全部 18 路；RC9~RC18 实测本来就是默认值，无需动。
+#
+# REV=1 = 不反相 (rc_update.cpp:484-486)。DZ 保持飞控现有的 10 不动
+#（ch1~8 是 10，ch9~18 是 0；DZ 让摇杆中位精确归零，正好有用）。
+RC1_MIN  1000
+RC1_TRIM 1500
+RC1_MAX  2000
+RC1_REV     1
+RC2_MIN  1000
+RC2_TRIM 1500
+RC2_MAX  2000
+RC2_REV     1
+RC3_MIN  1000
+RC3_TRIM 1500
+RC3_MAX  2000
+RC3_REV     1
+RC4_MIN  1000
+RC4_TRIM 1500
+RC4_MAX  2000
+RC4_REV     1
+RC5_MIN  1000
+RC5_TRIM 1500
+RC5_MAX  2000
+RC5_REV     1
+RC6_MIN  1000
+RC6_TRIM 1500
+RC6_MAX  2000
+RC6_REV     1
+RC7_MIN  1000
+RC7_TRIM 1500
+RC7_MAX  2000
+RC7_REV     1
+RC8_MIN  1000
+RC8_TRIM 1500
+RC8_MAX  2000
+RC8_REV     1
+
+
+# ---------- 3. 六个模式档 ----------
+# COM_FLTMODE1..6 默认全是 -1 (Unassigned)，而 ManualControl.cpp:449-451 会直接忽略
+# mode < 0 的请求 —— 【不配这几项，模式开关就等于没接】。
+#
+# 取值来自 ManualControl.cpp:576-595 navStateFromParam()。
+# ！！注意编号不是 nav_state 枚举值： Offboard=7, Land=11 ！！
+#   0 Manual      1 Altitude    2 Position    3 Mission     4 Loiter      5 RTL
+#   6 Acro        7 Offboard    8 Stabilized  9 PositionSlow
+#   10 Takeoff    11 Land       12 AutoFollowTarget          13 PrecLand
+#   14 Orbit      15 VTOLTakeoff             16 AltitudeCruise
+
+COM_FLTMODE1     2     # slot1 = Position    （主用手动飞行模式）
+COM_FLTMODE2     1     # slot2 = Altitude
+COM_FLTMODE3     8     # slot3 = Stabilized  （位置估计退化时的兜底）
+COM_FLTMODE4     7     # slot4 = Offboard    （把控制权交给 Vicon 跟随控制器）
+COM_FLTMODE5     4     # slot5 = Auto Loiter （原地保持）
+COM_FLTMODE6    11     # slot6 = Auto Land   （就近降落）
+
+
+# ---------- 4. 失效保护 ----------
+
+COM_RC_LOSS_T   1.5
+# 默认 0.5 s (commander_params.c:139)。TRS 是 LoRa 链路，延迟抖动大，
+# 0.5 s 太紧会把链路抖动误判成遥控丢失。给 1.0 ~ 2.0。
+# 计时对象是 manual_control_setpoint 的时间戳 (rcAndDataLinkCheck.cpp:49)。
+
+NAV_RCL_ACT      3
+# 默认 2 = Return (commander_params.c:616)，对室内无 GPS 的场景没有意义。
+# 改成 3 = Land，遥控丢失就地降落。
+#   1 Hold  2 Return  3 Land  5 Terminate  6 Disarm
+# 触发条件: failsafe.cpp:493-496 —— 只要 COM_RC_IN_MODE != 4，遥控丢失失效保护就是活的。
+
+COM_RCL_EXCEPT   4
+# 默认 0。bit2 = Offboard，含义是"在 Offboard 模式下忽略手动控制丢失"
+# (failsafe.cpp:465-491)。
+# 目的: Vicon 自主跟随阶段，手柄节点抖动或退出不应该中止任务。
+#       那段的安全性由 COM_OF_LOSS_T / COM_OBL_RC_ACT 独立兜底。
+# 代价: 该阶段手柄掉了不会自动触发失效保护，得靠 ROS 侧看门狗发现。
+#       详细权衡见 docs/GAMEPAD_RC.md。
+
+MAN_ARM_GESTURE  0
+# 【从 1 改成 0】原注释说"配了 RC_MAP_ARM_SW 所以这项不生效，留着备查"——
+# 方向对，但写 1 的副作用没算到：
+#   1.14.3 ManualControl.cpp:94-115 —— 当 MAN_ARM_GESTURE 当前为 1 且
+#   RC_MAP_ARM_SW > 0 时，飞控会【在启动时把它自动改回 0】，同时记一条 critical 日志
+#   "Arm stick gesture disabled if arm switch in use"。
+#   即写 1 的实际效果 = 每次上电多一条错误日志 + 值变回 0 + 让
+#   `px4_params.py --check` 永远把这一项报成不一致。
+#
+# 而且我们本来也不该要打杆解锁：本项目唯一的手动链路就是手柄，解锁已经绑在
+# PLUS 键 (ch6) 上；打杆手势（油门 < -0.8 且 偏航 > 0.9，ManualControl.cpp:333-341）
+# 只会多出一条会误触的"意外解锁"路径。写 0 与飞控实际行为一致，也不再刷日志。
+
+COM_ARM_SWISBTN  0
+# 0 = 解锁开关按【2 段开关】解释（本节点发的是电平，必须是这个）。
+# 设 1 会把开关当瞬时按钮用（边沿翻转解锁状态），手柄会变成按一下切一次。
+
+
+# =============================================================================
+# 解锁时的油门约束（不用配，但必须知道）
+#
+# Commander.cpp:2933-2934
+#     _is_throttle_above_center = (throttle >  0.2)   # PWM > 1600
+#     _is_throttle_low          = (throttle < -0.8)   # PWM < 1100
+# 这两个量在 Commander::arm() 的 preflight 检查里用 (Commander.cpp:573-592)，
+# 对所有解锁来源都生效（包括 RC 开关）。规则：
+#
+#   飞控处于 climb_rate 模式（Altitude / Position）:
+#       油门杆【不能高于中位】才能解锁 —— PWM <= 1600，中位 1500 就行。
+#   非 climb_rate 模式（Manual / Stabilized / Acro）:
+#       油门杆【必须拉到底】才能解锁 —— PWM < 1100。
+#
+# 所以先起飞时：把模式放在 Position 档、油门杆留中位或更低，再按解锁。
+# 唯一例外: 5 秒内重新解锁会跳过 preflight 检查 (Commander.cpp:541-545)，
+#           也就是说刚上锁后马上再解锁可以绕过油门检查 —— 别依赖这个。
+# =============================================================================
+# 附录: v1.14.3 vs v1.17.0 差异（2026-10-10 实测 + 上游源码逐条比对）
+#
+# 项目本地源码树是 v1.17.0，实机是 v1.14.3。核对结论：
+#
+# 【完全一致，可以照用】后面括号里是 1.14.3 的出处：
+#   COM_RC_IN_MODE 语义    ManualControlSelector.cpp:66-88
+#                          mode 0 只收 SOURCE_RC；mode 1 只收 SOURCE_MAVLINK_0..5
+#                          => 飞控上原来的 1 确实会把手柄输入静默丢弃
+#   override 的来路        mavlink_receiver.cpp:1953-1974
+#                          RC_CHANNELS_OVERRIDE -> input_rc(RC_INPUT_SOURCE_MAVLINK)
+#                          rc_update.cpp:674-682  -> data_source = SOURCE_RC
+#   模式档编号             ManualControl.cpp:523-543   Offboard=7 / Stabilized=8 / Land=11
+#   COM_RCL_EXCEPT 位定义  commander_params.c:808-820  bit0 Mission / bit1 Hold / bit2 Offboard
+#   NAV_RCL_ACT 取值       commander_params.c:790-806  3 = Land
+#   开关阈值               rc_update.cpp:558-568       ON iff 0.5*ch+0.5 > 0.75
+#   模式档 6 等分          rc_update.cpp:578-601
+#   RC_MAP_* 是 1-based    rc_update.cpp:236-237
+#
+# 【有差异，已按实机处理】：
+#   RC_CHAN_CNT   1.17.0 必需 (rc_update.cpp:152-156)；1.14.3 惰性（地面站专用）
+#                 -> 两个版本都写 8，注释见第 1 节
+#   RCn_* 标定    上游默认 1000/1500/2000/REV=1/DZ=10，但实机被标定成
+#                 982/1494/2006 且 RC3_TRIM=983 -> 必须显式写回恒等映射，见第 2b 节
+#   SYS_USB_AUTO  1.17.0 才有（src/drivers/cdcacm_autostart/）；1.14.3 里整个目录不存在。
+#                 所以 mavlink_link.wake_and_wait_heartbeat() 文档串里那套
+#                 "SYS_USB_AUTO=1 自动探测、要主机先发 ≥3 字节" 的解释在 1.14.3 上不成立。
+#                 但【做法仍然正确】：先在串口发一帧 GCS 心跳再等，2026-10-10 实测
+#                 立刻就能等到心跳。至于是 CDC-ACM 的 DTR 还是 1.14.3 的 mavlink
+#                 启动时序，没再深挖 —— 反正"边等边发"是稳的。
+#
+# 【留个记号，目前没动】：
+#   RC_INPUT_PROTO = 2 (= SBUS)。1.14.3 的 rc_input/module.yaml 枚举是
+#     -1 Auto / 0 None / 1 PPM / 2 SBUS / 3 DSM / 4 ST24 / 5 SUMD / 6 CRSF / 7 GHST
+#   而项目用的 TRS/ELRS 接收机讲的是 CRSF，要用那个接收机的话这项得改成 6 或 -1。
+#   本项目手动控制走手柄，所以暂时没动 —— 但别误以为它已经配好了。
+#   （实测：rc_watch.py 观察 12 秒，飞控一帧 RC_CHANNELS 都没推
+#     -> 目前没有 input_rc 发布者，即没有真实接收机在跟我们的 override 抢通道。）
+# =============================================================================

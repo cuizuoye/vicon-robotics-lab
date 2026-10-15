@@ -1,0 +1,24 @@
+# Explicit OFFLINE/FUTURE commissioning profile, not installed on the MCU.
+# Requires final car01->base calibration and suspended acceptance before powered use.
+pose_controller:
+  ros__parameters:
+    max_vx_mps: 0.05
+    max_vy_mps: 0.05
+    max_wz_radps: 0.20
+    max_linear_accel_mps2: 0.08
+    max_angular_accel_radps2: 0.40
+safety_watchdog:
+  ros__parameters:
+    start_enabled: false
+    pose_timeout_s: 0.20
+    command_timeout_s: 0.20
+cmd_vel_udp_bridge:
+  ros__parameters:
+    esp_ip: ''
+    bounded_motion_mode: true
+    send_rate_hz: 50.0
+    max_vx_mps: 0.05
+    max_vy_mps: 0.05
+    max_wz_radps: 0.20
+    wire_timeout_ms: 150
+    udp_low_latency_qos: false

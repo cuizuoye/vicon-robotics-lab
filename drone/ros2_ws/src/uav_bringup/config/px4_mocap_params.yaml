@@ -1,0 +1,28 @@
+# Vicon -> PX4 外部位姿桥接节点参数 (uav_coord_bridge/vicon_pose_to_px4_odometry)
+vicon_pose_to_px4_odometry:
+  ros__parameters:
+    pose_topic: "/vicon/drone/drone"
+    twist_topic: ""                       # 有速度就填，例如 "/vicon/drone/drone_twist"
+    odometry_topic: "/fmu/in/vehicle_visual_odometry"
+
+    # ENU: Vicon 世界系为 x=East/y=North/z=Up，转成 PX4 的 NED/FRD 后按
+    #      POSE_FRAME_NED 发布（要求 Vicon 标定的 y 轴指向北）
+    # FRD: 直接把 Vicon 世界系当作 PX4 的局部 FRD 系（允许固定偏航偏置，
+    #      适合 Vicon 世界系没对齐真北的场景）
+    input_frame: "ENU"
+
+    # ros_epoch: 用 ROS 系统时间(epoch 微秒)，PX4 通过 DDS timesync 换算到自身时基
+    # arrival:   发 0，PX4 用收到消息的时刻（不需要时间同步，最稳）
+    timestamp_mode: "ros_epoch"
+
+    publish_velocity: true
+    publish_angular_velocity: false
+    timesync_topic: "/fmu/out/timesync_status"
+
+    # 测量噪声（写入 VehicleOdometry 的 variance 字段, 单位 m^2 / rad^2）
+    position_variance: [0.0001, 0.0001, 0.0002]
+    orientation_variance: [0.0005, 0.0005, 0.0010]
+    velocity_variance: [0.001, 0.001, 0.001]
+
+    # 发布频率上限 (Hz)，Vicon 通常 100~200Hz
+    max_publish_rate_hz: 200.0

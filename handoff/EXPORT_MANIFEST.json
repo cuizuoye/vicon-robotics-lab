@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-15",
+  "original_workspaces_modified": false,
+  "scope": "Curated PUBLIC source snapshot, not a disk image or hardware authority",
+  "normalized_files": [
+    {
+      "path": "car/tools/verify_softap_reconnect_readonly.py",
+      "original_sha256": "acbd32231083a14e1c36b3c43857f014a875727c5f3ff091ba85dea4e921cf5f",
+      "exported_sha256": "a4cf11523aa281aedcd4c89513638efdb25bff4966c2608a152fbec52550a30b"
+    },
+    {
+      "path": "car/tools/wifi_power_save_compare.sh",
+      "original_sha256": "c2c4f5519f855ab747174b98885ba79688a473feea58a67b77adaf6fdf180b69",
+      "exported_sha256": "baa1185b803c6c437ca0fed2ef094b28d675f6336c560c45837c0afa89a8ad4c"
+    },
+    {
+      "path": "car/tools/capture_readonly_link.sh",
+      "original_sha256": "4cce5578e1926f977236e534eaf3e80f504059e9c4faf52d2712581e7ed6be20",
+      "exported_sha256": "9d6d600df87c71c9fc4b725390a9bf4fa09ba6e6b558485c65a46e0f9b72c33f"
+    },
+    {
+      "path": "car/stm32/mecanum_f407/stm32f407xg_flash.ld",
+      "original_sha256": "f161afed062e7659b057238de08badd8bb2c2253a21ff2454e45a0bd0e9f62a4",
+      "exported_sha256": "eb2a79d015da771456e49c85c1f3e315ec7b7ebe5b43a6007e78c4014ee95dcc"
+    },
+    {
+      "path": "car/stm32/mecanum_f407/tools/link_timing_bench.py",
+      "original_sha256": "323e47edd0c98b0086aa74eafde832349f939a3ce8824dead377b5d304cc41a7",
+      "exported_sha256": "5e8acb8bb8c7233164fa0bc2077a5d3352427658c4863b4af49cbb02078aa075"
+    },
+    {
+      "path": "car/stm32/mecanum_f407/.vscode/settings.json",
+      "original_sha256": "c5162403d5b43cc71fca8f9aecd33eda36201ab8122ddf701751742ba1405bd3",
+      "exported_sha256": "25019db4ebed13365eaa4b48ef3005bfef6a1ae7d109c85b6eb8dd2507337d57"
+    },
+    {
+      "path": "car/esp32/mecanum_wifi_bridge/.vscode/settings.json",
+      "original_sha256": "fa360219fddd58d98c82069c89298583e638a6d8f0ba52f82a67f0f294969386",
+      "exported_sha256": "1d0630f17850f6a4742a290c7e25e16f6b1ba9e0b49f8706ccba8845f54ebf6d"
+    },
+    {
+      "path": "drone/scripts/20_build_micro_xrce_dds.sh",
+      "original_sha256": "04bffd8c9df4ba42de0c980637fd3baa8db64644dd15006bdda97c04f315b45a",
+      "exported_sha256": "c9fda012594108a840aeec2ff8a77ef8965fbe876ddd1d0b5d74a77a4e5443a4"
+    },
+    {
+      "path": "drone/tools/gamepad_rc/receive_only_permit.py",
+      "original_sha256": "016122138bd3c02af0d011b3f3b3f6c06b50de32e391ac7f996757f2a26d23e4",
+      "exported_sha256": "27e5f4d1dfd09adcc2ffafd5bb477d0de170729693399628020812389fb49dd2"
+    },
+    {
+      "path": "drone/tools/gamepad_rc/trs_uart_readonly_check.py",
+      "original_sha256": "f7928449069e42c4bcb768ecc24e2d0dd1c83cf071055d713d69688cf4798043",
+      "exported_sha256": "aba35ce7a82320e0499f9de3c85bea9427176703ad72f044d45377548d9eb2df"
+    },
+    {
+      "path": "drone/tools/gamepad_rc/static_fusion_permit.py",
+      "original_sha256": "db40d1f4e754c53678ef78a626710ba9771e4d2cd08de280262d69ba498de15e",
+      "exported_sha256": "4b065d662e3bb9049427516f01a0d1437f174d3c4ae902e49b087478b7d54e58"
+    },
+    {
+      "path": "drone/tools/gamepad_rc/vicon_height_reference_setup.py",
+      "original_sha256": "0308695ef8eababc7d0b6b1b76158cf130c9525e293acf770dfd367241e17d7f",
+      "exported_sha256": "25f0efd996c0f21cdb375dabdc0cf8e81d7304756baa188bec8e9f86ebfba338"
+    },
+    {
+      "path": "drone/tools/gamepad_rc/test/test_estop_only_policy.py",
+      "original_sha256": "f1f81733e678889c960d8c56fedf0a82c396f819753d9d47c84034bb6d438133",
+      "exported_sha256": "e0d5a23bce787f6f56c865c4298a51876fac5e267217d1d192d0f81593e66e22"
+    },
+    {
+      "path": "drone/tools/gamepad_rc/known_incidents/mircoair_rigid_body_revision.json",
+      "original_sha256": "dbd18af18252e9a0cfc65eab1d6eb0c3c5fecebf9071f457b21611cefc68d110",
+      "exported_sha256": "284895c4684c38393121099f0c49d4e7850a94cf47e94cbc5508b2ea53c7068e"
+    },
+    {
+      "path": "drone/tools/gamepad_rc/known_incidents/micoair743_v1143_shell_crash.json",
+      "original_sha256": "a45f445331ade21dedfe58a3740459c687780297abc640b5a1b4bd58c7b4493c",
+      "exported_sha256": "27fde81ee5d27431b079305afcd9c0a2337fe453939ce3c3fa7e6b148eead97e"
+    },
+    {
+      "path": "drone/tools/gamepad_rc/known_incidents/physical_safety_hold.json",
+      "original_sha256": "406603dddbbc6136ce7c74cad457f34cc0fa65f1d8f3ef06d5e01558a4805d05",
+      "exported_sha256": "7450034bc746adfe050f01e2f8d0392e5a99d5afa204bf290d0f2a392a4d1e85"
+    }
+  ],
+  "source_roots_omitted_from_public_manifest": true,
+  "excluded": [
+    "passwords/sdkconfig/private.defaults",
+    "Flash/NVS/FC binary dumps",
+    "one-use permits and runtime latches",
+    "full parameter backups and real calibration receipts",
+    "Vicon proprietary SDK/binaries",
+    "build/install/log/tmp/venv/third-party binary caches",
+    "Codex sessions and credentials"
+  ],
+  "dependencies": {
+    "vicon_receiver": {
+      "url": "https://github.com/cuizuoye/ros2-vicon-receiver.git",
+      "commit": "07ce249b309e4d151a9a52aabe4b818289176f20"
+    },
+    "px4_real": {
+      "url": "https://github.com/PX4/PX4-Autopilot.git",
+      "commit": "33bdd21f40d044e2524ea4c522fbf3c2418ea64a",
+      "url_provenance": "local assessment; source clone has no origin remote"
+    },
+    "px4_sitl": {
+      "url": "https://github.com/PX4/PX4-Autopilot.git",
+      "commit": "d6f12ad1c4f70ad3230afd7d86e971421e02fef4"
+    },
+    "xrce_agent": {
+      "url": "https://github.com/eProsima/Micro-XRCE-DDS-Agent.git",
+      "commit": "73622810d984349b80bbac0ef55fc0b694d62222"
+    },
+    "esp_idf": {
+      "version": "6.1",
+      "commit": "fff9895c82d744c7237be8847347bdd1b07c6643"
+    },
+    "stm32_gcc": "14.3.1+st.2",
+    "host": {
+      "os": "Ubuntu 24.04",
+      "arch": "x86_64",
+      "python": "3.12",
+      "ros": "jazzy"
+    }
+  },
+  "historical_key_parameters_not_live_observation": {
+    "COM_ARM_HFLT_CHK": 1.0,
+    "COM_OBL_RC_ACT": 4.0,
+    "COM_OF_LOSS_T": 1.0,
+    "COM_RC_IN_MODE": 4.0,
+    "EKF2_AID_MASK": 0.0,
+    "EKF2_EV_CTRL": 2.0,
+    "EKF2_EV_DELAY": 0.0,
+    "EKF2_HGT_REF": 3.0
+  },
+  "board_uid_replaced_by_synthetic_zero": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "subject": "MircoAir",
+  "active_revision_id": "MircoAir-rebuilt-20261015-U2klYU",
+  "reason": "Operator relocated old upper marker forward and down, deleted and rebuilt same-name rigid body",
+  "physical_forward_definition": "Inherited from operator-confirmed original physical nose; not redefined",
+  "heading_candidate_path": "/home/PRIMARY_USER/vicon_receiver_ws/drone_sim/mircoair_rebuilt_20261015_U2klYU/heading_rebased_candidate.json",
+  "board_candidate_path": "/home/PRIMARY_USER/vicon_receiver_ws/drone_sim/mircoair_rebuilt_20261015_U2klYU/board_center_rebased_candidate.json",
+  "heading_candidate_sha256": "16525acf18865b0463a659d0f814e20798a21a710ad1ed733a0a6edc133f2913",
+  "board_candidate_sha256": "654a2e58c732962edfb7807a36f6ad1c273069505da24333099cce8014a510f7",
+  "static_validation_completed": false,
+  "flight_authorized": false,
+  "old_same_name_calibrations_invalid": true,
+  "previous_incident_guards_modified": false,
+  "ground_and_control_mapping_revalidation_required": true,
+  "scope": "Prevent stale extrinsics in four existing USB/TRS pose-sender entrypoints. Not a universal guard for arbitrary external software."
+}

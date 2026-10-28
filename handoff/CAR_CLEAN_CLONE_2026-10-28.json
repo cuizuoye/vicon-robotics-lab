@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-28",
+  "source_commit": "b7895b9209290bfb87580fdb21d9dd0bf546f71e",
+  "method": "git clone --no-hardlinks into a new ignored directory, on the same Linux host",
+  "passed": true,
+  "commands": [
+    "bash scripts/doctor.sh",
+    "bash scripts/test_offline.sh",
+    "bash scripts/test_car_release.sh",
+    "python3 scripts/public_scan.py"
+  ],
+  "tests": {
+    "car_general": 570,
+    "wand_control": 243,
+    "drone_unchanged": 789,
+    "4wsa_host": 78,
+    "4wsa_native_sanitized_suites": 4
+  },
+  "source_packaging_correction": "Exclude crash dumps but explicitly retain all Python core.py control modules",
+  "public_scan_passed": true,
+  "second_computer_or_clean_os_validation": false,
+  "hardware_commands_sent": false,
+  "firmware_written": false
+}

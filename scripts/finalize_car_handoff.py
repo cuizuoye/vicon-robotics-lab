@@ -61,6 +61,8 @@ def main():
         drone_source_changed=False,legacy_shared_receiver_changed=False)
     (ROOT/'handoff/CAR_VALIDATION_2026-10-28.json').write_text(json.dumps(validation,indent=2)+'\n')
     names=subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard','-z'],cwd=ROOT).decode().split('\0')
+    missing=[r['path'] for r in value['files'] if r['path'] not in set(names)]
+    if missing:raise ValueError('Selected source excluded from Git: '+repr(missing))
     files={name:sha(ROOT/name) for name in sorted(set(names)) if name and
            (name.startswith(('car/','scripts/','shared/vicon_receiver_snapshot_20261028/')) or name in ('README.md','AGENTS.md','.gitignore'))
            and (ROOT/name).is_file()}

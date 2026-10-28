@@ -1827,7 +1827,7 @@
     "scripts/export_firmware_board.py": "93763368c74872aca53d8d715f064867e61485cde0091d47745175df42d0e158",
     "scripts/export_report_source.py": "731e00057660381d074a27b19e29cbf41fe7a0598a13ae5e16e966156f2ef461",
     "scripts/export_vicon_source_snapshot.py": "7e1ed9f89d1fe4f750c5583bf4bdf451bef47a01149b0df9fa5b8251076b55b1",
-    "scripts/finalize_car_handoff.py": "59cf98beeeef92f2abe5554ad152a48a96bf313b7d33a4ef7471c435e57f5fb8",
+    "scripts/finalize_car_handoff.py": "87545fd065dac5423ea332362ba868e37bac9325bf231fb83f853096976fccc4",
     "scripts/prepare_handoff.py": "5ec51a1f8fddda12649ba0838e86bd78956e790bf5b05c232bd89e69ddfe11d1",
     "scripts/public_scan.py": "3a87c63a5c60f0bdb88c49c7411d647330135c2673f9c0bbeee8a880a5c66b2f",
     "scripts/publish_report.py": "09b523d6bb6b3932949eaa945dacb7603733b4a0cda456479dbd7bbb080fe1d1",

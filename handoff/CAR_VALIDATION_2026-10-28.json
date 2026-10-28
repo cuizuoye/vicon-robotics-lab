@@ -1,5 +1,6 @@
 {
   "date": "2026-10-28",
+  "clean_clone_receipt": "handoff/CAR_CLEAN_CLONE_2026-10-28.json",
   "commands": [
     "bash scripts/doctor.sh",
     "bash scripts/test_offline.sh",

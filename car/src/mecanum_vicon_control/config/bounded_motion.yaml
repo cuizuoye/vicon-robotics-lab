@@ -16,6 +16,7 @@ cmd_vel_udp_bridge:
   ros__parameters:
     esp_ip: ''
     bounded_motion_mode: true
+    required_motion_tag: 4WG7
     send_rate_hz: 50.0
     max_vx_mps: 0.05
     max_vy_mps: 0.05

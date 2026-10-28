@@ -1,0 +1,9 @@
+{
+  "request": "那先将平移＋旋转跟随迁移",
+  "scope": "Prepare an independent existing-4WS8-compatible XY+yaw hardware pilot; no flash, network change or physical motion in preparation",
+  "translation_scale": 1.0,
+  "rotation_scale": 1.0,
+  "heading": "outside Sign1-Sign5-Sign2 crossbar, away from Sign3/Sign4 stem",
+  "reference_point": "Sign5",
+  "physical_acceptance": false
+}

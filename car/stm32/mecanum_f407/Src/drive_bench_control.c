@@ -5,7 +5,40 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef RR_SPEED2
+#ifdef FOUR_LINK_GROUNDB
+#define DRIVE_FW_NAME "drive_ground35_recovery600_vB"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUNDA)
+#define DRIVE_FW_NAME "drive_ground35_recovery600_vA"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND9)
+#define DRIVE_FW_NAME "drive_ground35_rearm_v9"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND8)
+#define DRIVE_FW_NAME "drive_ground35_200mmps_v8"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND7)
+#define DRIVE_FW_NAME "drive_ground35_ffpi_v7"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND6)
+#define DRIVE_FW_NAME "drive_ground35_deadband20_v6"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND5)
+#define DRIVE_FW_NAME "drive_ground35_streamstart_v5"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND4)
+#define DRIVE_FW_NAME "drive_ground35_idlelease_v4"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND3)
+#define DRIVE_FW_NAME "drive_ground35_handoff30_v3"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND2)
+#define DRIVE_FW_NAME "drive_ground35_start30_v2"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(FOUR_LINK_GROUND)
+#define DRIVE_FW_NAME "drive_ground20_start15_v1"
+#define DRIVE_RUN_SUFFIX " S10"
+#elif defined(RR_SPEED2)
 #define DRIVE_FW_NAME "rr_diag_328_v1"
 #define DRIVE_RUN_SUFFIX " S10"
 #elif defined(RR_PWM_FINE)
@@ -34,6 +67,14 @@ void drive_bench_init(drive_bench_t *b, const int32_t counts[4], uint32_t now)
         b->adopted.wheel[i].calibration_confirmed = true;
         b->adopted.wheel[i].kp_permille_per_cps = 0.1f;
         b->adopted.wheel[i].ki_permille_per_count = 0.5f;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+        /* Conservative seed from the existing 4WG5 ground log.  These are
+         * intentionally identical until a bounded on-ground identification
+         * run can justify per-wheel values; the structure is per-wheel. */
+        b->adopted.wheel[i].ff_static_permille = 80.0f;
+        b->adopted.wheel[i].ff_velocity_permille_per_cps = 0.15f;
+        b->adopted.wheel[i].low_speed_trust_cps = 100.0f;
+#endif
         if (counts != NULL) b->counts[i] = counts[i];
     }
     b->adopted.target_limit_cps = FOUR_DRIVE_TARGET_LIMIT_CPS;
@@ -42,7 +83,7 @@ void drive_bench_init(drive_bench_t *b, const int32_t counts[4], uint32_t now)
     b->adopted.ramp_cps_per_s = 800.0f;
 #endif
 #ifdef FOUR_LINK_MOTION
-    b->adopted.run_limit_ms = 120000U;
+    b->adopted.run_limit_ms = FOUR_DRIVE_RUN_LIMIT_MS;
 #endif
     /* 用户已确认整改X、轮心距离不变；仅近似几何，不是Vicon标定。 */
     const mecanum_drive_geometry_t geometry = {{0.030f, 0.061f, 0.085f}, true, true};

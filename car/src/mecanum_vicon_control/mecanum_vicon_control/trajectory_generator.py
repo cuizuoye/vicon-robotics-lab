@@ -6,7 +6,7 @@ from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Path
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
-from std_msgs.msg import Bool, Empty
+from std_msgs.msg import Bool, Empty, UInt32
 
 from .math_utils import quaternion_from_yaw, wrap_angle, yaw_from_quaternion
 
@@ -26,12 +26,17 @@ def generate_waypoints(
         heading_mode: str = 'tangent',
         fixed_yaw: float = 0.0,
 ):
-    """Generate one closed planar loop, with tangent or constant heading."""
+    """Generate a planar path, with tangent or constant heading.
+
+    ``line`` is intentionally a two-point, non-closing path for the first
+    real-car commissioning run.  The other shapes remain closed loops.
+    """
     shape = shape.strip().lower()
-    if shape not in ('circle', 'rectangle', 'figure_eight'):
+    if shape not in ('circle', 'rectangle', 'figure_eight', 'line'):
         raise ValueError(f'unsupported trajectory shape: {shape!r}')
-    if waypoint_count < 8:
-        raise ValueError('waypoint_count must be at least 8')
+    minimum_waypoints = 2 if shape == 'line' else 4 if shape == 'rectangle' else 8
+    if waypoint_count < minimum_waypoints:
+        raise ValueError(f'waypoint_count must be at least {minimum_waypoints}')
     if not all(math.isfinite(v) for v in (
             center_x, center_y, radius, width, height, fixed_yaw)):
         raise ValueError('trajectory geometry must be finite')
@@ -41,7 +46,11 @@ def generate_waypoints(
         raise ValueError('heading_mode must be tangent or fixed')
 
     waypoints = []
-    if shape == 'circle':
+    if shape == 'line':
+        _append_waypoint(waypoints, center_x, center_y, 0.0)
+        _append_waypoint(waypoints, center_x + width, center_y, 0.0)
+
+    elif shape == 'circle':
         for index in range(waypoint_count):
             theta = 2.0 * math.pi * index / waypoint_count
             _append_waypoint(
@@ -61,7 +70,7 @@ def generate_waypoints(
             _append_waypoint(waypoints, x, y, math.atan2(dy, dx))
 
     else:
-        points_per_edge = max(2, int(math.ceil(waypoint_count / 4.0)))
+        points_per_edge = max(1, int(math.ceil(waypoint_count / 4.0)))
         half_width = 0.5 * width
         half_height = 0.5 * height
         corners = (
@@ -87,7 +96,8 @@ def generate_waypoints(
     if heading_mode == 'fixed':
         waypoints = [(x, y, wrap_angle(fixed_yaw)) for x, y, _yaw in waypoints]
     # 重复起点使 RViz 的计划路径闭合，也让每圈确实回到起点。
-    waypoints.append(waypoints[0])
+    if shape != 'line':
+        waypoints.append(waypoints[0])
     return waypoints
 
 
@@ -138,6 +148,7 @@ class TrajectoryGenerator(Node):
         self.declare_parameter('start_pose_timeout_s', 0.2)
         self.declare_parameter('start_delay_s', 1.0)
         self.declare_parameter('minimum_goal_age_s', 0.15)
+        self.declare_parameter('waypoint_dwell_s', 0.0)
         self.declare_parameter('start_enabled', True)
 
         self.shape = str(self.get_parameter('shape').value)
@@ -146,6 +157,9 @@ class TrajectoryGenerator(Node):
         self.start_delay_s = max(0.0, float(self.get_parameter('start_delay_s').value))
         self.minimum_goal_age_s = max(
             0.0, float(self.get_parameter('minimum_goal_age_s').value))
+        self.waypoint_dwell_s = float(self.get_parameter('waypoint_dwell_s').value)
+        if not math.isfinite(self.waypoint_dwell_s) or self.waypoint_dwell_s < 0.0:
+            raise ValueError('waypoint_dwell_s must be finite and nonnegative')
         if self.loop_count < 0:
             raise ValueError('loop_count must be nonnegative; 0 means continuous')
         self.relative_to_start = bool(self.get_parameter('relative_to_start').value)
@@ -177,11 +191,19 @@ class TrajectoryGenerator(Node):
         self.goal_pub = self.create_publisher(PoseStamped, '/car/goal_pose', latched_qos)
         self.path_pub = self.create_publisher(Path, '/car/trajectory_path', latched_qos)
         self.active_pub = self.create_publisher(Bool, '/car/trajectory_active', latched_qos)
+        self.loop_pub = self.create_publisher(
+            UInt32, '/car/completed_loops', latched_qos)
         self.create_subscription(Bool, '/car/goal_reached', self.on_goal_reached, 10)
         self.create_subscription(Bool, '/car/trajectory_enable', self.on_enable, 10)
         self.create_subscription(Empty, '/car/trajectory_cancel', self.on_cancel, 10)
+        latest_pose_qos = QoSProfile(
+            depth=1,
+            durability=DurabilityPolicy.VOLATILE,
+            reliability=ReliabilityPolicy.BEST_EFFORT,
+        )
         self.create_subscription(
-            PoseStamped, str(self.get_parameter('pose_topic').value), self.on_pose, 10)
+            PoseStamped, str(self.get_parameter('pose_topic').value),
+            self.on_pose, latest_pose_qos)
         # 直接点击 RViz 也会取消自动轨迹，避免下一个航点覆盖手动目标。
         self.create_subscription(PoseStamped, '/goal_pose', self.on_manual_goal, 10)
 
@@ -192,9 +214,12 @@ class TrajectoryGenerator(Node):
         self.waypoint_index = 0
         self.completed_loops = 0
         self.goal_not_before_ns = 0
+        self.advance_pending = False
+        self.advance_at_ns = 0
         self.create_timer(0.05, self.tick)
         self.publish_path()
         self.publish_active()
+        self.publish_loop_count()
         self.get_logger().info(
             f'轨迹发生器: shape={self.shape}, '
             f'waypoints={len(self.waypoints)}, loops={self.loop_count}')
@@ -225,6 +250,9 @@ class TrajectoryGenerator(Node):
     def publish_active(self):
         self.active_pub.publish(Bool(data=self.active))
 
+    def publish_loop_count(self):
+        self.loop_pub.publish(UInt32(data=self.completed_loops))
+
     def start(self):
         if self.relative_to_start:
             now_ns = self.get_clock().now().nanoseconds
@@ -240,7 +268,9 @@ class TrajectoryGenerator(Node):
         self.active = True
         self.waypoint_index = 0
         self.completed_loops = 0
+        self.advance_pending = False
         self.publish_active()
+        self.publish_loop_count()
         self.publish_current_goal()
         self.get_logger().info(f'开始 {self.shape} 轨迹')
 
@@ -249,6 +279,7 @@ class TrajectoryGenerator(Node):
             self.get_logger().info(f'停止轨迹: {reason}')
         self.active = False
         self.start_pending = False
+        self.advance_pending = False
         self.publish_active()
 
     def publish_current_goal(self):
@@ -264,6 +295,7 @@ class TrajectoryGenerator(Node):
             return
 
         self.completed_loops += 1
+        self.publish_loop_count()
         if self.loop_count > 0 and self.completed_loops >= self.loop_count:
             self.stop(f'已完成 {self.completed_loops} 圈')
             return
@@ -289,11 +321,19 @@ class TrajectoryGenerator(Node):
             self.publish_path()
 
     def on_goal_reached(self, msg: Bool):
-        if (
-                self.active
-                and msg.data
-                and self.get_clock().now().nanoseconds >= self.goal_not_before_ns):
+        now_ns = self.get_clock().now().nanoseconds
+        if not (self.active and msg.data and now_ns >= self.goal_not_before_ns):
+            return
+        if self.advance_pending:
+            return
+        if self.waypoint_dwell_s <= 0.0:
             self.advance()
+            return
+        # Keep the reached goal active during the dwell.  The controller stays
+        # in COMPLETE and therefore commands zero while wheel inertia and gear
+        # backlash settle before the next segment can reverse wheel direction.
+        self.advance_pending = True
+        self.advance_at_ns = now_ns + int(self.waypoint_dwell_s * 1.0e9)
 
     def on_enable(self, msg: Bool):
         if msg.data:
@@ -308,9 +348,13 @@ class TrajectoryGenerator(Node):
         self.stop('RViz手动目标接管')
 
     def tick(self):
+        now_ns = self.get_clock().now().nanoseconds
+        if self.active and self.advance_pending and now_ns >= self.advance_at_ns:
+            self.advance_pending = False
+            self.advance()
         if (
                 self.start_pending
-                and self.get_clock().now().nanoseconds >= self.start_at_ns):
+                and now_ns >= self.start_at_ns):
             self.start()
 
 
@@ -334,4 +378,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

@@ -1,0 +1,494 @@
+{
+  "mode": "no-power",
+  "phases": [
+    {
+      "name": "baseline_zero",
+      "telemetry": [
+        {
+          "sample_time_ms": 599591,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            -4,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 205,
+          "fault_bits": 0,
+          "last_command_sequence": 2,
+          "host_time_s": 0.07483495799897355
+        },
+        {
+          "sample_time_ms": 599691,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            -4,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 205,
+          "fault_bits": 0,
+          "last_command_sequence": 8,
+          "host_time_s": 0.16061854899817263
+        },
+        {
+          "sample_time_ms": 599791,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            -4,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 205,
+          "fault_bits": 0,
+          "last_command_sequence": 11,
+          "host_time_s": 0.33281274599721655
+        },
+        {
+          "sample_time_ms": 599891,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            -4,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 205,
+          "fault_bits": 0,
+          "last_command_sequence": 11,
+          "host_time_s": 0.3684685949992854
+        }
+      ],
+      "diagnostics": [
+        {
+          "tag": "4WB1",
+          "ticks": 59959,
+          "updates": 59959,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 141,
+          "started_ms": 0,
+          "stationary_ms": 500,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "raw_duty": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "target_cps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "filtered_cps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "body_milli": [
+            0,
+            0,
+            0
+          ],
+          "startup_mask": 0,
+          "fault_wheel": 0,
+          "watchdog_reset": 0,
+          "permitted": 0,
+          "active": false,
+          "sample_time_ms": 599591,
+          "host_time_s": 0.0840654439998616
+        },
+        {
+          "tag": "4WB1",
+          "ticks": 59969,
+          "updates": 59969,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 141,
+          "started_ms": 0,
+          "stationary_ms": 500,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "raw_duty": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "target_cps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "filtered_cps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "body_milli": [
+            0,
+            0,
+            0
+          ],
+          "startup_mask": 0,
+          "fault_wheel": 0,
+          "watchdog_reset": 0,
+          "permitted": 0,
+          "active": false,
+          "sample_time_ms": 599691,
+          "host_time_s": 0.1797769779986993
+        },
+        {
+          "tag": "4WB1",
+          "ticks": 59979,
+          "updates": 59979,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 141,
+          "started_ms": 0,
+          "stationary_ms": 500,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "raw_duty": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "target_cps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "filtered_cps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "body_milli": [
+            0,
+            0,
+            0
+          ],
+          "startup_mask": 0,
+          "fault_wheel": 0,
+          "watchdog_reset": 0,
+          "permitted": 0,
+          "active": false,
+          "sample_time_ms": 599791,
+          "host_time_s": 0.3408846719976282
+        },
+        {
+          "tag": "4WB1",
+          "ticks": 59989,
+          "updates": 59989,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 141,
+          "started_ms": 0,
+          "stationary_ms": 500,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "raw_duty": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "target_cps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "filtered_cps": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "body_milli": [
+            0,
+            0,
+            0
+          ],
+          "startup_mask": 0,
+          "fault_wheel": 0,
+          "watchdog_reset": 0,
+          "permitted": 0,
+          "active": false,
+          "sample_time_ms": 599891,
+          "host_time_s": 0.381002558999171
+        }
+      ],
+      "ack": [
+        1
+      ],
+      "transition_frames": []
+    }
+  ],
+  "commands": [
+    {
+      "kind": 1,
+      "sequence": 1,
+      "flags": 1,
+      "host_time_s": 5.947997124167159e-06
+    },
+    {
+      "kind": 16,
+      "sequence": 2,
+      "flags": 0,
+      "host_time_s": 6.170399865368381e-05
+    },
+    {
+      "kind": 16,
+      "sequence": 3,
+      "flags": 0,
+      "host_time_s": 0.020788820998859592
+    },
+    {
+      "kind": 16,
+      "sequence": 4,
+      "flags": 0,
+      "host_time_s": 0.04184548299963353
+    },
+    {
+      "kind": 16,
+      "sequence": 5,
+      "flags": 0,
+      "host_time_s": 0.06269176400019205
+    },
+    {
+      "kind": 16,
+      "sequence": 6,
+      "flags": 0,
+      "host_time_s": 0.08289634499669774
+    },
+    {
+      "kind": 16,
+      "sequence": 7,
+      "flags": 0,
+      "host_time_s": 0.10309121499813045
+    },
+    {
+      "kind": 16,
+      "sequence": 8,
+      "flags": 0,
+      "host_time_s": 0.12312649399973452
+    },
+    {
+      "kind": 16,
+      "sequence": 9,
+      "flags": 0,
+      "host_time_s": 0.14409734999935608
+    },
+    {
+      "kind": 16,
+      "sequence": 10,
+      "flags": 0,
+      "host_time_s": 0.16410665099829203
+    },
+    {
+      "kind": 16,
+      "sequence": 11,
+      "flags": 0,
+      "host_time_s": 0.18434733399772085
+    },
+    {
+      "kind": 16,
+      "sequence": 12,
+      "flags": 0,
+      "host_time_s": 0.20541671399769257
+    },
+    {
+      "kind": 16,
+      "sequence": 13,
+      "flags": 0,
+      "host_time_s": 0.22549527699811733
+    },
+    {
+      "kind": 16,
+      "sequence": 14,
+      "flags": 0,
+      "host_time_s": 0.2463858880000771
+    },
+    {
+      "kind": 16,
+      "sequence": 15,
+      "flags": 0,
+      "host_time_s": 0.267084185998101
+    },
+    {
+      "kind": 16,
+      "sequence": 16,
+      "flags": 0,
+      "host_time_s": 0.2881222589967365
+    },
+    {
+      "kind": 16,
+      "sequence": 17,
+      "flags": 0,
+      "host_time_s": 0.30831543499880354
+    },
+    {
+      "kind": 16,
+      "sequence": 18,
+      "flags": 0,
+      "host_time_s": 0.3293850649970409
+    },
+    {
+      "kind": 16,
+      "sequence": 19,
+      "flags": 0,
+      "host_time_s": 0.3498158879992843
+    },
+    {
+      "kind": 16,
+      "sequence": 20,
+      "flags": 0,
+      "host_time_s": 0.3698802179969789
+    },
+    {
+      "kind": 16,
+      "sequence": 21,
+      "flags": 0,
+      "host_time_s": 0.3909045229993353
+    },
+    {
+      "kind": 16,
+      "sequence": 22,
+      "flags": 0,
+      "host_time_s": 0.4119609629997285
+    },
+    {
+      "kind": 16,
+      "sequence": 23,
+      "flags": 0,
+      "host_time_s": 0.4328318389998458
+    },
+    {
+      "kind": 16,
+      "sequence": 24,
+      "flags": 0,
+      "host_time_s": 0.4537720049993368
+    },
+    {
+      "kind": 16,
+      "sequence": 25,
+      "flags": 0,
+      "host_time_s": 0.4747975319987745
+    },
+    {
+      "kind": 16,
+      "sequence": 26,
+      "flags": 0,
+      "host_time_s": 0.47721410099984496
+    },
+    {
+      "kind": 16,
+      "sequence": 27,
+      "flags": 0,
+      "host_time_s": 0.4772634979999566
+    },
+    {
+      "kind": 16,
+      "sequence": 28,
+      "flags": 0,
+      "host_time_s": 0.4772953139981837
+    }
+  ],
+  "motion_attempted": false,
+  "rejected_feedback": {
+    "kind": "telemetry",
+    "data": {
+      "sample_time_ms": 599991,
+      "wheel_rpm": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "encoder_counts": [
+        0,
+        0,
+        -4,
+        0
+      ],
+      "battery_mv": 0,
+      "state_flags": 221,
+      "fault_bits": 65536,
+      "last_command_sequence": 11
+    },
+    "sender_time_ms": 599991,
+    "host_time_s": 0.47705693599709775
+  },
+  "success": false,
+  "error": "MCU fault 0x10000; no motion retry",
+  "failure_host_time_s": 0.4771871349985304
+}

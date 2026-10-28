@@ -1,0 +1,9 @@
+{
+  "user_report": "都正常，接下来可以提高加速度，提高同步性",
+  "scope": "independent real Sign to SOFTWARE car acceleration optimization",
+  "physical_car": "off; no actuation",
+  "speed_limits_unchanged": true,
+  "mapping_xy_yaw": [1.0, 1.0],
+  "accepted_sources_unchanged": true,
+  "hardware_qualification": false
+}

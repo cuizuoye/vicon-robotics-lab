@@ -1,9 +1,20 @@
 {
-  "snapshot_date": "2026-10-15",
+  "snapshot_date": "2026-10-28",
   "scope": "PUBLIC SOFTWARE HANDOFF, NOT LIVE HARDWARE AUTHORIZATION",
-  "development_paused_on_primary": true,
-  "baseline_tag": "baseline-2026-10-15",
+  "development_paused_on_primary": false,
+  "car_current_state": "handoff/CAR_STATE_2026-10-28.json",
   "car": {
+    "details": "handoff/CAR_STATE_2026-10-28.json",
+    "evidence_date": "2026-10-28",
+    "last_recorded_mcu": "4WS8; not read from the board during this export",
+    "real_xy_following_accepted_with_limits": true,
+    "new_4wsa_candidate_flashed": false,
+    "public_export_grants_motion_authority": false
+  },
+  "legacy_car_section_below_evidence_date": "2026-10-15; historical only, superseded by car_current_state",
+  "drone_section_below_evidence_date": "2026-10-15; not rechecked or changed in the car export",
+  "baseline_tag": "baseline-2026-10-15",
+  "legacy_car_2026_10_15": {
     "actual_mcu_image": "four_link_readonly, NO PWM",
     "actual_mcu_image_sha256": "12d4224f5337b42d3bdc3eef30f4142e957d65d900d61b64d8b8fb22033e9aa6",
     "candidate_motion_image": "mecanum_f407_four_link_motion, 4WM1",

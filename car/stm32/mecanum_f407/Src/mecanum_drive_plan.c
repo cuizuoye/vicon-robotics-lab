@@ -38,7 +38,8 @@ bool mecanum_drive_plan(const mecanum_drive_geometry_t *g,
         !isfinite(requested->vx_m_s) || fabsf(requested->vx_m_s) > 1.0f ||
         !isfinite(requested->vy_m_s) || fabsf(requested->vy_m_s) > 1.0f ||
         !isfinite(requested->wz_rad_s) || fabsf(requested->wz_rad_s) > 10.0f ||
-        !isfinite(max_wheel_m_s) || max_wheel_m_s <= 0.0f || max_wheel_m_s > 0.05f)
+        !isfinite(max_wheel_m_s) || max_wheel_m_s <= 0.0f ||
+        max_wheel_m_s > FOUR_DRIVE_MAX_WHEEL_M_S)
         return false;
     mecanum_angular_targets_t angular;
     if (!mecanum_inverse_si(&g->kinematics, requested,

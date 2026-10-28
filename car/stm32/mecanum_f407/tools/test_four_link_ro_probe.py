@@ -1,11 +1,25 @@
 import struct
 import unittest
-from four_link_ro_probe import decode_status, decode_telemetry, TAG
+from four_link_ro_probe import decode_status, decode_telemetry, parse_args, TAG
 from mecanum_vicon_control.transport_protocol import (
     Frame, MessageType, WheelTelemetry, pack_wheel_telemetry,
 )
 
 class ReadonlyTests(unittest.TestCase):
+    def test_physical_confirmation_is_explicit_and_exclusive(self):
+        base=['--esp-ip','192.168.50.1']
+        disconnected=parse_args(base+['--confirm-battery-disconnected'])
+        self.assertTrue(disconnected.confirm_battery_disconnected)
+        self.assertFalse(disconnected.confirm_battery_powered_motors_connected_wheels_suspended)
+        powered=parse_args(base+['--confirm-battery-powered-motors-connected-wheels-suspended'])
+        self.assertFalse(powered.confirm_battery_disconnected)
+        self.assertTrue(powered.confirm_battery_powered_motors_connected_wheels_suspended)
+        with self.assertRaises(SystemExit):
+            parse_args(base)
+        with self.assertRaises(SystemExit):
+            parse_args(base+['--confirm-battery-disconnected',
+                             '--confirm-battery-powered-motors-connected-wheels-suspended'])
+
     def test_status(self):
         v = [TAG,100,100,10,10,40]+[0]*8+[1,0]
         self.assertEqual(decode_status(struct.pack('<6I8I2H',*v))['tag'],'4RO1')

@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "unit_tests": 47,
+  "scheduling": {
+    "passed": true,
+    "cases": [
+      "incoming socket callbacks cannot renew100ms periodic task",
+      "immediate reply permission retains original periodic clock",
+      "265ms main thread stall revoked",
+      "10000 view updates occupy one flight and one latest slot",
+      "replayed view credit cannot authorize control",
+      "view bytes bounded"
+    ]
+  },
+  "network": {
+    "passed": true,
+    "cases": [
+      "loopback Host Origin and token required",
+      "single owner and no implicit handover",
+      "view ACK alone never creates proof or authority",
+      "non-acknowledging view fails100ms independently",
+      "view socket cannot submit control input",
+      "view disconnect revokes while control alive",
+      "control disconnect revokes",
+      "nonce replay rejected on real socket",
+      "readonly cannot request software or real motion",
+      "hardware mode absent",
+      "unqualified ROS software mode blocked"
+    ]
+  },
+  "metrics": {
+    "passed": true,
+    "session": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_browser_fast_2026-10-28/prepared/sessions/fast_readonly_acNzRH",
+    "client": {
+      "replyCount": 5855,
+      "maxReplyDispatch": 2.800000000046566,
+      "maxSendCall": 2.5,
+      "periodicMax": 55.39999999990687,
+      "lastViewSequence": 1302
+    },
+    "transport": {
+      "control_bytes": 1716653,
+      "view_bytes": 3741408,
+      "max_control_buffer": 0,
+      "max_input_buffer": 0,
+      "control_messages": 7158,
+      "node_event_gap_max_s": 0.03486329800011845,
+      "view": {
+        "offered": 1302,
+        "sent": 1302,
+        "coalesced": 0,
+        "max_pending": 1,
+        "max_frame_bytes": 2943
+      },
+      "separate_control_and_view": true,
+      "view_ack_is_authority": false,
+      "ssh_outer_stream_shared": true
+    },
+    "proof_max_age_s": 0.04632967700013069,
+    "elapsed_s": 60.00185173199998,
+    "performance_target_10ms_met": true,
+    "acceptance_limit_ms": 100,
+    "metric_note": "Dispatch-before-send is distinct from WebSocket.send call cost;10ms is an observational target, NOT a safety limit."
+  },
+  "actual_browser_cases": [
+    {
+      "case": "actual_browser265ms_stall_revokes",
+      "reason": "BROWSER_PROOF_TIMEOUT"
+    },
+    {
+      "case": "focus_loss_revokes",
+      "reason": "CLIENT_WINDOW_BLUR"
+    },
+    {
+      "case": "view_loss_revokes_with_control_alive",
+      "reason": "VIEW_DISCONNECTED"
+    },
+    {
+      "case": "Esc_terminal_no_resume",
+      "reason": "CLIENT_ESC"
+    }
+  ],
+  "original_entries_and_runtime_unchanged": true,
+  "controller_changes": [],
+  "proof_limit_ms": 100,
+  "actual_network_over100ms_still_fails": true,
+  "firmware_flashed": false,
+  "tenda_changed": false,
+  "car_started": false,
+  "modes": [
+    "readonly"
+  ],
+  "hardware_entry": false,
+  "ros_software_qualified": false,
+  "ros_software_entry_blocked": true,
+  "ros_lab_attempts": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_browser_fast_2026-10-28/prepared/ROS_LAB_NOT_QUALIFIED.json",
+  "windows_remote_acceptance": "PENDING user60s strict readonly; local Chrome/software proof does not qualify Windows or real car"
+}

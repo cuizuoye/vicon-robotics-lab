@@ -1,0 +1,57 @@
+{
+  "result": "PASS_REAL_SIGN_TO_SOFTWARE_CAR_NORMAL_FOLLOW_AND_OPERATOR_STOP",
+  "user_observation": "都没有问题，同步性较好",
+  "session": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_rotation_accel_sim_2026-10-26/real_sign_A2_kn0jw0ab",
+  "scope": "Human subjective follow/reversal/overshoot/stop report, supported by real Sign to local software plant trace; NOT physical car acceptance or precise latency metrology",
+  "configuration": {
+    "translation_scale": 1.0,
+    "relative_rotation_scale": 1.0,
+    "xy_speed_mps": 0.7,
+    "xy_accel_mps2": 2.0,
+    "yaw_rate_radps": 2.0,
+    "yaw_accel_radps2": 12.0,
+    "maximum_active_s": 120.0,
+    "reference_point": "Sign5",
+    "forward": "OUTSIDE_SIGN1_SIGN5_SIGN2_CROSSBAR_AWAY_FROM_STEM",
+    "arena_forward_m": [-1.5, 0.5],
+    "arena_left_m": [-0.4, 0.5],
+    "buffer_m": 0.5
+  },
+  "logged_evidence": {
+    "active_samples": 593,
+    "logged_active_span_s": 35.92509684499964,
+    "hand_relative_yaw_range_deg": [-26.540105405667585, 120.49649096736763],
+    "same_time_software_yaw_rms_deg": 5.426038959698822,
+    "software_car_world_xy_range_m": [[0.2765486238561598, 0.8473936116946497], [-2.245623728496926, -1.22755684703522]],
+    "max_command_speed_mps": 0.7,
+    "max_command_yaw_rate_radps": 2.0,
+    "max_command_wheel_rpm": 391.86556907384784,
+    "active_gate_faults": [],
+    "hard_fault_observed": false,
+    "operator_stop_event_observed": true,
+    "paused_with_stop_confirmed_and_zero_output_observed": true,
+    "physical_actuator_outputs_observed": false,
+    "cautions": [
+      "RMS describes this user's actual motion and software plant; not directly comparable to the synthetic scenario sweep",
+      "Trace does not establish an exact symmetric plus/minus 90 degree calibration or a camera-to-wheel latency",
+      "Last SESSION_RESULT is STOPPING because window close explicitly requested stop again; earlier PAUSED+confirmed-stop is independently present in the trace"
+    ]
+  },
+  "raw_file_hashes": {
+    "observation.jsonl": "5f3fa1fc6c6cb58438f2bf6ef4d8c0dd376fb229273b55b8d52ab275ff803b88",
+    "events.jsonl": "506e875a2d657b7ee5063c3292b5c9cdddff83f81dc0123350f27a3562bb5352",
+    "SESSION_RESULT.json": "66782d332bfd0992cb53af1320bd14075b0309b53868e7c0e374e1bf7c8a8752",
+    "SESSION_CONTRACT.json": "aa4b8313104b2c9312e658578769d2458f34d1a65bf747c30b0ed77f92aa667c",
+    "RECEIVER_PROVENANCE.json": "a081d6dbe7ad5de97c405cff422797b64695d29dfa86044497aaeb689dc58aaa",
+    "ROS_GRAPH_AUDIT.json": "252f8ac2183728b82b60ff7eb3e3114f27294abe15189affb7831322a5f6ec84"
+  },
+  "normal_follow_accepted": true,
+  "operator_stop_accepted": true,
+  "occlusion_and_manual_recovery_accepted": false,
+  "physical_car_rotation_accepted": false,
+  "hardware_acceleration_capability_qualified": false,
+  "firmware_changed": false,
+  "original_entry_changed": false,
+  "new_entry": "bash /home/PRIMARY_USER/vicon_mecanum_ws/tools/start_sign_rotation_accel_sim.sh",
+  "next_required": "Separate real Sign to A2 SOFTWARE car occlusion stop, no automatic resume on reveal, explicit reprepare without motion and new click to follow. Hardware requires separate migration and authorization."
+}

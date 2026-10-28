@@ -1,0 +1,1527 @@
+{
+  "mode": "logic-power",
+  "phases": [
+    {
+      "name": "baseline_zero",
+      "telemetry": [],
+      "diagnostics": [],
+      "ack": [],
+      "transition_frames": []
+    }
+  ],
+  "commands": [
+    {
+      "kind": 1,
+      "sequence": 1,
+      "flags": 1,
+      "host_time_s": 2.87670000034268e-05
+    },
+    {
+      "kind": 16,
+      "sequence": 2,
+      "flags": 0,
+      "host_time_s": 0.00023253099971043412
+    },
+    {
+      "kind": 16,
+      "sequence": 3,
+      "flags": 0,
+      "host_time_s": 0.020987893999517837
+    },
+    {
+      "kind": 16,
+      "sequence": 4,
+      "flags": 0,
+      "host_time_s": 0.04099744499944791
+    },
+    {
+      "kind": 16,
+      "sequence": 5,
+      "flags": 0,
+      "host_time_s": 0.061151435999818204
+    },
+    {
+      "kind": 16,
+      "sequence": 6,
+      "flags": 0,
+      "host_time_s": 0.0811435799996616
+    },
+    {
+      "kind": 16,
+      "sequence": 7,
+      "flags": 0,
+      "host_time_s": 0.10121902399987448
+    },
+    {
+      "kind": 16,
+      "sequence": 8,
+      "flags": 0,
+      "host_time_s": 0.12119726599939895
+    },
+    {
+      "kind": 16,
+      "sequence": 9,
+      "flags": 0,
+      "host_time_s": 0.14162710399978096
+    },
+    {
+      "kind": 16,
+      "sequence": 10,
+      "flags": 0,
+      "host_time_s": 0.1619037489999755
+    },
+    {
+      "kind": 16,
+      "sequence": 11,
+      "flags": 0,
+      "host_time_s": 0.18293735799943533
+    },
+    {
+      "kind": 16,
+      "sequence": 12,
+      "flags": 0,
+      "host_time_s": 0.20380702999955247
+    },
+    {
+      "kind": 16,
+      "sequence": 13,
+      "flags": 0,
+      "host_time_s": 0.2246542339998996
+    },
+    {
+      "kind": 16,
+      "sequence": 14,
+      "flags": 0,
+      "host_time_s": 0.2446816769997895
+    },
+    {
+      "kind": 16,
+      "sequence": 15,
+      "flags": 0,
+      "host_time_s": 0.26491506899947126
+    },
+    {
+      "kind": 16,
+      "sequence": 16,
+      "flags": 0,
+      "host_time_s": 0.2849893019993033
+    },
+    {
+      "kind": 16,
+      "sequence": 17,
+      "flags": 0,
+      "host_time_s": 0.30513634999988426
+    },
+    {
+      "kind": 16,
+      "sequence": 18,
+      "flags": 0,
+      "host_time_s": 0.32603130499956023
+    },
+    {
+      "kind": 16,
+      "sequence": 19,
+      "flags": 0,
+      "host_time_s": 0.34613160399931076
+    },
+    {
+      "kind": 16,
+      "sequence": 20,
+      "flags": 0,
+      "host_time_s": 0.3661380719995577
+    },
+    {
+      "kind": 16,
+      "sequence": 21,
+      "flags": 0,
+      "host_time_s": 0.38619853999989573
+    },
+    {
+      "kind": 16,
+      "sequence": 22,
+      "flags": 0,
+      "host_time_s": 0.40643258999989484
+    },
+    {
+      "kind": 16,
+      "sequence": 23,
+      "flags": 0,
+      "host_time_s": 0.42743187899941404
+    },
+    {
+      "kind": 16,
+      "sequence": 24,
+      "flags": 0,
+      "host_time_s": 0.44747893899966584
+    },
+    {
+      "kind": 16,
+      "sequence": 25,
+      "flags": 0,
+      "host_time_s": 0.4677791529993556
+    },
+    {
+      "kind": 16,
+      "sequence": 26,
+      "flags": 0,
+      "host_time_s": 0.48794219699993846
+    },
+    {
+      "kind": 16,
+      "sequence": 27,
+      "flags": 0,
+      "host_time_s": 0.5080537409994577
+    },
+    {
+      "kind": 16,
+      "sequence": 28,
+      "flags": 0,
+      "host_time_s": 0.5281001859993921
+    },
+    {
+      "kind": 16,
+      "sequence": 29,
+      "flags": 0,
+      "host_time_s": 0.5482184579996101
+    },
+    {
+      "kind": 16,
+      "sequence": 30,
+      "flags": 0,
+      "host_time_s": 0.5683991810001316
+    },
+    {
+      "kind": 16,
+      "sequence": 31,
+      "flags": 0,
+      "host_time_s": 0.5885583769995719
+    },
+    {
+      "kind": 16,
+      "sequence": 32,
+      "flags": 0,
+      "host_time_s": 0.6088202129994897
+    },
+    {
+      "kind": 16,
+      "sequence": 33,
+      "flags": 0,
+      "host_time_s": 0.6289891609994811
+    },
+    {
+      "kind": 16,
+      "sequence": 34,
+      "flags": 0,
+      "host_time_s": 0.6491847829993276
+    },
+    {
+      "kind": 16,
+      "sequence": 35,
+      "flags": 0,
+      "host_time_s": 0.6697781559996656
+    },
+    {
+      "kind": 16,
+      "sequence": 36,
+      "flags": 0,
+      "host_time_s": 0.6899648779999552
+    },
+    {
+      "kind": 16,
+      "sequence": 37,
+      "flags": 0,
+      "host_time_s": 0.710099617999731
+    },
+    {
+      "kind": 16,
+      "sequence": 38,
+      "flags": 0,
+      "host_time_s": 0.7304217509999944
+    },
+    {
+      "kind": 16,
+      "sequence": 39,
+      "flags": 0,
+      "host_time_s": 0.7506067089998396
+    },
+    {
+      "kind": 16,
+      "sequence": 40,
+      "flags": 0,
+      "host_time_s": 0.7707667479999145
+    },
+    {
+      "kind": 16,
+      "sequence": 41,
+      "flags": 0,
+      "host_time_s": 0.7909346669994193
+    },
+    {
+      "kind": 16,
+      "sequence": 42,
+      "flags": 0,
+      "host_time_s": 0.8111763809993136
+    },
+    {
+      "kind": 16,
+      "sequence": 43,
+      "flags": 0,
+      "host_time_s": 0.8314397629992527
+    },
+    {
+      "kind": 16,
+      "sequence": 44,
+      "flags": 0,
+      "host_time_s": 0.8514822689994617
+    },
+    {
+      "kind": 16,
+      "sequence": 45,
+      "flags": 0,
+      "host_time_s": 0.8722770159993161
+    },
+    {
+      "kind": 16,
+      "sequence": 46,
+      "flags": 0,
+      "host_time_s": 0.8932857239997247
+    },
+    {
+      "kind": 16,
+      "sequence": 47,
+      "flags": 0,
+      "host_time_s": 0.9136030359995857
+    },
+    {
+      "kind": 16,
+      "sequence": 48,
+      "flags": 0,
+      "host_time_s": 0.9336663779995433
+    },
+    {
+      "kind": 16,
+      "sequence": 49,
+      "flags": 0,
+      "host_time_s": 0.9538367659997675
+    },
+    {
+      "kind": 16,
+      "sequence": 50,
+      "flags": 0,
+      "host_time_s": 0.9741167949996452
+    },
+    {
+      "kind": 16,
+      "sequence": 51,
+      "flags": 0,
+      "host_time_s": 0.9943596299999626
+    },
+    {
+      "kind": 16,
+      "sequence": 52,
+      "flags": 0,
+      "host_time_s": 1.0144303269999
+    },
+    {
+      "kind": 16,
+      "sequence": 53,
+      "flags": 0,
+      "host_time_s": 1.034607165000125
+    },
+    {
+      "kind": 16,
+      "sequence": 54,
+      "flags": 0,
+      "host_time_s": 1.0548463589993844
+    },
+    {
+      "kind": 16,
+      "sequence": 55,
+      "flags": 0,
+      "host_time_s": 1.0750067270000727
+    },
+    {
+      "kind": 16,
+      "sequence": 56,
+      "flags": 0,
+      "host_time_s": 1.095955476999734
+    },
+    {
+      "kind": 16,
+      "sequence": 57,
+      "flags": 0,
+      "host_time_s": 1.1166305050001029
+    },
+    {
+      "kind": 16,
+      "sequence": 58,
+      "flags": 0,
+      "host_time_s": 1.1372953539994342
+    },
+    {
+      "kind": 16,
+      "sequence": 59,
+      "flags": 0,
+      "host_time_s": 1.1582552589998159
+    },
+    {
+      "kind": 16,
+      "sequence": 60,
+      "flags": 0,
+      "host_time_s": 1.1791805889997704
+    },
+    {
+      "kind": 16,
+      "sequence": 61,
+      "flags": 0,
+      "host_time_s": 1.200076572999933
+    },
+    {
+      "kind": 16,
+      "sequence": 62,
+      "flags": 0,
+      "host_time_s": 1.2208229919997393
+    },
+    {
+      "kind": 16,
+      "sequence": 63,
+      "flags": 0,
+      "host_time_s": 1.2415740090000327
+    },
+    {
+      "kind": 16,
+      "sequence": 64,
+      "flags": 0,
+      "host_time_s": 1.2622563300001275
+    },
+    {
+      "kind": 16,
+      "sequence": 65,
+      "flags": 0,
+      "host_time_s": 1.2834451859998808
+    },
+    {
+      "kind": 16,
+      "sequence": 66,
+      "flags": 0,
+      "host_time_s": 1.3035419049992925
+    },
+    {
+      "kind": 16,
+      "sequence": 67,
+      "flags": 0,
+      "host_time_s": 1.323564673999499
+    },
+    {
+      "kind": 16,
+      "sequence": 68,
+      "flags": 0,
+      "host_time_s": 1.343729677999363
+    },
+    {
+      "kind": 16,
+      "sequence": 69,
+      "flags": 0,
+      "host_time_s": 1.363798919999681
+    },
+    {
+      "kind": 16,
+      "sequence": 70,
+      "flags": 0,
+      "host_time_s": 1.3840739479992408
+    },
+    {
+      "kind": 16,
+      "sequence": 71,
+      "flags": 0,
+      "host_time_s": 1.4042368609998448
+    },
+    {
+      "kind": 16,
+      "sequence": 72,
+      "flags": 0,
+      "host_time_s": 1.424322805999509
+    },
+    {
+      "kind": 16,
+      "sequence": 73,
+      "flags": 0,
+      "host_time_s": 1.4454786689993853
+    },
+    {
+      "kind": 16,
+      "sequence": 74,
+      "flags": 0,
+      "host_time_s": 1.4658098410000093
+    },
+    {
+      "kind": 16,
+      "sequence": 75,
+      "flags": 0,
+      "host_time_s": 1.4860429279997334
+    },
+    {
+      "kind": 16,
+      "sequence": 76,
+      "flags": 0,
+      "host_time_s": 1.5063482989999102
+    },
+    {
+      "kind": 16,
+      "sequence": 77,
+      "flags": 0,
+      "host_time_s": 1.5265626469999916
+    },
+    {
+      "kind": 16,
+      "sequence": 78,
+      "flags": 0,
+      "host_time_s": 1.5466037709993543
+    },
+    {
+      "kind": 16,
+      "sequence": 79,
+      "flags": 0,
+      "host_time_s": 1.566876351999781
+    },
+    {
+      "kind": 16,
+      "sequence": 80,
+      "flags": 0,
+      "host_time_s": 1.587087989999418
+    },
+    {
+      "kind": 16,
+      "sequence": 81,
+      "flags": 0,
+      "host_time_s": 1.6071863799998027
+    },
+    {
+      "kind": 16,
+      "sequence": 82,
+      "flags": 0,
+      "host_time_s": 1.6273192700000436
+    },
+    {
+      "kind": 16,
+      "sequence": 83,
+      "flags": 0,
+      "host_time_s": 1.6476354289998199
+    },
+    {
+      "kind": 16,
+      "sequence": 84,
+      "flags": 0,
+      "host_time_s": 1.6678521240000919
+    },
+    {
+      "kind": 16,
+      "sequence": 85,
+      "flags": 0,
+      "host_time_s": 1.6879059269995196
+    },
+    {
+      "kind": 16,
+      "sequence": 86,
+      "flags": 0,
+      "host_time_s": 1.70812804399975
+    },
+    {
+      "kind": 16,
+      "sequence": 87,
+      "flags": 0,
+      "host_time_s": 1.7282355049992475
+    },
+    {
+      "kind": 16,
+      "sequence": 88,
+      "flags": 0,
+      "host_time_s": 1.748420747999262
+    },
+    {
+      "kind": 16,
+      "sequence": 89,
+      "flags": 0,
+      "host_time_s": 1.7694592159996319
+    },
+    {
+      "kind": 16,
+      "sequence": 90,
+      "flags": 0,
+      "host_time_s": 1.7895684279992565
+    },
+    {
+      "kind": 16,
+      "sequence": 91,
+      "flags": 0,
+      "host_time_s": 1.80961973400008
+    },
+    {
+      "kind": 16,
+      "sequence": 92,
+      "flags": 0,
+      "host_time_s": 1.829756813000131
+    },
+    {
+      "kind": 16,
+      "sequence": 93,
+      "flags": 0,
+      "host_time_s": 1.8498169829999824
+    },
+    {
+      "kind": 16,
+      "sequence": 94,
+      "flags": 0,
+      "host_time_s": 1.8698344539998288
+    },
+    {
+      "kind": 16,
+      "sequence": 95,
+      "flags": 0,
+      "host_time_s": 1.8899232509993453
+    },
+    {
+      "kind": 16,
+      "sequence": 96,
+      "flags": 0,
+      "host_time_s": 1.91012909499932
+    },
+    {
+      "kind": 16,
+      "sequence": 97,
+      "flags": 0,
+      "host_time_s": 1.9301938599992354
+    },
+    {
+      "kind": 16,
+      "sequence": 98,
+      "flags": 0,
+      "host_time_s": 1.9502602189995741
+    },
+    {
+      "kind": 16,
+      "sequence": 99,
+      "flags": 0,
+      "host_time_s": 1.970270046999758
+    },
+    {
+      "kind": 16,
+      "sequence": 100,
+      "flags": 0,
+      "host_time_s": 1.9914739209998515
+    },
+    {
+      "kind": 16,
+      "sequence": 101,
+      "flags": 0,
+      "host_time_s": 2.012447118999262
+    },
+    {
+      "kind": 16,
+      "sequence": 102,
+      "flags": 0,
+      "host_time_s": 2.0335186389993396
+    },
+    {
+      "kind": 16,
+      "sequence": 103,
+      "flags": 0,
+      "host_time_s": 2.0544799609997426
+    },
+    {
+      "kind": 16,
+      "sequence": 104,
+      "flags": 0,
+      "host_time_s": 2.07476273499924
+    },
+    {
+      "kind": 16,
+      "sequence": 105,
+      "flags": 0,
+      "host_time_s": 2.0948701019997316
+    },
+    {
+      "kind": 16,
+      "sequence": 106,
+      "flags": 0,
+      "host_time_s": 2.1149084999997285
+    },
+    {
+      "kind": 16,
+      "sequence": 107,
+      "flags": 0,
+      "host_time_s": 2.1349978409998585
+    },
+    {
+      "kind": 16,
+      "sequence": 108,
+      "flags": 0,
+      "host_time_s": 2.1550896250000733
+    },
+    {
+      "kind": 16,
+      "sequence": 109,
+      "flags": 0,
+      "host_time_s": 2.176164528999834
+    },
+    {
+      "kind": 16,
+      "sequence": 110,
+      "flags": 0,
+      "host_time_s": 2.1963058969995473
+    },
+    {
+      "kind": 16,
+      "sequence": 111,
+      "flags": 0,
+      "host_time_s": 2.217264795999654
+    },
+    {
+      "kind": 16,
+      "sequence": 112,
+      "flags": 0,
+      "host_time_s": 2.238321765999899
+    },
+    {
+      "kind": 16,
+      "sequence": 113,
+      "flags": 0,
+      "host_time_s": 2.2592238489996816
+    },
+    {
+      "kind": 16,
+      "sequence": 114,
+      "flags": 0,
+      "host_time_s": 2.279472598999746
+    },
+    {
+      "kind": 16,
+      "sequence": 115,
+      "flags": 0,
+      "host_time_s": 2.29957857699992
+    },
+    {
+      "kind": 16,
+      "sequence": 116,
+      "flags": 0,
+      "host_time_s": 2.319754611999997
+    },
+    {
+      "kind": 16,
+      "sequence": 117,
+      "flags": 0,
+      "host_time_s": 2.3397776550000344
+    },
+    {
+      "kind": 16,
+      "sequence": 118,
+      "flags": 0,
+      "host_time_s": 2.3598871779995534
+    },
+    {
+      "kind": 16,
+      "sequence": 119,
+      "flags": 0,
+      "host_time_s": 2.3800347679998595
+    },
+    {
+      "kind": 16,
+      "sequence": 120,
+      "flags": 0,
+      "host_time_s": 2.4000892289996045
+    },
+    {
+      "kind": 16,
+      "sequence": 121,
+      "flags": 0,
+      "host_time_s": 2.4211362059995736
+    },
+    {
+      "kind": 16,
+      "sequence": 122,
+      "flags": 0,
+      "host_time_s": 2.441470511999796
+    },
+    {
+      "kind": 16,
+      "sequence": 123,
+      "flags": 0,
+      "host_time_s": 2.4616686929994103
+    },
+    {
+      "kind": 16,
+      "sequence": 124,
+      "flags": 0,
+      "host_time_s": 2.4818066339994402
+    },
+    {
+      "kind": 16,
+      "sequence": 125,
+      "flags": 0,
+      "host_time_s": 2.501992552000047
+    },
+    {
+      "kind": 16,
+      "sequence": 126,
+      "flags": 0,
+      "host_time_s": 2.522016916999746
+    },
+    {
+      "kind": 16,
+      "sequence": 127,
+      "flags": 0,
+      "host_time_s": 2.5420946899994306
+    },
+    {
+      "kind": 16,
+      "sequence": 128,
+      "flags": 0,
+      "host_time_s": 2.5622451929993986
+    },
+    {
+      "kind": 16,
+      "sequence": 129,
+      "flags": 0,
+      "host_time_s": 2.5824311449996458
+    },
+    {
+      "kind": 16,
+      "sequence": 130,
+      "flags": 0,
+      "host_time_s": 2.6027783409999756
+    },
+    {
+      "kind": 16,
+      "sequence": 131,
+      "flags": 0,
+      "host_time_s": 2.622905434999666
+    },
+    {
+      "kind": 16,
+      "sequence": 132,
+      "flags": 0,
+      "host_time_s": 2.6430985159995544
+    },
+    {
+      "kind": 16,
+      "sequence": 133,
+      "flags": 0,
+      "host_time_s": 2.6634270149997974
+    },
+    {
+      "kind": 16,
+      "sequence": 134,
+      "flags": 0,
+      "host_time_s": 2.684489186999599
+    },
+    {
+      "kind": 16,
+      "sequence": 135,
+      "flags": 0,
+      "host_time_s": 2.7047611289999622
+    },
+    {
+      "kind": 16,
+      "sequence": 136,
+      "flags": 0,
+      "host_time_s": 2.7249295989995517
+    },
+    {
+      "kind": 16,
+      "sequence": 137,
+      "flags": 0,
+      "host_time_s": 2.745182355999532
+    },
+    {
+      "kind": 16,
+      "sequence": 138,
+      "flags": 0,
+      "host_time_s": 2.765634632000001
+    },
+    {
+      "kind": 16,
+      "sequence": 139,
+      "flags": 0,
+      "host_time_s": 2.7858674129993233
+    },
+    {
+      "kind": 16,
+      "sequence": 140,
+      "flags": 0,
+      "host_time_s": 2.806071578999763
+    },
+    {
+      "kind": 16,
+      "sequence": 141,
+      "flags": 0,
+      "host_time_s": 2.8266291299996738
+    },
+    {
+      "kind": 16,
+      "sequence": 142,
+      "flags": 0,
+      "host_time_s": 2.8466871780001384
+    },
+    {
+      "kind": 16,
+      "sequence": 143,
+      "flags": 0,
+      "host_time_s": 2.866790177999974
+    },
+    {
+      "kind": 16,
+      "sequence": 144,
+      "flags": 0,
+      "host_time_s": 2.8868956409996827
+    },
+    {
+      "kind": 16,
+      "sequence": 145,
+      "flags": 0,
+      "host_time_s": 2.9070375040000727
+    },
+    {
+      "kind": 16,
+      "sequence": 146,
+      "flags": 0,
+      "host_time_s": 2.9274485910000294
+    },
+    {
+      "kind": 16,
+      "sequence": 147,
+      "flags": 0,
+      "host_time_s": 2.9485058159998516
+    },
+    {
+      "kind": 16,
+      "sequence": 148,
+      "flags": 0,
+      "host_time_s": 2.968754778999937
+    },
+    {
+      "kind": 16,
+      "sequence": 149,
+      "flags": 0,
+      "host_time_s": 2.9897568219994355
+    },
+    {
+      "kind": 16,
+      "sequence": 150,
+      "flags": 0,
+      "host_time_s": 3.009861520999948
+    },
+    {
+      "kind": 16,
+      "sequence": 151,
+      "flags": 0,
+      "host_time_s": 3.0299969990001046
+    },
+    {
+      "kind": 16,
+      "sequence": 152,
+      "flags": 0,
+      "host_time_s": 3.050153223000052
+    },
+    {
+      "kind": 16,
+      "sequence": 153,
+      "flags": 0,
+      "host_time_s": 3.0705070719996
+    },
+    {
+      "kind": 16,
+      "sequence": 154,
+      "flags": 0,
+      "host_time_s": 3.090657259999716
+    },
+    {
+      "kind": 16,
+      "sequence": 155,
+      "flags": 0,
+      "host_time_s": 3.1112181359994793
+    },
+    {
+      "kind": 16,
+      "sequence": 156,
+      "flags": 0,
+      "host_time_s": 3.1316522769993753
+    },
+    {
+      "kind": 16,
+      "sequence": 157,
+      "flags": 0,
+      "host_time_s": 3.151886237999861
+    },
+    {
+      "kind": 16,
+      "sequence": 158,
+      "flags": 0,
+      "host_time_s": 3.1720132829996146
+    },
+    {
+      "kind": 16,
+      "sequence": 159,
+      "flags": 0,
+      "host_time_s": 3.1922742619999553
+    },
+    {
+      "kind": 16,
+      "sequence": 160,
+      "flags": 0,
+      "host_time_s": 3.2125275219996183
+    },
+    {
+      "kind": 16,
+      "sequence": 161,
+      "flags": 0,
+      "host_time_s": 3.2328758309995465
+    },
+    {
+      "kind": 16,
+      "sequence": 162,
+      "flags": 0,
+      "host_time_s": 3.2530738010000277
+    },
+    {
+      "kind": 16,
+      "sequence": 163,
+      "flags": 0,
+      "host_time_s": 3.273437326999556
+    },
+    {
+      "kind": 16,
+      "sequence": 164,
+      "flags": 0,
+      "host_time_s": 3.2937670189994606
+    },
+    {
+      "kind": 16,
+      "sequence": 165,
+      "flags": 0,
+      "host_time_s": 3.313964070000111
+    },
+    {
+      "kind": 16,
+      "sequence": 166,
+      "flags": 0,
+      "host_time_s": 3.3340939159998015
+    },
+    {
+      "kind": 16,
+      "sequence": 167,
+      "flags": 0,
+      "host_time_s": 3.3541866569994454
+    },
+    {
+      "kind": 16,
+      "sequence": 168,
+      "flags": 0,
+      "host_time_s": 3.3744250039999315
+    },
+    {
+      "kind": 16,
+      "sequence": 169,
+      "flags": 0,
+      "host_time_s": 3.3947585830001117
+    },
+    {
+      "kind": 16,
+      "sequence": 170,
+      "flags": 0,
+      "host_time_s": 3.4149869449993275
+    },
+    {
+      "kind": 16,
+      "sequence": 171,
+      "flags": 0,
+      "host_time_s": 3.43521760800013
+    },
+    {
+      "kind": 16,
+      "sequence": 172,
+      "flags": 0,
+      "host_time_s": 3.455444028999409
+    },
+    {
+      "kind": 16,
+      "sequence": 173,
+      "flags": 0,
+      "host_time_s": 3.4758475569997245
+    },
+    {
+      "kind": 16,
+      "sequence": 174,
+      "flags": 0,
+      "host_time_s": 3.496135014999709
+    },
+    {
+      "kind": 16,
+      "sequence": 175,
+      "flags": 0,
+      "host_time_s": 3.5164604060000784
+    },
+    {
+      "kind": 16,
+      "sequence": 176,
+      "flags": 0,
+      "host_time_s": 3.536593251999875
+    },
+    {
+      "kind": 16,
+      "sequence": 177,
+      "flags": 0,
+      "host_time_s": 3.556736601999546
+    },
+    {
+      "kind": 16,
+      "sequence": 178,
+      "flags": 0,
+      "host_time_s": 3.5769565390000935
+    },
+    {
+      "kind": 16,
+      "sequence": 179,
+      "flags": 0,
+      "host_time_s": 3.5970420839994404
+    },
+    {
+      "kind": 16,
+      "sequence": 180,
+      "flags": 0,
+      "host_time_s": 3.617151814999488
+    },
+    {
+      "kind": 16,
+      "sequence": 181,
+      "flags": 0,
+      "host_time_s": 3.6381990869995207
+    },
+    {
+      "kind": 16,
+      "sequence": 182,
+      "flags": 0,
+      "host_time_s": 3.6586308589994587
+    },
+    {
+      "kind": 16,
+      "sequence": 183,
+      "flags": 0,
+      "host_time_s": 3.6789396639996994
+    },
+    {
+      "kind": 16,
+      "sequence": 184,
+      "flags": 0,
+      "host_time_s": 3.6991060319996905
+    },
+    {
+      "kind": 16,
+      "sequence": 185,
+      "flags": 0,
+      "host_time_s": 3.7194403959992997
+    },
+    {
+      "kind": 16,
+      "sequence": 186,
+      "flags": 0,
+      "host_time_s": 3.7396313479994205
+    },
+    {
+      "kind": 16,
+      "sequence": 187,
+      "flags": 0,
+      "host_time_s": 3.7598737709995476
+    },
+    {
+      "kind": 16,
+      "sequence": 188,
+      "flags": 0,
+      "host_time_s": 3.780074549999881
+    },
+    {
+      "kind": 16,
+      "sequence": 189,
+      "flags": 0,
+      "host_time_s": 3.800412278999829
+    },
+    {
+      "kind": 16,
+      "sequence": 190,
+      "flags": 0,
+      "host_time_s": 3.8206341079994672
+    },
+    {
+      "kind": 16,
+      "sequence": 191,
+      "flags": 0,
+      "host_time_s": 3.840859851999994
+    },
+    {
+      "kind": 16,
+      "sequence": 192,
+      "flags": 0,
+      "host_time_s": 3.861056785999608
+    },
+    {
+      "kind": 16,
+      "sequence": 193,
+      "flags": 0,
+      "host_time_s": 3.881445046999943
+    },
+    {
+      "kind": 16,
+      "sequence": 194,
+      "flags": 0,
+      "host_time_s": 3.901780287999827
+    },
+    {
+      "kind": 16,
+      "sequence": 195,
+      "flags": 0,
+      "host_time_s": 3.9220081459998255
+    },
+    {
+      "kind": 16,
+      "sequence": 196,
+      "flags": 0,
+      "host_time_s": 3.9430608899992876
+    },
+    {
+      "kind": 16,
+      "sequence": 197,
+      "flags": 0,
+      "host_time_s": 3.9633675229997607
+    },
+    {
+      "kind": 16,
+      "sequence": 198,
+      "flags": 0,
+      "host_time_s": 3.983624819999932
+    },
+    {
+      "kind": 16,
+      "sequence": 199,
+      "flags": 0,
+      "host_time_s": 4.0037820419993295
+    },
+    {
+      "kind": 16,
+      "sequence": 200,
+      "flags": 0,
+      "host_time_s": 4.023985654999706
+    },
+    {
+      "kind": 16,
+      "sequence": 201,
+      "flags": 0,
+      "host_time_s": 4.044089377999626
+    },
+    {
+      "kind": 16,
+      "sequence": 202,
+      "flags": 0,
+      "host_time_s": 4.064339318999373
+    },
+    {
+      "kind": 16,
+      "sequence": 203,
+      "flags": 0,
+      "host_time_s": 4.084622071999547
+    },
+    {
+      "kind": 16,
+      "sequence": 204,
+      "flags": 0,
+      "host_time_s": 4.104923148000125
+    },
+    {
+      "kind": 16,
+      "sequence": 205,
+      "flags": 0,
+      "host_time_s": 4.125100247999399
+    },
+    {
+      "kind": 16,
+      "sequence": 206,
+      "flags": 0,
+      "host_time_s": 4.145352652999463
+    },
+    {
+      "kind": 16,
+      "sequence": 207,
+      "flags": 0,
+      "host_time_s": 4.1656215499997415
+    },
+    {
+      "kind": 16,
+      "sequence": 208,
+      "flags": 0,
+      "host_time_s": 4.185623889999988
+    },
+    {
+      "kind": 16,
+      "sequence": 209,
+      "flags": 0,
+      "host_time_s": 4.205827609999687
+    },
+    {
+      "kind": 16,
+      "sequence": 210,
+      "flags": 0,
+      "host_time_s": 4.225867045000086
+    },
+    {
+      "kind": 16,
+      "sequence": 211,
+      "flags": 0,
+      "host_time_s": 4.245972114999859
+    },
+    {
+      "kind": 16,
+      "sequence": 212,
+      "flags": 0,
+      "host_time_s": 4.266219892999288
+    },
+    {
+      "kind": 16,
+      "sequence": 213,
+      "flags": 0,
+      "host_time_s": 4.286236686999473
+    },
+    {
+      "kind": 16,
+      "sequence": 214,
+      "flags": 0,
+      "host_time_s": 4.306571823999548
+    },
+    {
+      "kind": 16,
+      "sequence": 215,
+      "flags": 0,
+      "host_time_s": 4.3268462369997
+    },
+    {
+      "kind": 16,
+      "sequence": 216,
+      "flags": 0,
+      "host_time_s": 4.346979948999433
+    },
+    {
+      "kind": 16,
+      "sequence": 217,
+      "flags": 0,
+      "host_time_s": 4.367172335999385
+    },
+    {
+      "kind": 16,
+      "sequence": 218,
+      "flags": 0,
+      "host_time_s": 4.3877416380000795
+    },
+    {
+      "kind": 16,
+      "sequence": 219,
+      "flags": 0,
+      "host_time_s": 4.407987662999403
+    },
+    {
+      "kind": 16,
+      "sequence": 220,
+      "flags": 0,
+      "host_time_s": 4.4281270519995815
+    },
+    {
+      "kind": 16,
+      "sequence": 221,
+      "flags": 0,
+      "host_time_s": 4.448446925000098
+    },
+    {
+      "kind": 16,
+      "sequence": 222,
+      "flags": 0,
+      "host_time_s": 4.468735231999744
+    },
+    {
+      "kind": 16,
+      "sequence": 223,
+      "flags": 0,
+      "host_time_s": 4.4887830729994675
+    },
+    {
+      "kind": 16,
+      "sequence": 224,
+      "flags": 0,
+      "host_time_s": 4.5090151309996145
+    },
+    {
+      "kind": 16,
+      "sequence": 225,
+      "flags": 0,
+      "host_time_s": 4.529416534999655
+    },
+    {
+      "kind": 16,
+      "sequence": 226,
+      "flags": 0,
+      "host_time_s": 4.549736668999685
+    },
+    {
+      "kind": 16,
+      "sequence": 227,
+      "flags": 0,
+      "host_time_s": 4.569898754999485
+    },
+    {
+      "kind": 16,
+      "sequence": 228,
+      "flags": 0,
+      "host_time_s": 4.590016121999724
+    },
+    {
+      "kind": 16,
+      "sequence": 229,
+      "flags": 0,
+      "host_time_s": 4.61023723299968
+    },
+    {
+      "kind": 16,
+      "sequence": 230,
+      "flags": 0,
+      "host_time_s": 4.630622521999612
+    },
+    {
+      "kind": 16,
+      "sequence": 231,
+      "flags": 0,
+      "host_time_s": 4.650805416999901
+    },
+    {
+      "kind": 16,
+      "sequence": 232,
+      "flags": 0,
+      "host_time_s": 4.671039746999668
+    },
+    {
+      "kind": 16,
+      "sequence": 233,
+      "flags": 0,
+      "host_time_s": 4.6920477759995265
+    },
+    {
+      "kind": 16,
+      "sequence": 234,
+      "flags": 0,
+      "host_time_s": 4.712120606000099
+    },
+    {
+      "kind": 16,
+      "sequence": 235,
+      "flags": 0,
+      "host_time_s": 4.732240545999957
+    },
+    {
+      "kind": 16,
+      "sequence": 236,
+      "flags": 0,
+      "host_time_s": 4.752634102999764
+    },
+    {
+      "kind": 16,
+      "sequence": 237,
+      "flags": 0,
+      "host_time_s": 4.772915675999684
+    },
+    {
+      "kind": 16,
+      "sequence": 238,
+      "flags": 0,
+      "host_time_s": 4.793184442999518
+    },
+    {
+      "kind": 16,
+      "sequence": 239,
+      "flags": 0,
+      "host_time_s": 4.8135784659998535
+    },
+    {
+      "kind": 16,
+      "sequence": 240,
+      "flags": 0,
+      "host_time_s": 4.833767127000101
+    },
+    {
+      "kind": 16,
+      "sequence": 241,
+      "flags": 0,
+      "host_time_s": 4.853815772999951
+    },
+    {
+      "kind": 16,
+      "sequence": 242,
+      "flags": 0,
+      "host_time_s": 4.873975769000026
+    },
+    {
+      "kind": 16,
+      "sequence": 243,
+      "flags": 0,
+      "host_time_s": 4.894201528999474
+    },
+    {
+      "kind": 16,
+      "sequence": 244,
+      "flags": 0,
+      "host_time_s": 4.914481707999585
+    },
+    {
+      "kind": 16,
+      "sequence": 245,
+      "flags": 0,
+      "host_time_s": 4.93559767699935
+    },
+    {
+      "kind": 16,
+      "sequence": 246,
+      "flags": 0,
+      "host_time_s": 4.95557497199934
+    },
+    {
+      "kind": 16,
+      "sequence": 247,
+      "flags": 0,
+      "host_time_s": 4.975664153999787
+    },
+    {
+      "kind": 16,
+      "sequence": 248,
+      "flags": 0,
+      "host_time_s": 4.995847563999632
+    },
+    {
+      "kind": 16,
+      "sequence": 249,
+      "flags": 0,
+      "host_time_s": 5.000492041999678
+    },
+    {
+      "kind": 16,
+      "sequence": 250,
+      "flags": 0,
+      "host_time_s": 5.00056571299956
+    },
+    {
+      "kind": 16,
+      "sequence": 251,
+      "flags": 0,
+      "host_time_s": 5.000593138000113
+    }
+  ],
+  "motion_attempted": false,
+  "battery_disconnected_confirmed": false,
+  "powered_suspended_stationary_confirmed": false,
+  "battery_powered_motors_disconnected_confirmed": true,
+  "success": false,
+  "error": "insufficient actual four-wheel feedback",
+  "failure_host_time_s": 5.0004376729993965
+}

@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "new_tests": "57 passed in 2.70s",
+  "accepted_xy_tests": "323 passed in 20.46s",
+  "accepted_rotation_tests": "57 passed in 4.13s",
+  "protected_parent_files_unchanged": 1899,
+  "real_ros_software_cases": 6,
+  "native_c_sanitizers": true,
+  "arm_built": true,
+  "firmware": {
+    "path": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_sync_4ws9_2026-10-27/prepared/arm/mecanum_f407_4ws9_staged_NOT_FLASHED.bin",
+    "sha256": "a84896c1b5e875035e7e08809c8e73ed41c3f2a16c66dfabcdc1b54c834ed214",
+    "bytes": 52188,
+    "identity": "4WS9",
+    "authority_version": 5,
+    "diagnostic_payload_bytes": 200,
+    "flashed": false,
+    "physical_qualified": false,
+    "supported_stages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "boot_stage": 0,
+    "bench_limit_ms": 5000
+  },
+  "hardware_connected": false,
+  "flashed": false,
+  "physical_motion": false,
+  "network_changed": false,
+  "old_entries_changed": false,
+  "stopping_electrical_thermal_qualified": false,
+  "next_required": "New-image full backup, authorized STM32 flash/readback, disabled handshake, stage0 suspended first"
+}

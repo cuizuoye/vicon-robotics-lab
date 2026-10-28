@@ -1,0 +1,8 @@
+{
+  "request": "5秒窗口太短了，反应不过来，修改到20秒作用",
+  "max_active_s": 20.0,
+  "stage": 4,
+  "speed_mps": 0.70,
+  "accel_mps2": 0.80,
+  "scope": "Extend only the single held-enable observation duration; retain activation-origin V3, 1:1 mapping, 3x3 arena, 50cm buffer, all spatial bounds and watchdogs; no firmware write or automatic enable"
+}

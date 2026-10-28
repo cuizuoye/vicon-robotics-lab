@@ -1,0 +1,14 @@
+{
+  "request": "接下来把启动流程继续简化，不需要再手动确定车放稳，人工确认空旷，能立刻断电这三个选项，这三个都是默认的，直接自检完成后启动操作台，不需要再点三下",
+  "policy": "USER_STANDING_SITE_PRECONDITIONS_V1",
+  "manual_checkboxes_required": false,
+  "site_conditions_machine_verified": false,
+  "assumed_preconditions": ["car_placed_stably", "intended_paths_and_stopping_clearance_clear", "immediate_manual_power_cut_available"],
+  "automatic_open_after_machine_preflight": true,
+  "automatic_prepare_allowed": true,
+  "automatic_motion_allowed": false,
+  "fresh_space_click_required": true,
+  "max_active_s": 120.0,
+  "firmware_change": false,
+  "motion_and_fault_guards_change": false
+}

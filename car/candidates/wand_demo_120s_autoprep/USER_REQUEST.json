@@ -1,0 +1,16 @@
+{
+  "request": "输入现有指令后检查通过自动打开操作台；自动完成准备；一次空格进入演示，不再点准备。",
+  "user_reports_current_following_meets_goal": true,
+  "software_change_only": true,
+  "automatic_movement_on_launch_authorized": false,
+  "fresh_manual_space_click_required": true,
+  "human_site_confirmations_preserved": true,
+  "speed_mps": 0.7,
+  "accel_mps2": 0.8,
+  "mapping_scale": 1.0,
+  "max_active_s": 120,
+  "feedback_protection_ms": 200,
+  "default_window_size": [1280, 720],
+  "firmware_or_network_change_authorized": false,
+  "authorized_launcher_path": "/home/PRIMARY_USER/vicon_mecanum_ws/tools/start_car_demo_120s_toggle_eventio.sh"
+}

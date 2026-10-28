@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "tests": "146 passed in 5.14s",
+  "max_active_s": 20.0,
+  "goal_area_m": [
+    3.0,
+    3.0
+  ],
+  "mapping_scale": 1.0,
+  "stage": 4,
+  "flashed": false,
+  "hardware_started": false,
+  "continuous_ground_qualified": false,
+  "stopping_distance_qualified": false,
+  "electrical_thermal_qualified": false,
+  "firmware_reused_unchanged": true,
+  "prior_versions_and_original_rectangle_preserved": true,
+  "protected_files_unchanged": 886
+}

@@ -20,6 +20,11 @@ void mc_uart_diagnostics_capture_irq(UART_HandleTypeDef *uart);
 #endif
 
 void mc_uart_transport_init(UART_HandleTypeDef *uart);
+/* Explicitly allow only PE/FE/NE line transients before the application has
+ * validated its first MC-Link frame. Queue/packet/rearm failures and ORE stay
+ * fail-safe. The default remains strict unless this guard is enabled. */
+void mc_uart_transport_enable_startup_line_error_guard(void);
+void mc_uart_transport_confirm_valid_frame(void);
 bool mc_uart_transport_take_frame(
     uint8_t *raw, size_t capacity, size_t *raw_length);
 bool mc_uart_transport_take_fault(void);

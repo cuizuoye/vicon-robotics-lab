@@ -1,0 +1,12 @@
+{
+  "request": "操作台字体太小看不清，字体大小参考Codex中使用的大小",
+  "scope": "presentation-only large typography and layout for launcher and hardware console",
+  "default_window_size": [1280, 720],
+  "body_pixels": 22,
+  "secondary_pixels": 20,
+  "status_and_stop_pixels": 24,
+  "title_pixels": 30,
+  "command_stays": "小车演示",
+  "firmware_network_safety_or_controller_change": false,
+  "automatic_hardware_launch": false
+}

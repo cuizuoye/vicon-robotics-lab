@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "native_c_tests": "67 passed in 1.22s",
+  "reused_ui_tests": "35 passed, 4 deselected in 6.24s",
+  "actual_ros_software_cases": 11,
+  "feedback_protection_ms": 300,
+  "pose_protection_ms": 200,
+  "command_timeout_ms": 100,
+  "operator_lease_ms": 150,
+  "firmware_flashed": false,
+  "motion_started": false,
+  "network_settings_changed": false,
+  "old_entry_unchanged": true,
+  "protected_parent_files_unchanged": 2408,
+  "automatic_recovery_after_active": false,
+  "physical_motion_acceptance_pending": true,
+  "new_entry": "/home/PRIMARY_USER/vicon_mecanum_ws/tools/start_car_tracking_300ms_ready.sh",
+  "startup_used_budget_repair": true
+}

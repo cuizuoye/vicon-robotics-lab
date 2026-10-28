@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""真实无线只读桥 + ROS话题订阅验收；动力必须断开，无运动入口。"""
+"""真实无线只读桥 + ROS话题订阅验收；无使能和非零速度入口。"""
 import argparse
 import json
 from pathlib import Path
@@ -17,18 +17,28 @@ from ros_observation_stats import valid_duration,feedback_gaps_ms
 from readonly_send_timing import TimedSocket,summarize_sends
 
 
-def main():
+def parse_args(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--esp-ip',required=True); p.add_argument('--interface',required=True)
     p.add_argument('--seconds',type=float,default=10); p.add_argument('--output',required=True)
-    p.add_argument('--confirm-battery-disconnected',action='store_true',required=True)
+    confirms=p.add_mutually_exclusive_group(required=True)
+    confirms.add_argument('--confirm-battery-disconnected',action='store_true',
+                          help='battery physically disconnected')
+    confirms.add_argument('--confirm-battery-powered-motors-connected-wheels-suspended',
+                          action='store_true',
+                          help='battery powered, motors connected, chassis secured with all wheels suspended')
     p.add_argument('--record-send-timing',action='store_true')
     p.add_argument('--stop-on-first-fault',action='store_true')
     p.add_argument('--low-latency-qos',action='store_true',
                    help='Bench only: mark this UDP socket EF DSCP and local priority 6; no global network changes')
-    a=p.parse_args()
+    a=p.parse_args(argv)
     if not valid_duration(a.seconds): p.error('--seconds must be 5..120 (observation only)')
     if Path(a.output).exists():p.error('Refuse to overwrite prior evidence')
+    return a
+
+
+def main():
+    a=parse_args()
     # ROS2与UDP都只对本次进程设置参数，不更改系统代理、路由或网卡。
     args=['--ros-args','-p',f'esp_ip:={a.esp_ip}','-p',f'network_interface:={a.interface}',
           '-p','readonly_mode:=true','-p',f'udp_low_latency_qos:={str(a.low_latency_qos).lower()}']
@@ -57,7 +67,12 @@ def main():
             if key=='diagnostics': value=json.loads(value)
             rows[key].append(dict(time_s=time.monotonic()-start,value=value))
         subscriptions.append(observer.create_subscription(kind,topic,callback,10))
-    result=dict(battery_disconnected_confirmed=True,readonly_mode=True,topics=rows,
+    result=dict(battery_disconnected_confirmed=bool(a.confirm_battery_disconnected),
+                battery_powered_motors_connected_wheels_suspended_confirmed=bool(
+                    a.confirm_battery_powered_motors_connected_wheels_suspended),
+                motors_connected=bool(
+                    a.confirm_battery_powered_motors_connected_wheels_suspended),
+                motion_enabled=False,readonly_mode=True,topics=rows,
                 requested_observation_s=a.seconds,wire_command_timeout_ms=150,socket_qos=qos)
     try:
         next_progress=30.0

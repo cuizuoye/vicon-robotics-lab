@@ -3,7 +3,7 @@ import math
 import random
 
 import rclpy
-from geometry_msgs.msg import PoseStamped, Twist
+from geometry_msgs.msg import Pose2D, PoseStamped, Twist
 from rclpy.node import Node
 
 from .math_utils import quaternion_from_yaw, wrap_angle
@@ -24,6 +24,7 @@ class SimulatedViconCar(Node):
         self.declare_parameter('y_gain', 0.88)
         self.declare_parameter('yaw_gain', 0.95)
         self.declare_parameter('position_noise_std_m', 0.0005)
+        self.declare_parameter('disturbance_topic', '/car/sim_disturbance')
 
         self.cmd_topic = str(self.get_parameter('cmd_topic').value)
         self.pose_topic = str(self.get_parameter('pose_topic').value)
@@ -46,6 +47,9 @@ class SimulatedViconCar(Node):
 
         self.pose_pub = self.create_publisher(PoseStamped, self.pose_topic, 10)
         self.create_subscription(Twist, self.cmd_topic, self.on_cmd, 10)
+        self.create_subscription(
+            Pose2D, str(self.get_parameter('disturbance_topic').value),
+            self.on_disturbance, 10)
         self.create_timer(1.0 / self.rate_hz, self.tick)
 
         self.get_logger().info(
@@ -54,6 +58,18 @@ class SimulatedViconCar(Node):
     def on_cmd(self, msg: Twist):
         self.target = msg
         self.last_cmd_ns = self.get_clock().now().nanoseconds
+
+    def on_disturbance(self, msg: Pose2D):
+        """Apply a world-frame pose impulse in simulation only."""
+        if not all(math.isfinite(value) for value in (msg.x, msg.y, msg.theta)):
+            self.get_logger().error('拒绝包含NaN/Inf的仿真扰动')
+            return
+        self.x += msg.x
+        self.y += msg.y
+        self.yaw = wrap_angle(self.yaw + msg.theta)
+        self.get_logger().info(
+            f'已施加仿真扰动: dx={msg.x:.3f}m, dy={msg.y:.3f}m, '
+            f'dyaw={math.degrees(msg.theta):.1f}deg')
 
     def tick(self):
         now = self.get_clock().now()
@@ -107,4 +123,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

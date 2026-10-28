@@ -5,7 +5,12 @@ import rclpy
 from geometry_msgs.msg import PoseStamped, TransformStamped
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
+from rclpy.qos import (
+    DurabilityPolicy,
+    HistoryPolicy,
+    QoSProfile,
+    ReliabilityPolicy,
+)
 from std_msgs.msg import Bool
 from tf2_ros import TransformBroadcaster
 
@@ -39,7 +44,15 @@ def validate_input_pose(msg, world_frame, now_ns, timeout_s):
 
 
 def pose_is_fresh(last_valid_ns, now_ns, timeout_s):
-    return last_valid_ns is not None and 0 <= now_ns - last_valid_ns <= timeout_s * 1e9
+    # Match validate_input_pose(): the receiver stamp can lead this callback's
+    # clock by a few milliseconds, but more than 50 ms is still invalid.
+    return (last_valid_ns is not None
+            and -0.05 * 1e9 <= now_ns - last_valid_ns <= timeout_s * 1e9)
+
+
+def health_publish_due(last_publish_ns, now_ns, period_ns=50_000_000):
+    """Rate-limit repeated healthy samples without delaying a fault."""
+    return last_publish_ns is None or now_ns - last_publish_ns >= period_ns
 
 
 class CarStateBridge(Node):
@@ -79,13 +92,20 @@ class CarStateBridge(Node):
 
         self.last_state = None
         self.last_valid_ns = None
+        self.last_health_publish_ns = None
         self.input_valid = False
         self.pose_pub = self.create_publisher(PoseStamped, self.output_topic, 10)
         self.odom_pub = self.create_publisher(Odometry, self.odom_topic, 10)
         self.valid_pub = self.create_publisher(Bool, '/car/vicon_valid', 10)
         self.tf_broadcaster = TransformBroadcaster(self)
-        # BEST_EFFORT订阅兼容两种发布可靠性；下游仍由本节点可靠发布。
-        self.create_subscription(PoseStamped, self.input_topic, self.on_pose, qos_profile_sensor_data)
+        # Vicon can publish above 300 Hz. Keep only the newest sample so a
+        # briefly busy executor cannot later replay stale poses into control.
+        input_qos = QoSProfile(
+            history=HistoryPolicy.KEEP_LAST,
+            depth=1,
+            reliability=ReliabilityPolicy.BEST_EFFORT,
+            durability=DurabilityPolicy.VOLATILE)
+        self.create_subscription(PoseStamped, self.input_topic, self.on_pose, input_qos)
         self.create_timer(0.05, self.check_timeout)
 
         self.get_logger().info(f'刚体桥接: {self.input_topic} -> {self.output_topic}')
@@ -99,6 +119,7 @@ class CarStateBridge(Node):
         now_ns = self.get_clock().now().nanoseconds
         valid = self.input_valid and pose_is_fresh(self.last_valid_ns, now_ns, self.pose_timeout_s)
         self.valid_pub.publish(Bool(data=valid))
+        self.last_health_publish_ns = now_ns
 
     def on_pose(self, msg: PoseStamped):
         now_ns = self.get_clock().now().nanoseconds
@@ -160,7 +181,14 @@ class CarStateBridge(Node):
 
         self.pose_pub.publish(pose)
         self.odom_pub.publish(odom)
-        self.valid_pub.publish(Bool(data=True))
+        # Do not mirror the 300+ Hz Vicon stream onto this health topic.  The
+        # timer normally publishes at 20 Hz; this rate-limited fallback also
+        # publishes when a continuously-ready subscription temporarily
+        # starves that timer.  Invalid input is still reported immediately by
+        # reject(), and a stopped stream lets the timeout timer run normally.
+        if health_publish_due(self.last_health_publish_ns, now_ns):
+            self.valid_pub.publish(Bool(data=True))
+            self.last_health_publish_ns = now_ns
 
         if self.publish_tf:
             transform = TransformStamped()

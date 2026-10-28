@@ -1,0 +1,21 @@
+{
+  "software_only": true,
+  "same_time_errors": true,
+  "time_alignment_applied": false,
+  "identical_default_plant": true,
+  "results": [
+    {
+      "label": "existing_4ws8_yaw010",
+      "xy_rms_m": 0.0259018346766172,
+      "yaw_rms_deg": 26.02217947299191,
+      "max_command_yaw_radps": 0.1
+    },
+    {
+      "label": "candidate_4ws9_tier6",
+      "xy_rms_m": 0.038791844181725474,
+      "yaw_rms_deg": 4.295888804891353,
+      "max_command_yaw_radps": 1.2659125854675768
+    }
+  ],
+  "yaw_rms_improvement_percent": 83.49143349291707
+}

@@ -21,13 +21,51 @@ from std_msgs.msg import (
 
 from .mc_link_session import McLinkSession, SessionMismatchError
 from .readonly_link_status import decode_readonly_status
-from .motion_link_status import decode_motion_status
+from .motion_link_status import (
+    MOTION_LINEAR_LIMITS,
+    MOTION_TAGS,
+    MOTION_WIRE_TIMEOUTS,
+    decode_motion_status,
+)
 from .udp_socket_qos import configure_low_latency_qos
 from .transport_protocol import (
     MessageType,
     ProtocolError,
     unpack_wheel_telemetry,
 )
+
+FOUR_LINK_EXPIRED = 1 << 16
+FOUR_LINK_ENABLED = 1 << 1
+FOUR_LINK_ZERO = 1 << 3
+FOUR_LINK_TIMED_OUT = 1 << 4
+FOUR_LINK_PERMIT = 1 << 8
+FOUR_LINK_USED = 1 << 9
+
+
+def recoverable_idle_state(fault_bits, state_flags, wheel_rpm,
+                           *, require_timed_out=False):
+    """Recognize a never-armed, output-zero state that is safe to reconnect."""
+    flags = int(state_flags)
+    required = FOUR_LINK_ZERO | FOUR_LINK_TIMED_OUT
+    if not require_timed_out:
+        required = FOUR_LINK_ZERO
+    forbidden = FOUR_LINK_ENABLED | FOUR_LINK_PERMIT | FOUR_LINK_USED
+    return (
+        int(fault_bits) in (0, FOUR_LINK_EXPIRED)
+        and flags & required == required
+        and not flags & forbidden
+        and not any(wheel_rpm)
+    )
+
+
+def recoverable_idle_expiry(telemetry):
+    """Accept only the old image's never-armed, output-zero lease expiry."""
+    return (
+        int(telemetry.fault_bits) == FOUR_LINK_EXPIRED
+        and recoverable_idle_state(
+            telemetry.fault_bits, telemetry.state_flags, telemetry.wheel_rpm,
+            require_timed_out=True)
+    )
 
 
 class CmdVelUdpBridge(Node):
@@ -43,6 +81,7 @@ class CmdVelUdpBridge(Node):
         self.declare_parameter('udp_low_latency_qos', False)
         self.declare_parameter('readonly_mode', False)
         self.declare_parameter('bounded_motion_mode', False)
+        self.declare_parameter('required_motion_tag', '')
         self.declare_parameter('command_port', 46000)
         self.declare_parameter('telemetry_port', 46001)
         self.declare_parameter('send_rate_hz', 50.0)
@@ -54,12 +93,20 @@ class CmdVelUdpBridge(Node):
         self.declare_parameter('max_vx_mps', 0.30)
         self.declare_parameter('max_vy_mps', 0.30)
         self.declare_parameter('max_wz_radps', 0.80)
+        # The installed chassis motor frame is rotated 180 degrees from the
+        # Vicon/ROS body frame: firmware +x/+y drive toward physical rear/right.
+        # Keep REP-103 semantics everywhere above this transport boundary and
+        # rotate translations by pi on the wire; yaw is unchanged by that
+        # frame rotation.  Default false keeps non-car/legacy launches intact.
+        self.declare_parameter('invert_body_xy', False)
 
         self.esp_ip = str(self.get_parameter('esp_ip').value).strip()
         self.network_interface = str(
             self.get_parameter('network_interface').value).strip()
         self.readonly_mode = bool(self.get_parameter('readonly_mode').value)
         self.bounded_motion_mode = bool(self.get_parameter('bounded_motion_mode').value)
+        self.required_motion_tag = str(
+            self.get_parameter('required_motion_tag').value).strip()
         self.udp_low_latency_qos = bool(self.get_parameter('udp_low_latency_qos').value)
         self.socket_qos = dict(enabled=False)
         self.command_port = int(self.get_parameter('command_port').value)
@@ -76,15 +123,26 @@ class CmdVelUdpBridge(Node):
         self.max_vx_mps = float(self.get_parameter('max_vx_mps').value)
         self.max_vy_mps = float(self.get_parameter('max_vy_mps').value)
         self.max_wz_radps = float(self.get_parameter('max_wz_radps').value)
+        self.invert_body_xy = bool(self.get_parameter('invert_body_xy').value)
 
         if self.send_rate_hz <= 0.0:
             raise ValueError('send_rate_hz must be positive')
         if not 20 <= self.wire_timeout_ms <= 2000:
             raise ValueError('wire_timeout_ms must be between 20 and 2000')
-        if self.bounded_motion_mode and (self.readonly_mode or self.wire_timeout_ms != 150
-                or self.send_rate_hz != 50.0 or not 0 < self.max_vx_mps <= .05
-                or not 0 < self.max_vy_mps <= .05 or not 0 < self.max_wz_radps <= .20):
-            raise ValueError('bounded motion requires RW, 50Hz, 150ms and <=0.05m/s,0.2rad/s')
+        if self.required_motion_tag and self.required_motion_tag not in MOTION_TAGS:
+            raise ValueError('required_motion_tag is not a known bounded-motion image')
+        bounded_linear_limit = MOTION_LINEAR_LIMITS.get(self.required_motion_tag, 0.05)
+        expected_wire_timeout = MOTION_WIRE_TIMEOUTS.get(self.required_motion_tag, 150)
+        if self.bounded_motion_mode and (self.readonly_mode
+                or self.wire_timeout_ms != expected_wire_timeout
+                or self.send_rate_hz != 50.0
+                or not 0 < self.max_vx_mps <= bounded_linear_limit
+                or not 0 < self.max_vy_mps <= bounded_linear_limit
+                or not 0 < self.max_wz_radps <= .20):
+            raise ValueError(
+                'bounded motion requires RW, 50Hz, the profile-specific lease '
+                'and limits compatible '
+                'with the exact required_motion_tag')
 
         cmd_topic = str(self.get_parameter('cmd_topic').value)
         enable_topic = str(self.get_parameter('enable_topic').value)
@@ -106,11 +164,16 @@ class CmdVelUdpBridge(Node):
         self.local_stop_latched = False
         self.control_enable_reset_seen = False
         self.last_mcu_fault_bits = None
+        self.last_mcu_state_flags = None
+        self.last_wheel_rpm = None
         self.last_wheel_telemetry_monotonic = None
         self.last_motion_status = None
         self.last_motion_status_monotonic = None
+        self.last_tx_mode = None
         self.enable_prime_started = None
         self.enable_prime_complete = False
+        self.enable_command_complete = False
+        self.motion_gate_requested = False
 
         self.link_pub = self.create_publisher(Bool, '/car/mc_link_connected', 10)
         self.status_pub = self.create_publisher(String, '/car/mc_link_status', 10)
@@ -210,6 +273,7 @@ class CmdVelUdpBridge(Node):
             self.control_enable_reset_seen = False
             self.get_logger().error(f'本机停机锁存: {reason}；重新握手不会恢复运动')
         self.local_stop_latched = True
+        self.motion_gate_requested = False
         self.force_local_disabled()
         if self.pending_control_action == 'enable':
             self.pending_control_action = None
@@ -224,27 +288,38 @@ class CmdVelUdpBridge(Node):
         """
         self.pending_control_action = action
         self.pending_control_repeats = repeats
+        # Host intent is an independent gate.  In particular, a cached
+        # pre-disable status with permitted=1 must never re-enable CMD_VEL
+        # after CONTROL_DISABLE has already reached the MCU.
+        self.motion_gate_requested = action == 'enable'
         self.enable_prime_started = None
         self.enable_prime_complete = False
+        self.enable_command_complete = False
         self.last_motion_status = None
         self.last_motion_status_monotonic = None
+        self.last_tx_mode = None
         if self.sock is None:
             self.get_logger().warn(f'{action}已在ROS侧锁定，但esp_ip为空')
             return
 
-        # ESP32 deliberately locks a session after its UDP watchdog expires,
-        # while UART telemetry may still arrive. Start a fresh session so a
-        # safety command cannot be rejected by that hidden locked state.
-        self.session.connected = False
-        self.last_receive_monotonic = None
-        self.last_command_progress_monotonic = None
-        self.last_telemetry_command_sequence = None
-        self.last_hello_monotonic = -math.inf
-        try:
-            self.send_hello_if_due()
-        except OSError as error:
-            self.get_logger().error(f'{action}重握手发送失败: {error}')
-            self.latch_local_stop('控制请求重握手发送失败')
+        # A stop must use the current live session.  Starting a new HELLO while
+        # the STM32 still owns a permit is intentionally rejected and latches
+        # FOUR_LINK_REJECTED, so re-handshaking before CONTROL_DISABLE/ESTOP
+        # turns an otherwise normal stop into a fault.  Enabling still starts a
+        # fresh session, and any action requested while disconnected must also
+        # establish one because the ESP32 may have locked an expired session.
+        needs_fresh_session = action in ('enable', 'clear_faults') or not self.session.connected
+        if needs_fresh_session:
+            self.session.connected = False
+            self.last_receive_monotonic = None
+            self.last_command_progress_monotonic = None
+            self.last_telemetry_command_sequence = None
+            self.last_hello_monotonic = -math.inf
+            try:
+                self.send_hello_if_due()
+            except OSError as error:
+                self.get_logger().error(f'{action}重握手发送失败: {error}')
+                self.latch_local_stop('控制请求重握手发送失败')
 
     def send_pending_control_action(self) -> bool:
         if self.pending_control_action is None or self.pending_control_repeats <= 0:
@@ -257,24 +332,27 @@ class CmdVelUdpBridge(Node):
             self.pending_control_action = None
             self.pending_control_repeats = 0
             return True
-        if action == 'enable' and self.bounded_motion_mode and not self.enable_prime_complete:
+        if (action in ('enable', 'clear_faults') and self.bounded_motion_mode
+                and not self.enable_prime_complete):
             now = time.monotonic()
             if self.enable_prime_started is None:
                 self.enable_prime_started = now
             if now - self.enable_prime_started > 2.0:
-                self.latch_local_stop('使能前零速基线或4WM1静止反馈超时')
+                self.latch_local_stop('使能前零速基线或受限运动固件静止反馈超时')
                 return True
             status = self.last_motion_status
             fresh = (self.last_motion_status_monotonic is not None and
                      now - self.last_motion_status_monotonic <= .30)
-            settled = (status is not None and status['tag'] == '4WM1' and
+            settled = (status is not None and status['tag'] in MOTION_TAGS and
                        status['stationary_ms'] >= 500 and not status['permitted'] and
                        not any(status['compares'] + status['raw_duty'] + status['target_cps']))
             if (now - self.enable_prime_started < .60 or not fresh or not settled
                     or self.last_mcu_fault_bits != 0):
                 # New HELLO resets zero_seen. Establish a fresh disabled-zero
                 # lease before CONTROL_ENABLE, without accepting old velocity.
-                frame = self.session.cmd_vel(0., 0., 0., 150, False, self.monotonic_ms())
+                frame = self.session.cmd_vel(
+                    0., 0., 0., self.wire_timeout_ms, False,
+                    self.monotonic_ms())
                 self.send_immediate(frame, 'ZERO_BASELINE')
                 return True
             self.enable_prime_complete = True
@@ -294,6 +372,8 @@ class CmdVelUdpBridge(Node):
         if self.send_immediate(frame, label):
             self.pending_control_repeats -= 1
             if self.pending_control_repeats == 0:
+                if action == 'enable':
+                    self.enable_command_complete = True
                 self.pending_control_action = None
         return True
 
@@ -338,8 +418,15 @@ class CmdVelUdpBridge(Node):
         if not msg.data:
             return
         self.force_local_disabled()
-        self.queue_control_action('clear_faults')
-        self.get_logger().info('正在失能状态连续请求清除可恢复锁存故障')
+        # Unlike disable/ESTOP, this is a state transition rather than an
+        # idempotent safety command.  Send it exactly once, then let the guard
+        # confirm started_ms==0 from fresh MCU status.  Loss therefore times
+        # out safely; blind UDP repetition can turn a successful rearm into a
+        # second, invalid transaction and latch FOUR_LINK_REJECTED.
+        self.queue_control_action('clear_faults', repeats=1)
+        self.get_logger().info(
+            '正在失能零输出和实测静止状态请求安全重新布防；'
+            '真实故障不可由此命令清除')
 
     def cmd_is_fresh(self) -> bool:
         if self.last_cmd_ns is None:
@@ -376,9 +463,20 @@ class CmdVelUdpBridge(Node):
                     self.get_logger().warn(f'丢弃无效轮速遥测: {error}')
                     continue
                 self.last_mcu_fault_bits = telemetry.fault_bits
+                self.last_mcu_state_flags = telemetry.state_flags
+                self.last_wheel_rpm = tuple(telemetry.wheel_rpm)
                 self.last_wheel_telemetry_monotonic = time.monotonic()
                 if telemetry.fault_bits:
-                    self.latch_local_stop(f'STM32故障位={telemetry.fault_bits:#x}')
+                    if self.bounded_motion_mode and recoverable_idle_expiry(telemetry):
+                        self.get_logger().warn(
+                            'STM32未使能零输出会话空闲过期；自动建立新会话，不锁存停机')
+                        self.session.connected = False
+                        self.last_receive_monotonic = None
+                        self.last_command_progress_monotonic = None
+                        self.last_telemetry_command_sequence = None
+                        self.last_hello_monotonic = -math.inf
+                    else:
+                        self.latch_local_stop(f'STM32故障位={telemetry.fault_bits:#x}')
                 self.wheel_rpm_pub.publish(Float32MultiArray(
                     data=list(telemetry.wheel_rpm)))
                 self.encoder_pub.publish(Int32MultiArray(
@@ -403,12 +501,17 @@ class CmdVelUdpBridge(Node):
                     self.get_logger().error(f'只读诊断未通过: {error}')
             elif frame.message_type == MessageType.LINK_STATUS and self.bounded_motion_mode:
                 try:
-                    self.last_motion_status = decode_motion_status(frame.payload)
+                    status = decode_motion_status(frame.payload)
+                    if (self.required_motion_tag
+                            and status['tag'] != self.required_motion_tag):
+                        raise ProtocolError(
+                            f"expected {self.required_motion_tag}, got {status['tag']}")
+                    self.last_motion_status = status
                     self.last_motion_status_monotonic = time.monotonic()
                     self.diagnostics_pub.publish(String(data=json.dumps(self.last_motion_status)))
                 except ProtocolError as error:
                     self.latch_local_stop('受限运动固件身份或诊断不匹配')
-                    self.get_logger().error(f'4WM1诊断未通过: {error}')
+                    self.get_logger().error(f'受限运动固件诊断未通过: {error}')
 
     def send_hello_if_due(self):
         now = time.monotonic()
@@ -421,17 +524,93 @@ class CmdVelUdpBridge(Node):
         self.sock.sendto(frame, self.destination)
 
     def send_command(self):
-        enabled = (not self.readonly_mode and not self.local_stop_latched
-                   and self.safety_enabled and self.cmd_is_fresh())
-        if enabled:
+        # 4WM1 treats an unflagged zero command as an explicit gate revoke.
+        # Once its fresh diagnostic confirms CONTROL_ENABLE, preserve that gate
+        # with flagged zero commands while the independent ROS safety gate is
+        # still closed.  Only motion_enabled is allowed to carry nonzero data.
+        permit_fresh = (
+            self.bounded_motion_mode
+            and not self.readonly_mode
+            and not self.local_stop_latched
+            and self.motion_gate_requested
+            and self.last_motion_status is not None
+            and bool(self.last_motion_status.get('permitted'))
+            and self.last_motion_status_monotonic is not None
+            and time.monotonic() - self.last_motion_status_monotonic <= .30
+        )
+        safety_motion_requested = (
+            not self.readonly_mode and not self.local_stop_latched
+            and self.safety_enabled and self.cmd_is_fresh()
+        )
+        # In bounded mode, even a zero CMD_VEL carrying ENABLED before the MCU
+        # permit is confirmed is a protocol violation.  A ROS Bool can never
+        # bypass or race that independent hardware gate.
+        motion_enabled = (
+            safety_motion_requested and permit_fresh
+            if self.bounded_motion_mode else safety_motion_requested
+        )
+        # After all repeated CONTROL_ENABLE frames have been handed to the
+        # transport, a flagged *zero* may safely renew the fixed MCU lease
+        # while the slower status report catches up.  Nonzero data still
+        # requires an independently confirmed fresh permit below.  If every
+        # enable frame was lost/reordered, the MCU rejects this zero and stays
+        # stopped; it can never cause actuator output by itself.
+        awaiting_permit_zero = (
+            self.bounded_motion_mode and self.motion_gate_requested
+            and self.enable_command_complete and not permit_fresh
+            and not self.local_stop_latched
+        )
+        wire_enabled = (
+            permit_fresh or awaiting_permit_zero
+            if self.bounded_motion_mode else motion_enabled
+        )
+        # CONTROL_ENABLE does not renew the velocity lease, while an unflagged
+        # zero explicitly revokes a newly granted permit.  The STM32 status is
+        # published from a cached 100 Hz snapshot at a lower rate, so sending a
+        # disabled zero while waiting for the first permit report creates this
+        # unsafe ordering:
+        #
+        #   CONTROL_ENABLE -> permit granted -> disabled zero revokes permit
+        #                  -> delayed permitted status -> enabled zero rejected
+        #
+        # Once the bounded enable primer has completed, leave the wire quiet
+        # until a fresh permit is observed.  The independent STM32 lease
+        # still fails closed if confirmation never arrives.
+        if (self.bounded_motion_mode and self.enable_prime_complete
+                and not self.enable_command_complete and not permit_fresh
+                and self.motion_gate_requested and not self.local_stop_latched):
+            tx_mode = 'WAIT_PERMIT'
+            if tx_mode != self.last_tx_mode:
+                self.last_tx_mode = tx_mode
+                self.get_logger().info(
+                    '受限运动发送模式: WAIT_PERMIT '
+                    '(不发送会撤销许可的未使能零速帧)')
+            return
+        if motion_enabled:
             vx = self.clamp_finite(self.latest_cmd.linear.x, self.max_vx_mps)
             vy = self.clamp_finite(self.latest_cmd.linear.y, self.max_vy_mps)
             wz = self.clamp_finite(self.latest_cmd.angular.z, self.max_wz_radps)
+            if self.invert_body_xy:
+                vx = -vx
+                vy = -vy
         else:
             vx = vy = wz = 0.0
         frame = self.session.cmd_vel(
-            vx, vy, wz, self.wire_timeout_ms, enabled, self.monotonic_ms())
+            vx, vy, wz, self.wire_timeout_ms, wire_enabled, self.monotonic_ms())
         self.sock.sendto(frame, self.destination)
+        tx_mode = ('MOTION' if motion_enabled else
+                   'PERMIT_ZERO' if wire_enabled else 'DISABLED_ZERO')
+        if awaiting_permit_zero:
+            tx_mode = 'PENDING_PERMIT_ZERO'
+        if tx_mode != self.last_tx_mode:
+            self.last_tx_mode = tx_mode
+            self.get_logger().info(
+                f'受限运动发送模式: {tx_mode} '
+                f'(permit_fresh={permit_fresh}, safety={self.safety_enabled}, '
+                f'cmd_fresh={self.cmd_is_fresh()}, seq={self.session.sequence}, '
+                f'flags_enabled={wire_enabled}, '
+                f'wire_milli=({int(round(vx * 1000))},'
+                f'{int(round(vy * 1000))},{int(round(wz * 1000))}))')
 
     def publish_link_state(self):
         connected = self.sock is not None and self.session.connected
@@ -456,12 +635,27 @@ class CmdVelUdpBridge(Node):
             self.publish_link_state()
             return
         self.drain_receive()
+        safe_idle = (
+            self.bounded_motion_mode
+            and not self.motion_gate_requested
+            and not self.safety_enabled
+            and self.pending_control_action != 'enable'
+            and self.last_mcu_fault_bits is not None
+            and self.last_mcu_state_flags is not None
+            and self.last_wheel_rpm is not None
+            and recoverable_idle_state(
+                self.last_mcu_fault_bits, self.last_mcu_state_flags,
+                self.last_wheel_rpm))
         if (self.session.connected
                 and self.last_receive_monotonic is not None
                 and time.monotonic() - self.last_receive_monotonic
                 > self.link_receive_timeout_s):
-            self.get_logger().error('MC-Link遥测超时，停止旧会话并重新握手')
-            self.latch_local_stop('遥测超时')
+            if safe_idle:
+                self.get_logger().warn(
+                    '未使能零输出期间MC-Link遥测超时；重新握手，不锁存停机')
+            else:
+                self.get_logger().error('MC-Link遥测超时，停止旧会话并重新握手')
+                self.latch_local_stop('遥测超时')
             self.session.connected = False
             self.last_receive_monotonic = None
             self.last_command_progress_monotonic = None
@@ -471,9 +665,18 @@ class CmdVelUdpBridge(Node):
                 and self.last_command_progress_monotonic is not None
                 and time.monotonic() - self.last_command_progress_monotonic
                 > self.command_progress_timeout_s):
-            self.get_logger().error(
-                'STM32最后命令序号停止推进，ESP会话可能已超时锁定；重新握手')
-            self.latch_local_stop('STM32命令序号停止推进')
+            safe_idle_expired = (
+                safe_idle
+                and recoverable_idle_state(
+                    self.last_mcu_fault_bits, self.last_mcu_state_flags,
+                    self.last_wheel_rpm, require_timed_out=True))
+            if safe_idle_expired:
+                self.get_logger().warn(
+                    '未使能零输出会话命令租约已结束；重新握手，不锁存停机')
+            else:
+                self.get_logger().error(
+                    'STM32最后命令序号停止推进，ESP会话可能已超时锁定；重新握手')
+                self.latch_local_stop('STM32命令序号停止推进')
             self.session.connected = False
             self.last_receive_monotonic = None
             self.last_command_progress_monotonic = None

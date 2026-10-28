@@ -1,0 +1,11 @@
+{
+  "request": "那先修改，保证演示能够正常进行",
+  "scope": "repair original hardware follow demo host startup timing with independent candidate and a new single-command entry",
+  "physical_motion_authorized_by_this_change": false,
+  "firmware_change": false,
+  "network_change": false,
+  "original_rectangle_and_simulation_sources_change": false,
+  "fault_masks_or_timeout_relaxation": false,
+  "old_entry_bytes_preserved": true,
+  "new_short_command": "小车演示"
+}

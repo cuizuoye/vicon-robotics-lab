@@ -16,6 +16,12 @@ typedef struct {
     bool calibration_confirmed;
     float kp_permille_per_cps;
     float ki_permille_per_count;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    /* Ground-v7-only kS+kV model; legacy image ABI remains unchanged. */
+    float ff_static_permille;
+    float ff_velocity_permille_per_cps;
+    float low_speed_trust_cps;
+#endif
 } four_speed_wheel_config_t;
 
 typedef struct {
@@ -29,6 +35,15 @@ typedef struct {
     uint32_t max_sample_gap_ms;
     uint32_t command_timeout_ms;
     uint32_t run_limit_ms;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    /* A low target never causes a stall.  Launch is bounded separately from
+     * normal tracking so a cancellation term cannot receive breakaway duty. */
+    float stall_target_floor_cps;
+    int16_t stall_duty_floor_permille;
+    int16_t launch_duty_permille;
+    float launch_slew_permille_per_s;
+    uint32_t launch_timeout_ms;
+#endif
 } four_speed_config_t;
 
 typedef struct {
@@ -65,7 +80,9 @@ typedef struct {
     uint32_t last_command_ms;
     uint32_t started_ms;
     uint32_t last_progress_ms;
+    uint32_t launch_started_ms;
     bool progress_seen;
+    bool launch_active;
     bool enabled;
     uint8_t selected;
     int8_t run_direction;

@@ -98,7 +98,13 @@ class Transport:
 def run(args, *, capture=None, started=None):
     transport = None
     record = dict(mode='serial' if args.serial else 'udp', baud=921600,
-                  motion_enabled=False, battery_disconnected_confirmed=True, phases=[], sent=[])
+                  motion_enabled=False,
+                  battery_disconnected_confirmed=bool(args.confirm_battery_disconnected),
+                  battery_powered_motors_connected_wheels_suspended_confirmed=bool(
+                      args.confirm_battery_powered_motors_connected_wheels_suspended),
+                  motors_connected=bool(
+                      args.confirm_battery_powered_motors_connected_wheels_suspended),
+                  phases=[], sent=[])
     started = time.monotonic() if started is None else started
     sid = secrets.randbits(32) or 1
     seq = 0
@@ -204,7 +210,7 @@ def run(args, *, capture=None, started=None):
             Path(args.output).write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\n')
 
 
-def main():
+def parse_args(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     m = p.add_mutually_exclusive_group(required=True)
     m.add_argument('--serial'); m.add_argument('--esp-ip')
@@ -212,12 +218,22 @@ def main():
     p.add_argument('--seconds', type=float, default=5.0)
     p.add_argument('--check-timeout', action='store_true'); p.add_argument('--output')
     p.add_argument('--esp-log-serial', help='Optional COM log capture at 115200; reads only, DTR/RTS false')
-    p.add_argument('--confirm-battery-disconnected', action='store_true', required=True)
-    args = p.parse_args()
+    confirms = p.add_mutually_exclusive_group(required=True)
+    confirms.add_argument('--confirm-battery-disconnected', action='store_true',
+                          help='battery physically disconnected')
+    confirms.add_argument('--confirm-battery-powered-motors-connected-wheels-suspended',
+                          action='store_true',
+                          help='battery powered, all motors connected, chassis secured with all wheels suspended')
+    args = p.parse_args(argv)
     if not 2 <= args.seconds <= 30:
         p.error('--seconds must be 2..30')
     if args.serial and args.esp_log_serial:
         p.error('--esp-log-serial requires UDP mode')
+    return args
+
+
+def main():
+    args = parse_args()
     run(args)
 
 

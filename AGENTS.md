@@ -22,8 +22,11 @@ a live hardware permission or a full copy of the primary PC.
 - These commands must not open serial/USB devices, flash/reset boards, publish
   into the live lab ROS domain, modify parameters, or enable motor output.
 - A passing test, successful build or a received ACK is not physical execution proof.
-- Do not weaken the car's 150ms MCU lease or 750ms ESP32 timeout, remove fault
-  latches, automatically re-enable after reconnection, or relax drone safety gates.
+- Timing is versioned: the Oct15 legacy car has a 150ms MCU lease; the later
+  explicitly reviewed 4WS8/4WSA profiles have a 600ms wire watchdog and the native
+  host has a 300ms feedback guard. Do not mix their identities or weaken the
+  selected profile's guards. Retain ESP32 session protection, fault latches,
+  no automatic re-enable after reconnection, and all drone safety gates.
 - Drone props are treated as INSTALLED. No automatic arming, flight, actuator test,
   lockdown clearing, fusion injection or restoration of old permits is allowed.
 - All migrated device IDs are synthetic; provision private identities locally

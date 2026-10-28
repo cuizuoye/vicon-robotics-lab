@@ -11,6 +11,23 @@ static int32_t delta_i32(int32_t current, int32_t previous)
     return d <= INT32_MAX ? (int32_t)d : (int32_t)((int64_t)d - INT64_C(4294967296));
 }
 
+#ifdef FOUR_LINK_MOTION
+void four_drive_normalize_plan(mecanum_drive_plan_t *plan)
+{
+    if (plan == NULL) return;
+#if defined(FOUR_LINK_GROUND6) || defined(FOUR_LINK_GROUND7) || \
+    defined(FOUR_LINK_GROUND8) || defined(FOUR_LINK_GROUND9) || \
+    defined(FOUR_LINK_GROUNDA) || defined(FOUR_LINK_GROUNDB)
+    for (unsigned i = 0; i < 4; ++i) {
+        if (fabsf(plan->forward_cps[i]) < FOUR_DRIVE_MIN_TRACKABLE_CPS) {
+            plan->forward_cps[i] = 0.0f;
+            plan->wheel_m_s[i] = 0.0f;
+        }
+    }
+#endif
+}
+#endif
+
 void four_drive_stop(four_drive_group_t *g, uint32_t fault, uint32_t now)
 {
     if (g == NULL) return;
@@ -36,7 +53,8 @@ bool four_drive_init(four_drive_group_t *g, const mecanum_drive_geometry_t *geom
     memset(g, 0, sizeof(*g));
     g->sampled_ms = g->stopped_ms = now;
     const mecanum_body_velocity_t zero = {0};
-    if (counts == NULL || !mecanum_drive_plan(geometry, c, &zero, 0.05f, &g->plan)) {
+    if (counts == NULL || !mecanum_drive_plan(
+            geometry, c, &zero, FOUR_DRIVE_MAX_WHEEL_M_S, &g->plan)) {
         four_drive_stop(g, FOUR_SPEED_FAULT_CONFIG, now);
         return false;
     }
@@ -44,14 +62,14 @@ bool four_drive_init(four_drive_group_t *g, const mecanum_drive_geometry_t *geom
 #ifdef DRIVE_STARTUP_OBSERVE
     /* 独立矩形按段限30秒；旧观察/无线目标仍严格10秒。 */
 #ifdef FOUR_LINK_MOTION
-    const uint32_t expected_run_limit = 120000U;
+    const uint32_t expected_run_limit = FOUR_DRIVE_RUN_LIMIT_MS;
 #elif defined(AUTONOMOUS_RECTANGLE)
     const uint32_t expected_run_limit = 30000U;
 #else
     const uint32_t expected_run_limit = 10000U;
 #endif
     if (c->run_limit_ms != expected_run_limit || c->ramp_cps_per_s != 800.0f ||
-        c->duty_limit_permille != 100) {
+        c->duty_limit_permille != FOUR_SPEED_DUTY_LIMIT_PERMILLE) {
         four_drive_stop(g, FOUR_SPEED_FAULT_CONFIG, now);
         return false;
     }
@@ -118,11 +136,16 @@ bool four_drive_arm(four_drive_group_t *g, const mecanum_body_velocity_t *reques
     if (planned == NULL) return false;
     const mecanum_drive_plan_t plan = *planned;
 #else
-    if (request == NULL || fabsf(request->vx_m_s) > 0.05f ||
-        fabsf(request->vy_m_s) > 0.05f || fabsf(request->wz_rad_s) > 0.2f) return false;
+    if (request == NULL || fabsf(request->vx_m_s) > FOUR_DRIVE_MAX_LINEAR_M_S ||
+        fabsf(request->vy_m_s) > FOUR_DRIVE_MAX_LINEAR_M_S ||
+        fabsf(request->wz_rad_s) > FOUR_DRIVE_MAX_YAW_RAD_S) return false;
     mecanum_drive_plan_t plan;
-    if (!mecanum_drive_plan(&g->geometry, &g->loop[0].config, request, 0.05f, &plan))
+    if (!mecanum_drive_plan(&g->geometry, &g->loop[0].config, request,
+                            FOUR_DRIVE_MAX_WHEEL_M_S, &plan))
         return false;
+#ifdef FOUR_LINK_MOTION
+    four_drive_normalize_plan(&plan);
+#endif
 #endif
     bool nonzero = false;
     for (unsigned i = 0; i < 4; ++i) {
@@ -161,6 +184,9 @@ bool four_drive_arm(four_drive_group_t *g, const mecanum_body_velocity_t *reques
 bool four_drive_retarget(four_drive_group_t *g, const mecanum_drive_plan_t *p, uint32_t now)
 {
     if (!g || !p || !g->enabled || g->fault || !deadline_ok(g, now)) return false;
+    mecanum_drive_plan_t normalized = *p;
+    four_drive_normalize_plan(&normalized);
+    p = &normalized;
     /* Validate all wheels before changing any loop. No partial target commit. */
     for (unsigned i = 0; i < 4; ++i) {
         const float target = p->forward_cps[i];
@@ -189,6 +215,28 @@ bool four_drive_retarget(four_drive_group_t *g, const mecanum_drive_plan_t *p, u
     g->heartbeat_seen = true;
     return true;
 }
+
+#if defined(FOUR_LINK_GROUND9) || defined(FOUR_LINK_GROUNDA) || \
+    defined(FOUR_LINK_GROUNDB)
+bool four_drive_rearm(four_drive_group_t *g, uint32_t now)
+{
+    if (g == NULL || g->enabled || g->fault != 0U ||
+        g->stationary_ms < 500U || now - g->stopped_ms < 500U ||
+        now - g->sampled_ms > 30U)
+        return false;
+    for (unsigned i = 0; i < 4; ++i) {
+        const four_speed_controller_t *loop = &g->loop[i];
+        const four_speed_wheel_state_t *s = &loop->wheel[i];
+        if (loop->enabled || loop->fault != 0U || s->requested_cps != 0.0f ||
+            s->ramped_cps != 0.0f || s->integral_permille != 0.0f ||
+            s->raw_duty_permille != 0 || g->raw_duty[i] != 0)
+            return false;
+    }
+    g->run_used = false;
+    g->heartbeat_seen = false;
+    return true;
+}
+#endif
 #endif
 
 #ifdef RR_DIAGNOSTIC
@@ -248,10 +296,26 @@ bool four_drive_compares(const four_drive_group_t *g, uint32_t out[8])
                    s->ramped_cps != 0.0f || s->integral_permille != 0.0f ||
                    s->raw_duty_permille != 0) return false;
 #ifdef DRIVE_STARTUP_OBSERVE
-        if ((g->startup_mask & (1U << i)) &&
-            (target == 0.0f || g->startup_counts[i] >= 8U ||
-             (duty != 80 && duty != -80) || s->integral_permille != 0.0f))
+#if defined(FOUR_LINK_GROUND7) || defined(FOUR_LINK_GROUND8) || \
+    defined(FOUR_LINK_GROUND9) || defined(FOUR_LINK_GROUNDA) || \
+    defined(FOUR_LINK_GROUNDB)
+        const bool launch_bit = (g->startup_mask & (1U << i)) != 0U;
+        const bool armed_before_first_sample = loop->launch_active && !launch_bit &&
+            duty == 0 && s->ramped_cps == 0.0f;
+        if ((launch_bit != loop->launch_active && !armed_before_first_sample) ||
+            (launch_bit && (target == 0.0f ||
+             duty > FOUR_DRIVE_STARTUP_DUTY_PERMILLE ||
+             duty < -FOUR_DRIVE_STARTUP_DUTY_PERMILLE ||
+             s->integral_permille != 0.0f)))
             return false;
+#else
+        if ((g->startup_mask & (1U << i)) &&
+            (target == 0.0f || g->startup_counts[i] >= FOUR_DRIVE_STARTUP_COUNTS ||
+             (duty != FOUR_DRIVE_STARTUP_DUTY_PERMILLE &&
+              duty != -FOUR_DRIVE_STARTUP_DUTY_PERMILLE) ||
+             s->integral_permille != 0.0f))
+            return false;
+#endif
 #endif
     }
     memcpy(out, values, sizeof(values));
@@ -300,23 +364,68 @@ bool four_drive_tick(four_drive_group_t *g, const int32_t raw[4], uint32_t now)
                 return false;
             }
 #ifdef DRIVE_STARTUP_OBSERVE
+#if defined(FOUR_LINK_GROUND7) || defined(FOUR_LINK_GROUND8) || \
+    defined(FOUR_LINK_GROUND9) || defined(FOUR_LINK_GROUNDA) || \
+    defined(FOUR_LINK_GROUNDB)
+            /* Launch is owned by the wheel controller: bounded duty slew,
+             * immediate release on encoder progress, and no launch for small
+             * mecanum cancellation targets.  The mask remains diagnostic. */
+            if (loop->launch_active) {
+                g->startup_done_mask &= (uint8_t)~(1U << i);
+                g->startup_mask |= (uint8_t)(1U << i);
+            } else g->startup_done_mask |= (uint8_t)(1U << i);
+#else
             /* 反馈/方向/失速检查先执行，再做一次有界起动补偿；不能救活过期动作。 */
             four_speed_wheel_state_t *s = &loop->wheel[i];
             const int32_t delta = delta_i32(raw[i], g->counts[i]);
             const uint32_t magnitude = delta < 0 ? (uint32_t)(-(int64_t)delta) : (uint32_t)delta;
-            if (magnitude >= 8U - g->startup_counts[i]) g->startup_counts[i] = 8U;
+            if (magnitude >= FOUR_DRIVE_STARTUP_COUNTS - g->startup_counts[i])
+                g->startup_counts[i] = FOUR_DRIVE_STARTUP_COUNTS;
             else g->startup_counts[i] += magnitude;
             const float target = g->plan.forward_cps[i];
             const int direction = (target > 0.0f) - (target < 0.0f);
-            if (direction == 0 || now - g->started_ms >= 200U ||
-                g->startup_counts[i] >= 8U || s->filtered_cps * (float)direction >= fabsf(target))
+            const bool was_starting = !(g->startup_done_mask & (1U << i));
+            /* In 4WG5 the ROS outer loop streams a ramp beginning near zero.
+             * A single 30% breakaway pulse can exceed that transient target,
+             * but that is not proof that the loaded wheel can sustain motion.
+             * Only the per-wheel count budget or the unchanged 500 ms cap may
+             * end startup assist; neither raises its 30% output envelope. */
+#if defined(FOUR_LINK_GROUND5) || defined(FOUR_LINK_GROUND6)
+            const bool reached_speed = false;
+#else
+            const bool reached_speed = direction != 0 &&
+                s->filtered_cps * (float)direction >= fabsf(target);
+#endif
+            const bool forced_handoff = direction != 0 && !reached_speed &&
+                (now - g->started_ms >= FOUR_DRIVE_STARTUP_MS ||
+                 g->startup_counts[i] >= FOUR_DRIVE_STARTUP_COUNTS);
+            if (direction == 0 || forced_handoff || reached_speed)
                 g->startup_done_mask |= (uint8_t)(1U << i);
             if (!(g->startup_done_mask & (1U << i)) &&
-                s->raw_duty_permille > -80 && s->raw_duty_permille < 80) {
-                s->raw_duty_permille = (int16_t)(80 * direction * loop->config.wheel[i].motor_sign);
+                s->raw_duty_permille > -FOUR_DRIVE_STARTUP_DUTY_PERMILLE &&
+                s->raw_duty_permille < FOUR_DRIVE_STARTUP_DUTY_PERMILLE) {
+                s->raw_duty_permille = (int16_t)(FOUR_DRIVE_STARTUP_DUTY_PERMILLE *
+                    direction * loop->config.wheel[i].motor_sign);
                 s->integral_permille = 0.0f; /* 补偿期间不继续积分堆积。 */
                 g->startup_mask |= (uint8_t)(1U << i);
+            } else if (FOUR_DRIVE_STARTUP_HANDOFF_PERMILLE > 0 &&
+                       was_starting && forced_handoff) {
+                /* Preserve the last startup output across the PI handoff.
+                 * The previous profiles deliberately retain their old zero-
+                 * integral behavior through a compile-time zero handoff. */
+                const float error = s->ramped_cps - s->filtered_cps;
+                const float p = loop->config.wheel[i].kp_permille_per_cps * error;
+                const float wanted = (float)(FOUR_DRIVE_STARTUP_HANDOFF_PERMILLE * direction);
+                float seeded = wanted - p;
+                const float limit = (float)loop->config.duty_limit_permille;
+                if (seeded > limit) seeded = limit;
+                if (seeded < -limit) seeded = -limit;
+                s->integral_permille = seeded;
+                s->raw_duty_permille = (int16_t)(
+                    FOUR_DRIVE_STARTUP_HANDOFF_PERMILLE * direction *
+                    loop->config.wheel[i].motor_sign);
             }
+#endif
 #endif
         }
         for (unsigned i = 0; i < 4; ++i) g->raw_duty[i] = g->loop[i].wheel[i].raw_duty_permille;

@@ -300,6 +300,7 @@ int main(void)
     four_ro_init(&ro_link);
     if (!mc_protocol_self_test()) Error_Handler();
     mc_uart_transport_init(&huart2);
+    mc_uart_transport_enable_startup_line_error_guard();
 #else
     speed_uart_init(&huart2);
 #endif
@@ -332,6 +333,9 @@ int main(void)
         }
         size_t raw_length=0;
         if (mc_uart_transport_take_frame(raw_frame,sizeof(raw_frame),&raw_length)) {
+            mc_frame_header_v1_t validated_header;
+            if (mc_validate_frame(raw_frame,raw_length,&validated_header))
+                mc_uart_transport_confirm_valid_frame();
             const four_ro_event_t event=four_ro_accept(&ro_link,raw_frame,raw_length,HAL_GetTick());
             if (event==FOUR_RO_HELLO && !mc_uart_transport_send_frame(
                 MC_MSG_HELLO_ACK,MC_FLAG_RESPONSE,ro_link.last_sequence,

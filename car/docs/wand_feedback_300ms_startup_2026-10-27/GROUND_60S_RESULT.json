@@ -1,0 +1,88 @@
+{
+  "session": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_feedback_300ms_startup_2026-10-27/prepared/oneclick_session_jiqg5pw1",
+  "requested_observation_s": 60.0,
+  "observed_active_s": 98.61402668099981,
+  "first_60s": {
+    "max_feedback_age_ms": {
+      "wheel": 173.58535299717914,
+      "diagnostic": 184.25900299916975
+    },
+    "feedback_observations_above_200ms": 0,
+    "transport_faults": [],
+    "clock_faults": [],
+    "gate_faults": [],
+    "native_fault_bits": [
+      0
+    ],
+    "max_command_speed_mps": 0.472762240090448
+  },
+  "whole_active": {
+    "max_feedback_age_ms": {
+      "wheel": 173.58535299717914,
+      "diagnostic": 184.25900299916975
+    },
+    "feedback_observations_above_200ms": 0,
+    "transport_faults": [],
+    "clock_faults": [],
+    "gate_faults": [
+      "COMMAND_TIMEOUT"
+    ],
+    "native_fault_bits": [
+      0
+    ],
+    "max_command_speed_mps": 0.472762240090448
+  },
+  "states": [
+    {
+      "at": 19389.779451877,
+      "state": "STANDBY",
+      "reason": "explicit start required",
+      "first_stop": ""
+    },
+    {
+      "at": 19393.380426231,
+      "state": "ARMED",
+      "reason": "waiting for a new held-enable edge",
+      "first_stop": ""
+    },
+    {
+      "at": 19396.879300523,
+      "state": "ACTIVE",
+      "reason": "",
+      "first_stop": ""
+    },
+    {
+      "at": 19495.493327204,
+      "state": "STOPPING",
+      "reason": "FINAL_GATE: COMMAND_TIMEOUT",
+      "first_stop": "FINAL_GATE: COMMAND_TIMEOUT"
+    },
+    {
+      "at": 19496.580073896,
+      "state": "FAULT",
+      "reason": "FINAL_GATE: COMMAND_TIMEOUT",
+      "first_stop": "FINAL_GATE: COMMAND_TIMEOUT"
+    }
+  ],
+  "first_stop_reason": "FINAL_GATE: COMMAND_TIMEOUT",
+  "source_rejection_detail": "SELECTED_SOURCE_MISSING",
+  "last_active_pose_source_ages_s": {
+    "car": 0.029921770095825195,
+    "wand": 0.04117250442504883
+  },
+  "final_stop_confirmed": true,
+  "final_output_zero": true,
+  "final_motion_enabled": false,
+  "final_native_fault_bits": 0,
+  "feedback_300ms_recurrence_in_first60s": false,
+  "continuous_demonstration_qualified": false,
+  "firmware_flashed": false,
+  "network_settings_changed": false,
+  "original_entry_changed": false,
+  "analysis": "60-second interval had no MCU feedback timeout. The extended run stopped on a separate ROS selected-source/command-timeout guard at about 98.6 seconds. No causal conclusion about the manual stop client is claimed.",
+  "log_hashes": {
+    "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_feedback_300ms_startup_2026-10-27/prepared/oneclick_session_jiqg5pw1/observation.jsonl": "85f2ad9012723964b2c29ed30a584b0a0fce8247a13494871eed7c67ff9d937a",
+    "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_feedback_300ms_startup_2026-10-27/prepared/oneclick_session_jiqg5pw1/mcu_receive.jsonl": "b676690711e11bd74ae5e56ba3db007d474f7ed5c07e0090c3386b3f7b80f496",
+    "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_feedback_300ms_startup_2026-10-27/prepared/oneclick_session_jiqg5pw1/launch.log": "15406b5872b1a1b506e72182e0fa8537c46f03094f49d5acbdc7e97b0c81ab44"
+  }
+}

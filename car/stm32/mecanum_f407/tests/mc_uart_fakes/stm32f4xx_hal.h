@@ -6,7 +6,10 @@ typedef struct { USART_TypeDef *Instance; uint32_t ErrorCode; } UART_HandleTypeD
 #define HAL_OK 0
 #define HAL_BUSY 2
 #define HAL_UART_ERROR_NONE 0U
+#define HAL_UART_ERROR_PE 1U
+#define HAL_UART_ERROR_NE 2U
 #define HAL_UART_ERROR_FE 4U
+#define HAL_UART_ERROR_ORE 8U
 #define __disable_irq() ((void)0)
 #define __enable_irq() ((void)0)
 #define __HAL_UART_CLEAR_OREFLAG(uart) ((void)(uart))

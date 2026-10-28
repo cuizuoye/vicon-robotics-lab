@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "base_yaw_offset_rad": 2.356194490192345,
+  "hardware": {
+    "esp_ip": "192.168.50.1",
+    "network_interface": "wlx000000000000",
+    "required_motion_tag": "4WGC",
+    "wire_timeout_ms": 600,
+    "diagnostic_payload_bytes": 156,
+    "output_authority_version": 1
+  },
+  "safety": {
+    "arena_x_min": -1.800264386424,
+    "arena_x_max": 1.178696867313,
+    "arena_y_min": -1.498819527764,
+    "arena_y_max": 1.480141725974,
+    "ground_z_m": 0.10790704618641533,
+    "half_length_m": 0.095,
+    "half_width_m": 0.105,
+    "boundary_margin_m": 0.2,
+    "max_speed_mps": 0.05,
+    "max_session_s": 120,
+    "max_goal_radius_m": 3,
+    "goal_boundary_policy": "clamp"
+  },
+  "input_workspace": {
+    "reference_margin_m": 0.5,
+    "policy": "Accept all fresh finite tracked Sign poses; the purple reference is not an input fence or a verified Vicon coverage polygon",
+    "mapping": "2x horizontal displacement, bounded car goal, no automatic rebase of the fixed world fence",
+    "human_safety": "The reference extension is not person detection or a certified person-car safety separation"
+  },
+  "confirmations": {
+    "fixed_arena_checked": false,
+    "footprint_measured": false,
+    "ground_height_measured": false,
+    "heading_checked": false,
+    "power_cut_ready": false,
+    "wiring_secured": false,
+    "battery_protection_checked": false,
+    "wire_watchdog_600ms_documented": false
+  },
+  "evidence": {
+    "outline_length_m": 0.19,
+    "outline_width_m": 0.21,
+    "car_heading_rad": 1.526260405304856,
+    "preview_start_xy_m": [
+      0.6437034797013303,
+      -1.0528685411524479
+    ],
+    "start_evidence": {
+      "bag": "bags/4wgb_continuous_rectangle_random_disturbances_20261021",
+      "pose_topic": "/car/pose",
+      "pose_stamp_ns": 1792574193369813500,
+      "first_trajectory_enable_stamp_ns": 1792574193370676000,
+      "note": "Historical pose immediately before first enable, not a new live survey or a replacement for fresh Vicon pose"
+    },
+    "nominal_center_workspace": {
+      "frame": "recorded start heading: forward and left",
+      "forward_min_m": 0,
+      "forward_max_m": 2,
+      "left_min_m": 0,
+      "left_max_m": 2,
+      "placement_padding_m": 0.1,
+      "fence_construction": "World-axis bounding box of the padded forward/left square, expanded by the physical footprint circumradius plus 0.20m boundary margin; conservatively encloses at least the full nominal 2x2m centre workspace"
+    },
+    "footprint_policy": "Measured full dimensions 190x210mm converted to true half extents 0.095/0.105m; retain separate 0.20m boundary margin",
+    "operator_request": "2026-10-23: original rectangle start is a corner; forward 2m and left 2m; ample Vicon and clear-area coverage confirmed; session 120s explicitly accepted at unchanged 0.05m/s",
+    "site_scope": "Manual placement at the same historical start and heading; fixed fence never follows a later prepare. Changed site, heading or Vicon origin requires a newly reviewed profile",
+    "reference_size_m": [
+      3.978961253737,
+      3.978961253738
+    ],
+    "migration": "Explicit operator-authorized 4WGC hardware migration; strict 156-byte v1 current-effective-target and granted-direction diagnostics. Readback, programming, startup and motion acceptance remain separate stages; no automatic enable.",
+    "source_profile": "hardware_acceptance.corner_2x2_2026-10-23.json"
+  }
+}

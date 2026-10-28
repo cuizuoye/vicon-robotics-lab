@@ -1,0 +1,13 @@
+{
+  "step": "1_READONLY_ROTATION_REFERENCE",
+  "direction": "OUTSIDE_CROSSBAR_AWAY_FROM_STEM",
+  "relative_yaw_gain": 1.0,
+  "retain_translation_in_future_rotation_mode": true,
+  "car_power_off_confirmed_this_turn": true,
+  "vicon_and_sign_ready_confirmed_this_turn": true,
+  "motor_motion_authorized": false,
+  "firmware_write_authorized": false,
+  "accepted_baseline_change_authorized": false,
+  "network_change_authorized": false,
+  "note": "This step displays geometry and target heading only, not a dynamics simulation or hardware acceptance."
+}

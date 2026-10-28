@@ -11,6 +11,9 @@ static four_speed_config_t test_config(void)
 {
     four_speed_config_t c;
     four_speed_defaults(&c);
+    /* Pin this historical 500-cps synthetic fixture independently of the
+     * current firmware's conservative 300-cps default. Not a hardware limit. */
+    c.target_limit_cps = 500.0f;
     for (unsigned i = 0; i < FOUR_SPEED_WHEELS; ++i) {
         c.wheel[i].counts_per_rev = 1000.0f;
         c.wheel[i].calibration_confirmed = true;

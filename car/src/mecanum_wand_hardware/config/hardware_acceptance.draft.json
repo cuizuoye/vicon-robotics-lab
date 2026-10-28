@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "base_yaw_offset_rad": 2.356194490192345,
+  "hardware": {
+    "esp_ip": "192.168.50.1",
+    "network_interface": "wlx000000000000",
+    "required_motion_tag": "4WGB",
+    "wire_timeout_ms": 600
+  },
+  "safety": {
+    "arena_x_min": null,
+    "arena_x_max": null,
+    "arena_y_min": null,
+    "arena_y_max": null,
+    "ground_z_m": null,
+    "half_length_m": null,
+    "half_width_m": null,
+    "boundary_margin_m": 0.2,
+    "max_speed_mps": 0.05,
+    "max_session_s": 30.0
+  },
+  "confirmations": {
+    "fixed_arena_checked": false,
+    "footprint_measured": false,
+    "ground_height_measured": false,
+    "heading_checked": false,
+    "power_cut_ready": false,
+    "wiring_secured": false,
+    "battery_protection_checked": false,
+    "wire_watchdog_600ms_documented": false
+  }
+}

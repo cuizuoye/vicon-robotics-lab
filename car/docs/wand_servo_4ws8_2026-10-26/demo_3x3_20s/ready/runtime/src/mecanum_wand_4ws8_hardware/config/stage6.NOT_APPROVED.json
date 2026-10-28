@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "base_yaw_offset_rad": 2.356194490192345,
+  "hardware": {
+    "esp_ip": "192.168.50.1",
+    "network_interface": "wlx000000000000",
+    "required_motion_tag": "4WS8",
+    "wire_timeout_ms": 600,
+    "diagnostic_payload_bytes": 184,
+    "output_authority_version": 4,
+    "motor_target_rpm_cap": 400,
+    "pwm_cap_permille": 800,
+    "wheel_rim_limit_mps": 1.256636,
+    "target_limit_cps": 7100
+  },
+  "safety": {
+    "arena_x_min": -2.984212059920904,
+    "arena_x_max": 1.4081573015532776,
+    "arena_y_min": -1.6742138891106806,
+    "arena_y_max": 2.6990657275783665,
+    "ground_z_m": 0.10790704618641533,
+    "half_length_m": 0.095,
+    "half_width_m": 0.105,
+    "boundary_margin_m": 0.2,
+    "max_speed_mps": 0.7,
+    "max_session_s": 120,
+    "max_goal_radius_m": 4.75,
+    "goal_boundary_policy": "clamp",
+    "goal_reference_policy": "governed",
+    "arena_origin_x_m": 0.6437034797013303,
+    "arena_origin_y_m": -1.0528685411524479,
+    "arena_heading_rad": 1.526260405304856,
+    "arena_forward_max_m": 3.0,
+    "arena_left_max_m": 3.0,
+    "arena_buffer_m": 0.5,
+    "max_accel_mps2": 2.0
+  },
+  "input_workspace": {
+    "reference_margin_m": 0.5,
+    "policy": "Fresh tracked Sign XY only; reference extent is not verified coverage or person detection",
+    "mapping": "1:1 XY; fixed oriented 3x3m final goals; independent hard-stop footprint fence"
+  },
+  "confirmations": {
+    "fixed_arena_checked": false,
+    "footprint_measured": false,
+    "ground_height_measured": false,
+    "heading_checked": false,
+    "power_cut_ready": false,
+    "wiring_secured": false,
+    "battery_protection_checked": false,
+    "wire_watchdog_600ms_documented": false
+  },
+  "evidence": {
+    "source_profile": "hardware_acceptance.corner_2x2_4wgc_2026-10-23.json",
+    "source_profile_sha256": "513914a3c5877e8809421b987603956a081e15454081c8d343d0597b32ab1843",
+    "change_scope": "Independent 4WS8 v4 fixed-stage commissioning; no flash or physical acceptance inferred",
+    "outline_length_m": 0.19,
+    "outline_width_m": 0.21,
+    "car_heading_rad": 1.526260405304856,
+    "preview_start_xy_m": [
+      0.6437034797013303,
+      -1.0528685411524479
+    ],
+    "nominal_center_workspace": {
+      "frame": "recorded start heading: forward and left",
+      "forward_min_m": 0,
+      "forward_max_m": 3,
+      "left_min_m": 0,
+      "left_max_m": 3,
+      "placement_padding_m": 0.1
+    },
+    "operator_request": "2026-10-23: repair large target guidance and transient feedback recovery, preserve safety, no firmware changes, then continue hardware testing",
+    "site_scope": "Extended software geometry requested, NOT a new Vicon coverage or stop-distance measurement"
+  },
+  "mapping_scale": 1.0,
+  "arena_revision": "fixed_corner_3x3_buffer050_v1",
+  "arena_confirmations": {
+    "extended_arena_and_buffer_clear_and_tracked": false,
+    "saved_start_and_heading_match": false,
+    "immediate_power_cut_ready_now": false
+  },
+  "arena_buffer_policy": {
+    "physical_buffer_outside_reference_body_m": 0.5,
+    "preserved_extra_margin_m": 0.2,
+    "hard_center_range_at_reference_heading_m": [
+      -0.3,
+      3.3
+    ],
+    "buffer_is_not_an_extra_goal_region": true,
+    "physical_stop_distance_measured": false,
+    "physical_clear_extent_m": [
+      4.19,
+      4.21
+    ],
+    "all_yaw_clear_extent_planning_m": [
+      4.3,
+      4.3
+    ]
+  },
+  "stage": 6,
+  "staged_runtime_approval": {},
+  "trial_review": {
+    "human_authorized": false
+  }
+}

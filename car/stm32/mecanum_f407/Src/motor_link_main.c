@@ -50,6 +50,7 @@ int main(void)
     motor_link_control_init(
         &link_control, MOTOR_A_ENCODER_COUNTS_PER_WHEEL_REV != 0U);
     mc_uart_transport_init(&huart2);
+    mc_uart_transport_enable_startup_line_error_guard();
     telemetry_sequence = 0U;
 
     uint32_t last_telemetry_ms = HAL_GetTick();
@@ -68,6 +69,10 @@ int main(void)
         size_t raw_length = 0U;
         if (mc_uart_transport_take_frame(
                 raw_frame, sizeof(raw_frame), &raw_length)) {
+            mc_frame_header_v1_t validated_header;
+            if (mc_validate_frame(raw_frame,raw_length,&validated_header)) {
+                mc_uart_transport_confirm_valid_frame();
+            }
             const motor_link_event_t event = motor_link_control_accept(
                 &link_control, raw_frame, raw_length, now_ms);
             if (event == MOTOR_LINK_EVENT_HELLO) {

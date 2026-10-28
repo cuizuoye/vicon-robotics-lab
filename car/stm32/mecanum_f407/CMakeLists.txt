@@ -596,6 +596,234 @@ add_custom_command(TARGET ${FOUR_MOTION_TARGET} POST_BUILD
     COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_MOTION_TARGET}>
     COMMENT "Generating OFFLINE-ONLY bounded streaming image; NO FLASHING")
 
+# Separate ground-commissioning image.  The suspended 4WM1 binary and target
+# remain unchanged and independently reproducible.
+set(FOUR_GROUND_TARGET mecanum_f407_four_link_ground)
+add_executable(${FOUR_GROUND_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND_TARGET} PROPERTY ${property} ${FOUR_GROUND_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND=1)
+get_target_property(FOUR_GROUND_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND_OPTIONS})
+target_link_libraries(${FOUR_GROUND_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY bounded ground image; NO FLASHING")
+
+# Second, still bounded ground profile.  Kept as its own target so 4WG1 stays
+# reproducible and its flashed/read-back evidence is never overwritten.
+set(FOUR_GROUND2_TARGET mecanum_f407_four_link_ground2)
+add_executable(${FOUR_GROUND2_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND2_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND2_TARGET} PROPERTY ${property} ${FOUR_GROUND2_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND2_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND2=1)
+get_target_property(FOUR_GROUND2_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND2_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND2_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND2_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND2_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND2_OPTIONS})
+target_link_libraries(${FOUR_GROUND2_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND2_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND2_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND2_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND2_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND2_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY bounded ground-v2 image; NO FLASHING")
+
+# Same 35% envelope as 4WG2, with a bumpless startup-to-PI handoff.
+set(FOUR_GROUND3_TARGET mecanum_f407_four_link_ground3)
+add_executable(${FOUR_GROUND3_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND3_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND3_TARGET} PROPERTY ${property} ${FOUR_GROUND3_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND3_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND3=1)
+get_target_property(FOUR_GROUND3_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND3_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND3_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND3_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND3_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND3_OPTIONS})
+target_link_libraries(${FOUR_GROUND3_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND3_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND3_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND3_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND3_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND3_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY bounded ground-v3 image; NO FLASHING")
+
+# Same proven motor envelope as 4WG3.  Idle disabled-zero lease expiry is
+# recoverable, while an owned permit or active output still uses the unchanged
+# 150 ms fail-closed command deadline.
+set(FOUR_GROUND4_TARGET mecanum_f407_four_link_ground4)
+add_executable(${FOUR_GROUND4_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND4_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND4_TARGET} PROPERTY ${property} ${FOUR_GROUND4_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND4_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND4=1)
+get_target_property(FOUR_GROUND4_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND4_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND4_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND4_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND4_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND4_OPTIONS})
+target_link_libraries(${FOUR_GROUND4_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND4_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND4_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND4_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND4_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND4_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY bounded ground-v4 image; NO FLASHING")
+
+# Same fail-closed envelope as 4WG4, but do not let a tiny streamed ramp target
+# cancel the bounded startup assist after the first encoder pulse.
+set(FOUR_GROUND5_TARGET mecanum_f407_four_link_ground5)
+add_executable(${FOUR_GROUND5_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND5_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND5_TARGET} PROPERTY ${property} ${FOUR_GROUND5_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND5_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND5=1)
+get_target_property(FOUR_GROUND5_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND5_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND5_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND5_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND5_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND5_OPTIONS})
+target_link_libraries(${FOUR_GROUND5_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND5_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND5_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND5_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND5_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND5_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY bounded ground-v5 image; NO FLASHING")
+
+# Same output, startup and fail-closed limits as 4WG5. Mecanum cancellation
+# terms below 20 cps are explicitly zeroed instead of being treated as a
+# trackable wheel demand and later producing a false stall.
+set(FOUR_GROUND6_TARGET mecanum_f407_four_link_ground6)
+add_executable(${FOUR_GROUND6_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND6_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND6_TARGET} PROPERTY ${property} ${FOUR_GROUND6_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND6_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND6=1)
+get_target_property(FOUR_GROUND6_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND6_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND6_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND6_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND6_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND6_OPTIONS})
+target_link_libraries(${FOUR_GROUND6_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND6_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND6_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND6_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND6_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND6_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY bounded ground-v6 image; NO FLASHING")
+
+# Mature-controller replacement for the unflashed 4WG6 draft: per-wheel
+# kS+kV feedforward, reduced low-speed PI, slew-bounded breakaway, immediate
+# release on encoder progress, and target/duty-qualified stall detection.
+set(FOUR_GROUND7_TARGET mecanum_f407_four_link_ground7)
+add_executable(${FOUR_GROUND7_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND7_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND7_TARGET} PROPERTY ${property} ${FOUR_GROUND7_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND7_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND7=1)
+get_target_property(FOUR_GROUND7_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND7_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND7_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND7_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND7_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND7_OPTIONS})
+target_link_libraries(${FOUR_GROUND7_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND7_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND7_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND7_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND7_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND7_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY feedforward+PI ground-v7 image; NO FLASHING")
+
+# Large-course candidate.  The accepted 4WG7 target remains byte-reproducible;
+# 4WG8 alone raises the kinematic/encoder envelope to 0.20 m/s and the absolute
+# run budget to 150 s while retaining the 35% PWM and 150 ms lease limits.
+set(FOUR_GROUND8_TARGET mecanum_f407_four_link_ground8)
+add_executable(${FOUR_GROUND8_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND8_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND8_TARGET} PROPERTY ${property} ${FOUR_GROUND8_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND8_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND8=1)
+get_target_property(FOUR_GROUND8_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND8_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND8_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND8_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND8_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND8_OPTIONS})
+target_link_libraries(${FOUR_GROUND8_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND8_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND8_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND8_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND8_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND8_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY 0.20 m/s ground-v8 image; NO FLASHING")
+
+# 4WG9 keeps the exact 4WG8 motor/velocity envelope.  Its only new authority
+# is an explicit run-budget rearm after disabled zero, fault-free feedback and
+# 500 ms measured standstill; it never clears a real fault.
+set(FOUR_GROUND9_TARGET mecanum_f407_four_link_ground9)
+add_executable(${FOUR_GROUND9_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUND9_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUND9_TARGET} PROPERTY ${property} ${FOUR_GROUND9_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUND9_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUND9=1)
+get_target_property(FOUR_GROUND9_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUND9_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUND9_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND9_TARGET}.map)
+set_property(TARGET ${FOUR_GROUND9_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUND9_OPTIONS})
+target_link_libraries(${FOUR_GROUND9_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUND9_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUND9_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUND9_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUND9_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUND9_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY safe-rearm ground-v9 image; NO FLASHING")
+
+# Recovery-demo profile.  It retains the 4WG9 actuator and safe-rearm logic,
+# caps body translation at 0.10 m/s, and uses a fixed 600 ms MCU lease to
+# tolerate the measured intermittent Wi-Fi receive stalls.  It is a distinct
+# identity so a 4WG9 host can never silently acquire the wider lease.
+set(FOUR_GROUNDA_TARGET mecanum_f407_four_link_grounda)
+add_executable(${FOUR_GROUNDA_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUNDA_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUNDA_TARGET} PROPERTY ${property} ${FOUR_GROUNDA_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUNDA_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUNDA=1)
+get_target_property(FOUR_GROUNDA_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUNDA_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUNDA_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUNDA_TARGET}.map)
+set_property(TARGET ${FOUR_GROUNDA_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUNDA_OPTIONS})
+target_link_libraries(${FOUR_GROUNDA_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUNDA_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUNDA_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUNDA_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUNDA_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUNDA_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY 0.10 m/s recovery-demo ground-vA image; NO FLASHING")
+
+# Faster recovery-demo profile.  It changes only the body-axis ceiling to
+# 0.15 m/s; 4WGA's 600 ms lease, 35% PWM envelope, safe rearm and 150 s
+# independent run budget remain unchanged.  The distinct tag prevents a host
+# configured for either speed from silently accepting the other image.
+set(FOUR_GROUNDB_TARGET mecanum_f407_four_link_groundb)
+add_executable(${FOUR_GROUNDB_TARGET} EXCLUDE_FROM_ALL ${FOUR_MOTION_SOURCES} Src/four_link_motion.c)
+foreach(property INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS)
+    get_target_property(FOUR_GROUNDB_PROPERTY ${FOUR_LINK_BENCH_TARGET} ${property})
+    set_property(TARGET ${FOUR_GROUNDB_TARGET} PROPERTY ${property} ${FOUR_GROUNDB_PROPERTY})
+endforeach()
+target_compile_definitions(${FOUR_GROUNDB_TARGET} PRIVATE FOUR_LINK_MOTION=1 FOUR_LINK_GROUNDB=1)
+get_target_property(FOUR_GROUNDB_OPTIONS ${PROJECT_NAME} LINK_OPTIONS)
+list(REMOVE_ITEM FOUR_GROUNDB_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.map)
+list(APPEND FOUR_GROUNDB_OPTIONS -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUNDB_TARGET}.map)
+set_property(TARGET ${FOUR_GROUNDB_TARGET} PROPERTY LINK_OPTIONS ${FOUR_GROUNDB_OPTIONS})
+target_link_libraries(${FOUR_GROUNDB_TARGET} PRIVATE m)
+set_target_properties(${FOUR_GROUNDB_TARGET} PROPERTIES SUFFIX ".elf")
+add_custom_command(TARGET ${FOUR_GROUNDB_TARGET} POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${FOUR_GROUNDB_TARGET}> ${CMAKE_CURRENT_BINARY_DIR}/${FOUR_GROUNDB_TARGET}.bin
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${FOUR_GROUNDB_TARGET}>
+    COMMENT "Generating OFFLINE-ONLY 0.15 m/s recovery-demo ground-vB image; NO FLASHING")
+
 set(RECTANGLE_DEMO_TARGET mecanum_f407_rectangle_demo)
 add_executable(${RECTANGLE_DEMO_TARGET} ${SPEED_BENCH_SOURCES}
     Src/rectangle_demo_main.c Src/rectangle_demo.c Src/bench_four_msp.c

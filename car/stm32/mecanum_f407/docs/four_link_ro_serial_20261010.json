@@ -1,0 +1,16 @@
+{
+  "mode": "serial",
+  "baud": 921600,
+  "motion_enabled": false,
+  "battery_disconnected_confirmed": true,
+  "phases": [
+    {
+      "name": "healthy",
+      "telemetry": [],
+      "diagnostics": [],
+      "hello_ack": []
+    }
+  ],
+  "success": false,
+  "error": "no STM32 HELLO_ACK or insufficient four-wheel telemetry"
+}

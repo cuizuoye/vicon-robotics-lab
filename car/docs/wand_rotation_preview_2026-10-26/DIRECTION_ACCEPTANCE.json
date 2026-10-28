@@ -1,0 +1,17 @@
+{
+  "result": "PASS_DIRECTION_REFERENCE_ONLY",
+  "user_observation": "确认为sign1 5 2 为横杆，我分别旋转了正90度和逆向90度，都成功读出来了，证明方向是正确的",
+  "session": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_rotation_preview_2026-10-26/readonly_uppz8hn2",
+  "reference_session": 1,
+  "valid_angle_observations": 380,
+  "observed_min_deg": -96.95881274847599,
+  "observed_max_deg": 88.88366990059191,
+  "faults_in_direction_session": [],
+  "bar": ["Sign1", "Sign5", "Sign2"],
+  "stem": ["Sign3", "Sign4"],
+  "forward_definition": "OUTSIDE_CROSSBAR_AWAY_FROM_STEM",
+  "precise_angle_metrology_qualified": false,
+  "motor_output": false,
+  "physical_car_rotation_accepted": false,
+  "next_step": "OFFLINE_ROTATION_TRANSLATION_SERVO_SIMULATION"
+}

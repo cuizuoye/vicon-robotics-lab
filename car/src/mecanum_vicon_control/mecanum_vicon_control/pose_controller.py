@@ -4,6 +4,7 @@ import math
 import rclpy
 from geometry_msgs.msg import PoseStamped, Twist
 from rclpy.node import Node
+from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from std_msgs.msg import Bool
 
 from .math_utils import clamp, slew, world_error_to_body, wrap_angle, yaw_from_quaternion
@@ -51,7 +52,14 @@ class PoseController(Node):
         self.command = Twist()
         self.cmd_pub = self.create_publisher(Twist, cmd_topic, 10)
         self.reached_pub = self.create_publisher(Bool, '/car/goal_reached', 10)
-        self.create_subscription(PoseStamped, pose_topic, self.on_pose, 10)
+        latest_pose_qos = QoSProfile(
+            depth=1,
+            reliability=ReliabilityPolicy.BEST_EFFORT,
+            durability=DurabilityPolicy.VOLATILE)
+        # The Vicon bridge can publish above 300 Hz while this controller runs
+        # at 50 Hz. Never drain an old pose backlog ahead of the control timer.
+        self.create_subscription(
+            PoseStamped, pose_topic, self.on_pose, latest_pose_qos)
         self.create_subscription(PoseStamped, goal_topic, self.on_goal, 10)
         self.create_timer(1.0 / self.rate_hz, self.tick)
         self.get_logger().info(f'位置控制器: {pose_topic} + {goal_topic} -> {cmd_topic}')

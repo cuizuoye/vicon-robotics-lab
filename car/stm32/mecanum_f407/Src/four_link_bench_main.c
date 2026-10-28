@@ -315,6 +315,7 @@ int main(void)
     HAL_NVIC_SetPriority(USART2_IRQn, 2U, 0U);
     if (!mc_protocol_self_test()) Error_Handler();
     mc_uart_transport_init(&huart2);
+    mc_uart_transport_enable_startup_line_error_guard();
     watchdog_init();
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
     DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
@@ -339,6 +340,7 @@ int main(void)
             if (mc_uart_transport_take_frame(raw,sizeof(raw),&length)) {
                 four_link_request_t decoded;
                 if (four_link_bench_decode(raw,length,&decoded)) {
+                    mc_uart_transport_confirm_valid_frame();
                     const uint32_t p=enter();
                     pending_request=decoded; request_pending=true;
                     leave(p);
@@ -401,5 +403,4 @@ void Error_Handler(void)
 #ifdef USE_FULL_ASSERT
 void assert_failed(uint8_t *file, uint32_t line) { (void)file; (void)line; Error_Handler(); }
 #endif
-
 

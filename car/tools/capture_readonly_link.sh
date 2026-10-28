@@ -83,7 +83,7 @@ if timeout --signal=TERM --kill-after=2s 60s \
     /usr/bin/setpriv --reuid="$SUDO_UID" --regid="$SUDO_GID" --init-groups \
     /usr/bin/python3 "$task_workspace/stm32/mecanum_f407/tools/link_timing_bench.py" \
     --esp-ip "$task_esp_ip" --bind-ip "$task_pc_ip" --interface "$task_interface" \
-    --esp-log-serial /dev/serial/by-id/usb-1a86_USB_Single_Serial_0000000000-if00 \
+    --esp-log-serial /dev/serial/by-id/usb-1a86_USB_Single_Serial_00000000-if00 \
     --result-dir "$task_result_dir/trial" --confirm-battery-disconnected \
     > "$task_result_dir/probe_console.log" 2>&1; then
     task_probe_rc=0

@@ -1,0 +1,17 @@
+{
+  "request": "可以先改为120秒，以原起点、原朝向为准，向后1.5m，向右40cm，向前50cm，向右50cm，具体Vicon覆盖我可以查阅一下资料以及实际测量一下场地。",
+  "clarification": "Confirmed four directional maximum displacements, not sequential waypoints; final right50cm means left50cm; at least50cm extra clear buffer on each side.",
+  "clarification_answer": "对的",
+  "reference": "unchanged saved original start and heading",
+  "goal_forward_m": [-1.5, 0.5],
+  "goal_left_m": [-0.4, 0.5],
+  "buffer_m": 0.5,
+  "mapping_scale": 1.0,
+  "max_active_s": 120.0,
+  "stage": 4,
+  "firmware_change": false,
+  "automatic_hardware_launch": false,
+  "full_vicon_coverage_measured": false,
+  "stopping_distance_qualified": false,
+  "electrical_thermal_qualified": false
+}

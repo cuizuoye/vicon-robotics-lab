@@ -8,7 +8,10 @@
 #define WHEEL_PI 3.14159265358979323846f
 #define INITIAL_PROGRESS_MS 800U
 #define LOST_PROGRESS_MS 500U
-#ifdef FOUR_LINK_MOTION
+#if defined(FOUR_LINK_GROUND8) || defined(FOUR_LINK_GROUND9) || \
+    defined(FOUR_LINK_GROUNDA) || defined(FOUR_LINK_GROUNDB)
+#define MAX_RUN_LIMIT_MS FOUR_DRIVE_RUN_LIMIT_MS
+#elif defined(FOUR_LINK_MOTION)
 /* New bounded streaming image only; no change to the field-tested bench images. */
 #define MAX_RUN_LIMIT_MS 120000U
 #elif defined(AUTONOMOUS_RECTANGLE)
@@ -44,15 +47,22 @@ void four_speed_defaults(four_speed_config_t *c)
         c->wheel[i].encoder_sign = signs[i];
         /* CPR、确认标记、增益均保留为0，不把手转初测自动变成运行参数。 */
     }
-    c->target_limit_cps = 500.0f;
+    c->target_limit_cps = FOUR_DRIVE_TARGET_LIMIT_CPS;
     c->feedback_limit_cps = 10000.0f;
     c->ramp_cps_per_s = 200.0f;
     c->feedback_filter_ms = 50.0f;
-    c->duty_limit_permille = 100;
+    c->duty_limit_permille = FOUR_SPEED_DUTY_LIMIT_PERMILLE;
     c->sample_period_ms = 10U;
     c->max_sample_gap_ms = 30U;
-    c->command_timeout_ms = 150U;
+    c->command_timeout_ms = FOUR_DRIVE_COMMAND_TIMEOUT_MS;
     c->run_limit_ms = 5000U;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    c->stall_target_floor_cps = FOUR_DRIVE_START_THRESHOLD_CPS;
+    c->stall_duty_floor_permille = 200;
+    c->launch_duty_permille = FOUR_DRIVE_STARTUP_DUTY_PERMILLE;
+    c->launch_slew_permille_per_s = 1200.0f;
+    c->launch_timeout_ms = FOUR_DRIVE_STARTUP_MS;
+#endif
 }
 
 bool four_speed_counts_to_measurement(const four_speed_wheel_config_t *c,
@@ -91,17 +101,46 @@ static bool config_valid(const four_speed_config_t *c)
         !isfinite(c->ramp_cps_per_s) || c->ramp_cps_per_s <= 0.0f ||
         !isfinite(c->feedback_filter_ms) || c->feedback_filter_ms < 0.0f ||
         c->feedback_filter_ms > 100.0f ||
-        c->duty_limit_permille <= 0 || c->duty_limit_permille > 100 ||
+        c->duty_limit_permille <= 0 ||
+        c->duty_limit_permille > FOUR_SPEED_DUTY_LIMIT_PERMILLE ||
         c->duty_limit_permille % 10 != 0 || c->sample_period_ms != 10U ||
         c->max_sample_gap_ms < c->sample_period_ms || c->max_sample_gap_ms > 30U ||
+#if defined(FOUR_LINK_GROUNDA) || defined(FOUR_LINK_GROUNDB)
+        c->command_timeout_ms != FOUR_DRIVE_COMMAND_TIMEOUT_MS ||
+#else
         c->command_timeout_ms == 0U || c->command_timeout_ms > 150U ||
+#endif
         c->run_limit_ms == 0U || c->run_limit_ms > MAX_RUN_LIMIT_MS) return false;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    if (!isfinite(c->stall_target_floor_cps) || c->stall_target_floor_cps < 20.0f ||
+        c->stall_target_floor_cps > c->target_limit_cps ||
+        c->stall_duty_floor_permille <= 0 ||
+        c->stall_duty_floor_permille > c->duty_limit_permille ||
+        c->launch_duty_permille < c->stall_duty_floor_permille ||
+        c->launch_duty_permille > c->duty_limit_permille ||
+        !isfinite(c->launch_slew_permille_per_s) ||
+        c->launch_slew_permille_per_s <= 0.0f ||
+        c->launch_timeout_ms < 100U || c->launch_timeout_ms > INITIAL_PROGRESS_MS)
+        return false;
+#endif
     for (unsigned i = 0; i < FOUR_SPEED_WHEELS; ++i) {
         const four_speed_wheel_config_t *w = &c->wheel[i];
         if (!geometry_valid(w) || !w->calibration_confirmed ||
             !isfinite(w->kp_permille_per_cps) || w->kp_permille_per_cps < 0.0f ||
             !isfinite(w->ki_permille_per_count) || w->ki_permille_per_count < 0.0f ||
             (w->kp_permille_per_cps == 0.0f && w->ki_permille_per_count == 0.0f)) return false;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+        if (!isfinite(w->ff_static_permille) || w->ff_static_permille < 0.0f ||
+            w->ff_static_permille > c->duty_limit_permille ||
+            !isfinite(w->ff_velocity_permille_per_cps) ||
+            w->ff_velocity_permille_per_cps < 0.0f ||
+            w->ff_velocity_permille_per_cps > 2.0f ||
+            !isfinite(w->low_speed_trust_cps) ||
+            w->low_speed_trust_cps < c->stall_target_floor_cps ||
+            w->low_speed_trust_cps > c->target_limit_cps ||
+            (w->ff_static_permille == 0.0f && w->ff_velocity_permille_per_cps == 0.0f))
+            return false;
+#endif
     }
     return true;
 }
@@ -113,6 +152,7 @@ void four_speed_stop(four_speed_controller_t *c, uint32_t fault)
     c->fault |= fault;
     c->run_direction = 0;
     c->progress_seen = false;
+    c->launch_active = false;
     for (unsigned i = 0; i < FOUR_SPEED_WHEELS; ++i) {
         c->wheel[i].requested_cps = 0.0f;
         c->wheel[i].ramped_cps = 0.0f;
@@ -146,6 +186,7 @@ bool four_speed_arm(four_speed_controller_t *c, uint8_t selected,
     four_speed_stop(c, 0U);
     c->selected = selected;
     c->last_sample_ms = c->last_command_ms = c->started_ms = c->last_progress_ms = now;
+    c->launch_started_ms = now;
     for (unsigned i = 0; i < FOUR_SPEED_WHEELS; ++i) {
         c->wheel[i].previous_count = raw[i];
         memset(&c->wheel[i].measured, 0, sizeof(c->wheel[i].measured));
@@ -172,11 +213,27 @@ bool four_speed_set_target(four_speed_controller_t *c, float target, uint32_t no
     if (direction != 0 && c->run_direction == 0) c->run_direction = direction;
     c->last_command_ms = now;
     four_speed_wheel_state_t *s = &c->wheel[c->selected];
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    const float previous_target = s->requested_cps;
+#endif
     s->requested_cps = target;
     if (direction == 0) {
         s->ramped_cps = s->integral_permille = 0.0f;
         s->raw_duty_permille = 0;
+        c->launch_active = false;
+        c->progress_seen = false;
+        c->last_progress_ms = now;
     }
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    else if (fabsf(target) >= c->config.stall_target_floor_cps &&
+             fabsf(previous_target) < c->config.stall_target_floor_cps) {
+        c->launch_active = true;
+        c->launch_started_ms = c->last_progress_ms = now;
+        c->progress_seen = false;
+    } else if (fabsf(target) < c->config.stall_target_floor_cps) {
+        c->launch_active = false;
+    }
+#endif
     return true;
 }
 
@@ -211,12 +268,26 @@ bool four_speed_tick(four_speed_controller_t *c,
     if (dt_ms < c->config.sample_period_ms) return false;
     four_speed_wheel_state_t *s = &c->wheel[c->selected];
     /* 截止时间先于新计数：迟到的变化不能刷新已到期的无计数保护。 */
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    const bool launch_expired = c->launch_active &&
+        (uint32_t)(now - c->launch_started_ms) >= c->config.launch_timeout_ms;
+    const bool tracking_stalled = !c->launch_active && c->progress_seen &&
+        fabsf(s->requested_cps) >= c->config.stall_target_floor_cps &&
+        (s->raw_duty_permille < 0 ? -s->raw_duty_permille : s->raw_duty_permille) >=
+            c->config.stall_duty_floor_permille &&
+        (uint32_t)(now - c->last_progress_ms) >= LOST_PROGRESS_MS;
+    if (launch_expired || tracking_stalled) {
+        four_speed_stop(c, FOUR_SPEED_FAULT_STALL);
+        return false;
+    }
+#else
     if (s->requested_cps != 0.0f &&
         (uint32_t)(now - c->last_progress_ms) >=
         (c->progress_seen ? LOST_PROGRESS_MS : INITIAL_PROGRESS_MS)) {
         four_speed_stop(c, FOUR_SPEED_FAULT_STALL);
         return false;
     }
+#endif
     for (unsigned i = 0; i < FOUR_SPEED_WHEELS; ++i) {
         four_speed_wheel_state_t *state = &c->wheel[i];
         const int32_t delta = delta_i32(raw[i], state->previous_count);
@@ -235,6 +306,9 @@ bool four_speed_tick(four_speed_controller_t *c,
         if (i == c->selected && delta != 0) {
             c->last_progress_ms = now;
             c->progress_seen = true;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+            c->launch_active = false;
+#endif
         }
     }
     c->last_sample_ms = now;
@@ -254,10 +328,28 @@ bool four_speed_tick(four_speed_controller_t *c,
     /* 超速时降到0，不在一次固定方向的试转中主动反转制动。 */
     const float lower = s->ramped_cps > 0.0f ? 0.0f : -limit;
     const float upper = s->ramped_cps > 0.0f ? limit : 0.0f;
-    const float p = config->kp_permille_per_cps * error;
-    const float increment = config->ki_permille_per_count * error * dt_s;
+    float feedback_scale = 1.0f;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    if (fabsf(s->ramped_cps) < config->low_speed_trust_cps) feedback_scale = 0.25f;
+    const bool untrusted_command =
+        fabsf(s->requested_cps) < c->config.stall_target_floor_cps;
+    if (untrusted_command) s->integral_permille = 0.0f;
+#endif
+    const float p = config->kp_permille_per_cps * error * feedback_scale;
+    float increment = config->ki_permille_per_count * error * dt_s * feedback_scale;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    if (untrusted_command) increment = 0.0f;
+#endif
     const float candidate_i = clamp(s->integral_permille + increment, -limit, limit);
-    const float candidate_u = p + candidate_i;
+    float feedforward = 0.0f;
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    const float magnitude = fabsf(s->ramped_cps);
+    const float static_scale = clamp(magnitude / config->low_speed_trust_cps, 0.0f, 1.0f);
+    feedforward = copysignf(config->ff_static_permille * static_scale +
+                            config->ff_velocity_permille_per_cps * magnitude,
+                            s->ramped_cps);
+#endif
+    const float candidate_u = feedforward + p + candidate_i;
     if (!isfinite(p) || !isfinite(increment) || !isfinite(candidate_u)) {
         four_speed_stop(c, FOUR_SPEED_FAULT_CONFIG);
         return false;
@@ -265,7 +357,16 @@ bool four_speed_tick(four_speed_controller_t *c,
     /* 饱和时仅允许把输出往可用区间拉回的积分变化，停机则清积分。 */
     if (!((candidate_u > upper && increment > 0.0f) ||
           (candidate_u < lower && increment < 0.0f))) s->integral_permille = candidate_i;
-    const float u = clamp(p + s->integral_permille, lower, upper);
+    float u = clamp(feedforward + p + s->integral_permille, lower, upper);
+#ifdef FOUR_DRIVE_FEEDFORWARD_CONTROL
+    if (c->launch_active) {
+        const float previous = fabsf((float)s->raw_duty_permille);
+        const float launch = fminf((float)c->config.launch_duty_permille,
+            fmaxf(fabsf(u), previous + c->config.launch_slew_permille_per_s * dt_s));
+        u = copysignf(launch, s->ramped_cps);
+        s->integral_permille = 0.0f;
+    }
+#endif
     const int16_t steps = (int16_t)(fabsf(u) / (float)FOUR_SPEED_DUTY_QUANTUM + 0.5f);
     s->raw_duty_permille = (int16_t)(steps * FOUR_SPEED_DUTY_QUANTUM *
                                    (u < 0.0f ? -1 : 1) * config->motor_sign);
@@ -276,7 +377,9 @@ bool four_speed_compare(int16_t duty, uint32_t *first, uint32_t *second)
 {
     if (first == NULL || second == NULL) return false;
     *first = *second = 0U;
-    if (duty < -100 || duty > 100 || duty % FOUR_SPEED_DUTY_QUANTUM != 0) return false;
+    if (duty < -FOUR_SPEED_DUTY_LIMIT_PERMILLE ||
+        duty > FOUR_SPEED_DUTY_LIMIT_PERMILLE ||
+        duty % FOUR_SPEED_DUTY_QUANTUM != 0) return false;
 #ifdef RR_PWM_FINE
     /* 向下取实际通电tick，不因CCR舍入超过请求或10%硬上限。 */
     const uint32_t magnitude = duty < 0 ? (uint32_t)(-duty) : (uint32_t)duty;

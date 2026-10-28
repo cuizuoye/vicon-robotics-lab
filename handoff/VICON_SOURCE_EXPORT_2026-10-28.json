@@ -1,0 +1,95 @@
+{
+  "upstream_commit": "07ce249b309e4d151a9a52aabe4b818289176f20",
+  "includes_uncommitted_development_sources": true,
+  "installed_receiver_equivalence_verified": false,
+  "hardware_qualification": false,
+  "source_tree_written": false,
+  "proprietary_sdk_included": false,
+  "files": [
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/LICENSE",
+      "source_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "exported_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/README.md",
+      "source_sha256": "354944d0605fcd484c3cabd07b50f6729f43e44ec5eb59abd08b8593ef063145",
+      "exported_sha256": "354944d0605fcd484c3cabd07b50f6729f43e44ec5eb59abd08b8593ef063145"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/CMakeLists.txt",
+      "source_sha256": "68c4fac30ad0039fd5bd18b8eaf4bad99b94ba1a5976eb42a08a0e0cb6c37dcc",
+      "exported_sha256": "68c4fac30ad0039fd5bd18b8eaf4bad99b94ba1a5976eb42a08a0e0cb6c37dcc"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/LICENSE",
+      "source_sha256": "db49b21d4f023f30f218a6bf0e08b3c790398035dacd653611bd96415362db29",
+      "exported_sha256": "db49b21d4f023f30f218a6bf0e08b3c790398035dacd653611bd96415362db29"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/include/vicon_receiver/capture_queue.hpp",
+      "source_sha256": "00952adf36bd6fdb3bfbd910b2100e6bd01782c3455a46819e3082cf70bea71f",
+      "exported_sha256": "00952adf36bd6fdb3bfbd910b2100e6bd01782c3455a46819e3082cf70bea71f"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/include/vicon_receiver/communicator.hpp",
+      "source_sha256": "c05c6785539177279e5881ea12d4d37bc343df353842e86a5cf2c9373cf551b7",
+      "exported_sha256": "c05c6785539177279e5881ea12d4d37bc343df353842e86a5cf2c9373cf551b7"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/include/vicon_receiver/publisher.hpp",
+      "source_sha256": "12fda0f339c998e9a2f9bf5560640a94a6d5e703b73ed2c939438d214d5eee28",
+      "exported_sha256": "12fda0f339c998e9a2f9bf5560640a94a6d5e703b73ed2c939438d214d5eee28"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/launch/client.launch.py",
+      "source_sha256": "b8a9d77cfb14e40920fe0118adc0094bfb8a5dee01774a3f0b04f58c06652913",
+      "exported_sha256": "b8a9d77cfb14e40920fe0118adc0094bfb8a5dee01774a3f0b04f58c06652913"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/msg/FrameSample.msg",
+      "source_sha256": "b571c28a905a25b8f2ef1f5024eaf9321f3b6450d8171dacc51cd6139aeaf328",
+      "exported_sha256": "b571c28a905a25b8f2ef1f5024eaf9321f3b6450d8171dacc51cd6139aeaf328"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/package.xml",
+      "source_sha256": "da62f0e38cdd10cacdb5955e5bf39dd5d0802b186de64842d4c2812a6611419e",
+      "exported_sha256": "da62f0e38cdd10cacdb5955e5bf39dd5d0802b186de64842d4c2812a6611419e"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/src/communicator.cpp",
+      "source_sha256": "1fe26a9ebad2e9d998ae67a8b04e0c0c9ca11801aad21c13ef0e67a4631641bf",
+      "exported_sha256": "1fe26a9ebad2e9d998ae67a8b04e0c0c9ca11801aad21c13ef0e67a4631641bf"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/src/publisher.cpp",
+      "source_sha256": "5ab288aeffa39aa0d79de434efcc0b4ce0a40602e727fa227897cc4aaebaa971",
+      "exported_sha256": "5ab288aeffa39aa0d79de434efcc0b4ce0a40602e727fa227897cc4aaebaa971"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/vicon_receiver/test/test_capture_queue.cpp",
+      "source_sha256": "dc97e655ab59672d3e020e5b169890301e3b1d58edf63a918a2ae59dc0568e88",
+      "exported_sha256": "dc97e655ab59672d3e020e5b169890301e3b1d58edf63a918a2ae59dc0568e88"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/integration/vicon_receiver_provenance.py",
+      "source_sha256": "d19c39fbd9b70432ac7307bfb8773a816f8201f6fce7d7670d165ab9d52c9970",
+      "exported_sha256": "d19c39fbd9b70432ac7307bfb8773a816f8201f6fce7d7670d165ab9d52c9970"
+    },
+    {
+      "path": "shared/vicon_receiver_snapshot_20261028/integration/vicon_to_poses.py",
+      "source_sha256": "de39c9175306c213affcd434adb82d08933319880d55c8ff5b3ddc1efa258fe4",
+      "exported_sha256": "de39c9175306c213affcd434adb82d08933319880d55c8ff5b3ddc1efa258fe4"
+    },
+    {
+      "path": "car/esp32/mecanum_wifi_bridge/main/Kconfig.projbuild",
+      "source_sha256": "d66e114ae37a61686d341fa4ee0fe01cfadbb786cbe22a71dbd7eab3c2f93f5c",
+      "exported_sha256": "d66e114ae37a61686d341fa4ee0fe01cfadbb786cbe22a71dbd7eab3c2f93f5c"
+    },
+    {
+      "path": "car/docs/wand_servo_4ws8_2026-10-26/demo_120s_toggle_eventio/ready/esp_project/main/Kconfig.projbuild",
+      "source_sha256": "e65099405bccc341e0819367cb199f6983516c2cc2c004705f169f39e4ac862f",
+      "exported_sha256": "e65099405bccc341e0819367cb199f6983516c2cc2c004705f169f39e4ac862f"
+    }
+  ]
+}

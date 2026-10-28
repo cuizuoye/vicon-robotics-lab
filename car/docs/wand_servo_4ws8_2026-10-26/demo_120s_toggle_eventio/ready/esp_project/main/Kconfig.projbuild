@@ -1,0 +1,180 @@
+menu "MC-Link Bridge"
+
+    config MC_EVENT_DRIVEN_FORWARD
+        bool "Independent event-driven UART/UDP forwarding candidate"
+        depends on !MC_WIFI_ECHO_ONLY && !MC_UART_DIAGNOSTIC_ONLY
+        default n
+        help
+            Read one UART byte, drain only available bytes, and wake the sole
+            UDP owner with eventfd. No wire, network, watchdog or recovery change.
+
+
+    config MC_WIFI_SOFTAP
+        bool "Use an isolated SoftAP instead of joining an upstream router"
+        default n
+        help
+            AP-only WPA2 at 192.168.50.1/24; no NAT or STA uplink.
+            Configuration lives in RAM; existing saved station settings remain.
+            PC must use its dedicated local interface, not its internet default.
+            Does not change MC-Link, UART, watchdogs or fault recovery.
+
+    config MC_WIFI_SOFTAP_SSID
+        string "SoftAP SSID"
+        depends on MC_WIFI_SOFTAP
+        default "Mecanum-Bench-S3"
+
+    config MC_WIFI_SOFTAP_PASSWORD
+        string "SoftAP WPA2 password (8..63 bytes)"
+        depends on MC_WIFI_SOFTAP
+        default ""
+
+    config MC_WIFI_SOFTAP_CHANNEL
+        int "SoftAP 2.4GHz channel"
+        depends on MC_WIFI_SOFTAP
+        range 1 11
+        default 6
+
+    config MC_WIFI_AP_PIN
+        bool "Pin this ESP station to one AP for a controlled comparison"
+        depends on !MC_WIFI_SOFTAP
+        default n
+        help
+            Does not change PC or router configuration. If the AP is absent,
+            remain disconnected rather than silently selecting another AP.
+
+    config MC_WIFI_AP_BSSID
+        string "Pinned AP BSSID (xx:xx:xx:xx:xx:xx)"
+        depends on MC_WIFI_AP_PIN
+        default ""
+
+    config MC_WIFI_LEGACY_BG_DIAGNOSTIC
+        bool "Bench station 802.11b/g compatibility comparison"
+        depends on MC_WIFI_ECHO_ONLY && !MC_WIFI_SOFTAP
+        default n
+        help
+            Sets only this ESP station protocol bitmap to b/g before start.
+            The PC/AP settings and watchdogs are not changed. Echo-only bench.
+
+    config MC_WIFI_RESOURCE_DIAGNOSTICS
+        bool "Bench low-rate lwIP resource and stack observations"
+        depends on MC_WIFI_ECHO_ONLY && MC_WIFI_HEALTH_DIAGNOSTICS && LWIP_STATS
+        default n
+        help
+            At most one asynchronous snapshot in the tcpip thread per second.
+            Observes supported lwIP protocol/pool statistics and minimum free
+            echo/tcpip stack space; does not enlarge pools or change timeouts.
+            Does not expose proprietary Wi-Fi driver RX-buffer occupancy.
+
+    config MC_WIFI_RX_TIMING_DIAGNOSTICS
+        bool "Bench own-PC radio RX timing metadata"
+        depends on (MC_WIFI_ECHO_ONLY && MC_WIFI_HEALTH_DIAGNOSTICS) || MC_LINK_TIMING_TRACE
+        depends on !MC_WIFI_SOFTAP
+        default n
+        help
+            Promiscuous data callback records only MAC-filtered own-PC frames,
+            timing, sequence and retries. No payload capture or decoding.
+            With LINK_TIMING_TRACE, freeze a separate bounded radio ring on
+            first MCU fault and dump it alongside the UDP/UART timing ring.
+            Diagnostic observation can affect driver timing; not a production fix.
+
+    config MC_WIFI_DIAGNOSTIC_PC_MAC
+        string "Bench PC station MAC"
+        depends on MC_WIFI_RX_TIMING_DIAGNOSTICS
+        default ""
+
+    config MC_WIFI_HEALTH_DIAGNOSTICS
+        bool "Bench low-rate Wi-Fi/heap health observations"
+        depends on !MC_WIFI_SOFTAP
+        default n
+        help
+            One low-priority snapshot per second: internal heap, signal,
+            actual power saving and disconnect reason. Wi-Fi-only echo uses
+            distinct WFE2 replies including errno and memory counters.
+            No retry, fault clear, watchdog or network configuration change.
+
+    config MC_WIFI_ECHO_ONLY
+        bool "Bench Wi-Fi-only echo (UART never initialized, no MCU feedback)"
+        depends on !MC_UART_DIAGNOSTIC_ONLY && !MC_UART_STARTUP_PROBE
+        default n
+        help
+            Only HELLO and disabled zero CMD_VEL are accepted. Responses use
+            a distinct WFE1 diagnostic schema, never fake wheel feedback.
+            No UART initialization or forwarding occurs. Battery unplugged.
+
+    config MC_LINK_TIMING_TRACE
+        bool "Bench timing trace: dump recent forwarding events on first MCU fault"
+        default n
+        help
+            Stores a bounded RAM ring in the UDP task, without per-command
+            logging. Dumps once after forwarding the first fault telemetry.
+            Use only with the verified no-PWM STM32 image and battery unplugged.
+            Does not change protocol, power saving, watchdogs or fault recovery.
+
+    config MC_UART_STARTUP_PROBE
+        bool "Send a one-shot STM32 HELLO probe at normal bridge boot"
+        default n
+        help
+            Bench diagnostics only. Normal standalone operation waits for
+            the controlling PC to initiate HELLO, so ESP boot does not create
+            an unsolicited MCU session. This never clears MCU faults.
+            UART-only diagnostic mode always performs its own probe.
+
+    config MC_UART_DIAGNOSTIC_ONLY
+        bool "UART-only readonly diagnosis (no Wi-Fi or UDP)"
+        default n
+        help
+            Send one HELLO, then only receive and validate STM32 four-wheel
+            readonly telemetry. Never send enable, velocity, or motor commands.
+            This mode does not initialize Wi-Fi, UDP or NVS.
+
+    config MC_WIFI_SSID
+        string "Wi-Fi SSID"
+        default ""
+        help
+            Stored only in the generated sdkconfig. Leave empty for build-only testing.
+
+    config MC_WIFI_PASSWORD
+        string "Wi-Fi password"
+        default ""
+        help
+            Stored only in the generated sdkconfig, which is ignored by Git.
+
+    config MC_UDP_COMMAND_PORT
+        int "UDP command port"
+        range 1024 65535
+        default 46000
+
+    config MC_UDP_TELEMETRY_PORT
+        int "UDP telemetry destination port"
+        range 1024 65535
+        default 46001
+
+    config MC_UDP_COMMAND_TIMEOUT_MS
+        int "ESP32 command-link warning timeout (ms)"
+        range 50 2000
+        default 750
+        help
+            This is the ESP32 session warning/lock timeout, not the motor stop
+            deadline.  STM32 keeps its independent 150 ms command watchdog.
+
+    config MC_UART_PORT
+        int "UART controller number"
+        range 1 2
+        default 1
+
+    config MC_UART_TX_GPIO
+        int "UART TX GPIO (-1 disables UART bridge)"
+        range -1 48
+        default -1
+
+    config MC_UART_RX_GPIO
+        int "UART RX GPIO (-1 disables UART bridge)"
+        range -1 48
+        default -1
+
+    config MC_UART_BAUD_RATE
+        int "UART baud rate"
+        range 115200 2000000
+        default 921600
+
+endmenu

@@ -1,0 +1,49 @@
+{
+  "baseline_id": "4WS8_SIGN_DEMO_3X3_1TO1_STAGE4_20S_ACCEPTED_20261026",
+  "status": "USER_ACCEPTED_BOUNDED_GROUND_DEMONSTRATION",
+  "human_confirmation": "20秒测试完成，基本情况都符合预期，当前版本的同步性也比较理想，可以保存这套方案",
+  "release": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_servo_4ws8_2026-10-26/demo_3x3_20s/ready",
+  "build_manifest_sha256": "e32961915c8194996a877c6d6275c1bbd4d65aee7e8278c1373cb922c2e265cf",
+  "candidate_sources": "/home/PRIMARY_USER/vicon_mecanum_ws/stm32/mecanum_f407/candidates/servo_4ws8_demo_3x3_20s",
+  "physical_session": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_servo_4ws8_2026-10-26/demo_3x3_20s/ready/ground_stage4_single_8s8ldeny/SESSION_RESULT.json",
+  "offline_regression": "146 passed; two private ROS packages built; 886 previously protected files unchanged",
+  "parameters": {
+    "rigid_bodies": ["Sign", "car01"],
+    "mapping": "1:1 XY; Z and rod orientation do not drive the car; origins captured on the first healthy held-enable ACTIVE frame",
+    "car_yaw_offset_rad": 2.356194490192345,
+    "firmware": "4WS8 v4, previously flashed and full-readback verified; unchanged while saving",
+    "firmware_sha256": "de87e3fb01df19af5bae75d479cef03376340bd486154ce4e0d75a2c285993ab",
+    "stage": 4,
+    "speed_cap_mps": 0.7,
+    "acceleration_cap_mps2": 0.8,
+    "pwm_cap_permille": 800,
+    "goal_forward_m": [0.0, 3.0],
+    "goal_left_m": [0.0, 3.0],
+    "saved_arena_origin_xy_m": [0.6437034797013303, -1.0528685411524479],
+    "saved_arena_heading_rad": 1.526260405304856,
+    "buffer_each_side_m": 0.5,
+    "extra_footprint_margin_m": 0.2,
+    "car_outline_m": [0.19, 0.21],
+    "session_max_active_s": 20.0,
+    "engagements_per_process": 1,
+    "spatial_policy": "Fixed 3x3m clamped goals and independent full-footprint fence; no former 15cm hand/goal, 20cm car, 25cm path, 10cm lateral or 4cm reverse pilot budget",
+    "release_or_tracking_loss": "Stop; no automatic resume or repeated preparation in a consumed session"
+  },
+  "entry": {
+    "file_only_check": "bash /home/PRIMARY_USER/vicon_mecanum_ws/tools/start_4ws8_demo_3x3_20s.sh --check",
+    "manual_launch": "bash /home/PRIMARY_USER/vicon_mecanum_ws/tools/start_4ws8_demo_3x3_20s.sh --launch",
+    "fresh_site_confirmation": "Always required by launcher; never reuse archived site approval",
+    "operator_flow": "Click console; tap/release Space to unlock if requested; Prepare; wait ready; hold Space to capture origins and follow for at most20s; release to stop. Once consumed, close and inspect before another launch.",
+    "automatic_enable": false
+  },
+  "preservation_policy": "Do not edit this accepted runtime or its pinned candidate sources in place. Prepare future work in a separate candidate/release, retain this archive and re-run scoped regressions. Original rectangle program, ESP32 image and network profiles remain unchanged.",
+  "qualification_limits": [
+    "Accepted only within the observed single-session motion range; not a complete3x3m-area acceptance",
+    "0.70m/s and0.80m/s2 are configured caps, not measured achieved performance",
+    "This run ended by Space release at19.52s, not the20s timeout",
+    "Occlusion recovery, worst-case stopping distance, current and temperature were not qualified in this run"
+  ],
+  "archive_scope": "Workspace-relative code/configuration dependencies, private runtime/install links, regression outputs, real-session raw logs, full Flash readback evidence and this acceptance record. Not a standalone OS/ROS/Vicon installation; restore/rebuild in the original workspace and verify dependencies before use.",
+  "hardware_started_while_saving": false,
+  "firmware_written_while_saving": false
+}

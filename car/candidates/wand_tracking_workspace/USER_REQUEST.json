@@ -1,0 +1,13 @@
+{
+  "request": "暂时不刷写，先尝试将原有操作台上的电子围栏给去掉，不用再让范围限制小车移动和标定杆移动，除非小车或者标定杆的Vicon定位丢失，否则可以让小车和标定杆在整个Vicon覆盖区域移动",
+  "spatial_policy": "TRACKING_ONLY_NO_FIXED_FENCE_V1",
+  "fixed_fence_enabled": false,
+  "target_radius_limit_enabled": false,
+  "mapping_scale": 1.0,
+  "max_active_s": 120.0,
+  "firmware_change": false,
+  "automatic_hardware_launch": false,
+  "full_vicon_coverage_measured": false,
+  "obstacle_detection_available": false,
+  "other_safety_protections_preserved": true
+}

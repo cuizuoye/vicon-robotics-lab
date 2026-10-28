@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "new_tests": "57 passed in 2.44s",
+  "accepted_translation_tests": "323 passed in 8.42s",
+  "protected_parent_files_unchanged": 1794,
+  "host_packages_built": true,
+  "real_ros_software_cases": 6,
+  "hardware_started": false,
+  "flashed": false,
+  "network_changed": false,
+  "original_entry_changed": false,
+  "physical_acceptance_pending": true,
+  "yaw_limits": {
+    "rate_radps": 0.1,
+    "accel_radps2": 0.4
+  },
+  "xy_limits": {
+    "speed_mps": 0.7,
+    "accel_mps2": 0.8
+  },
+  "file_check": "bash /home/PRIMARY_USER/vicon_mecanum_ws/tools/start_car_xy_yaw_demo.sh --check"
+}

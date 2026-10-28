@@ -1,0 +1,13 @@
+{
+  "request": "将小车MCU反馈有效期从200ms放宽到300ms，进行一次实机对照试验",
+  "feedback_timeout_s": 0.3,
+  "pose_timeout_s": 0.2,
+  "command_timeout_s": 0.1,
+  "lease_timeout_s": 0.15,
+  "max_session_s": 120.0,
+  "firmware_changed": false,
+  "network_settings_changed": false,
+  "original_entry_changed": false,
+  "automatic_motion_allowed": false,
+  "note": "容忍度对照，不代表反馈回程问题已修复；源时间、重放校验、故障停车和手动空格启动保留。"
+}

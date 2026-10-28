@@ -1,0 +1,15 @@
+{
+  "request": "现在先离线完成同步性更好的旋转和自主跟随版本小车的内容，需要接入硬件再通知我",
+  "interpretation": "Improve relative Sign XY+yaw following, not new autonomous navigation",
+  "hardware_connection_authorized": false,
+  "flashing_authorized": false,
+  "physical_motion_authorized": false,
+  "preserve_existing_entries": true,
+  "mapping_xy": 1.0,
+  "mapping_yaw": 1.0,
+  "reference_point": "Sign5",
+  "maximum_candidate_xy_speed_mps": 0.70,
+  "maximum_candidate_xy_accel_mps2": 2.00,
+  "maximum_candidate_yaw_rate_radps": 2.00,
+  "maximum_candidate_yaw_accel_radps2": 12.00
+}

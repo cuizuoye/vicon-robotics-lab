@@ -5,7 +5,12 @@ import rclpy
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
 
-from mecanum_vicon_control.cmd_vel_udp_bridge import CmdVelUdpBridge
+from mecanum_vicon_control.cmd_vel_udp_bridge import (
+    FOUR_LINK_TIMED_OUT,
+    FOUR_LINK_USED,
+    FOUR_LINK_ZERO,
+    CmdVelUdpBridge,
+)
 from mecanum_vicon_control.transport_protocol import (
     FrameFlags, MessageType, WheelTelemetry, decode_frame, encode_frame,
     pack_wheel_telemetry, unpack_cmd_vel,
@@ -50,11 +55,12 @@ def node():
             rclpy.shutdown()
 
 
-def feedback(n, fault):
+def feedback(n, fault, state_flags=None):
     payload = pack_wheel_telemetry(WheelTelemetry(
         sample_time_ms=100, wheel_rpm=(0., 0., 0., 0.),
         encoder_counts=(0, 0, 0, 0), battery_mv=0,
-        state_flags=125 if fault else 109, fault_bits=fault,
+        state_flags=(125 if fault else 109) if state_flags is None else state_flags,
+        fault_bits=fault,
         last_command_sequence=10))
     n.sock.incoming.append(encode_frame(MessageType.WHEEL_TELEMETRY, 10,
         n.session.session_id, 100, payload,
@@ -117,6 +123,61 @@ def test_clear_fault_request_does_not_clear_host_stop_latch(node):
     assert node.local_stop_latched and node.pending_control_action == 'clear_faults'
 
 
+def test_never_armed_zero_idle_expiry_rehandshakes_without_stop_latch(node):
+    node.bounded_motion_mode = True
+    feedback(node, 1 << 16, FOUR_LINK_ZERO | FOUR_LINK_TIMED_OUT)
+    assert not node.local_stop_latched
+    assert not node.session.connected
+    assert node.last_hello_monotonic == -float('inf')
+
+
+def test_idle_expiry_after_motion_remains_fatal(node):
+    node.bounded_motion_mode = True
+    feedback(node, 1 << 16,
+             FOUR_LINK_ZERO | FOUR_LINK_TIMED_OUT | FOUR_LINK_USED)
+    assert node.local_stop_latched
+    assert not node.safety_enabled
+
+
+def test_new_firmware_idle_timeout_rehandshakes_without_stop_latch(
+        node, monkeypatch):
+    node.bounded_motion_mode = True
+    feedback(node, 0, FOUR_LINK_ZERO | FOUR_LINK_TIMED_OUT)
+    node.last_receive_monotonic = 99.9
+    node.last_command_progress_monotonic = 0.
+    monkeypatch.setattr(time, 'monotonic', lambda: 100.)
+    node.tick()
+    assert not node.local_stop_latched
+    assert not node.session.connected
+    assert decode_frame(node.sock.frames[-1]).message_type == MessageType.HELLO
+
+
+def test_never_armed_zero_link_loss_rehandshakes_without_stop_latch(
+        node, monkeypatch):
+    node.bounded_motion_mode = True
+    feedback(node, 0, FOUR_LINK_ZERO)
+    node.last_receive_monotonic = 0.
+    node.last_command_progress_monotonic = 99.9
+    monkeypatch.setattr(time, 'monotonic', lambda: 100.)
+    node.tick()
+    assert not node.local_stop_latched
+    assert not node.session.connected
+    assert decode_frame(node.sock.frames[-1]).message_type == MessageType.HELLO
+
+
+def test_local_motion_intent_makes_stale_idle_feedback_fatal(
+        node, monkeypatch):
+    node.bounded_motion_mode = True
+    feedback(node, 0, FOUR_LINK_ZERO)
+    velocity(node)
+    node.last_receive_monotonic = 0.
+    node.last_command_progress_monotonic = 99.9
+    monkeypatch.setattr(time, 'monotonic', lambda: 100.)
+    node.tick()
+    assert node.local_stop_latched
+    assert not node.safety_enabled
+
+
 @pytest.mark.parametrize('receive,progress', [(0., 99.9), (99.9, 0.)])
 def test_receive_or_progress_timeout_latches_before_auto_handshake(
         node, monkeypatch, receive, progress):
@@ -151,3 +212,46 @@ def test_readonly_mode_cannot_clear_stop_latch_by_enable(node):
     feedback(node, 0)
     node.on_control_enable(Bool(data=True))
     assert node.local_stop_latched and node.pending_control_action is None
+
+
+def test_connected_disable_stays_in_current_session_and_does_not_send_hello(node):
+    session_id = node.session.session_id
+    before = len(node.sock.frames)
+    node.on_control_enable(Bool(data=False))
+    assert node.session.connected
+    assert node.session.session_id == session_id
+    assert len(node.sock.frames) == before
+    assert node.send_pending_control_action()
+    frame = decode_frame(node.sock.frames[-1])
+    assert frame.message_type == MessageType.CONTROL_ENABLE
+    assert frame.session_id == session_id
+
+
+def test_connected_estop_stays_in_current_session(node):
+    session_id = node.session.session_id
+    before = len(node.sock.frames)
+    node.on_estop(Bool(data=True))
+    assert node.session.connected
+    assert node.session.session_id == session_id
+    assert len(node.sock.frames) == before
+    assert node.send_pending_control_action()
+    frame = decode_frame(node.sock.frames[-1])
+    assert frame.message_type == MessageType.ESTOP
+    assert frame.session_id == session_id
+
+
+def test_disable_blocks_stale_permit_feedback_from_reenabling_zero(node):
+    node.bounded_motion_mode = True
+    node.motion_gate_requested = True
+    node.last_motion_status = {'permitted': 1}
+    node.last_motion_status_monotonic = time.monotonic()
+    node.on_control_enable(Bool(data=False))
+    assert not node.motion_gate_requested
+    while node.pending_control_action is not None:
+        assert node.send_pending_control_action()
+    node.send_command()
+    frame = decode_frame(node.sock.frames[-1])
+    assert frame.message_type == MessageType.CMD_VEL
+    assert not frame.flags & FrameFlags.ENABLED
+    command = unpack_cmd_vel(frame.payload)
+    assert (command.vx_mps, command.vy_mps, command.wz_radps) == (0.0, 0.0, 0.0)

@@ -5,7 +5,7 @@ import pytest
 from geometry_msgs.msg import PoseStamped
 
 from mecanum_vicon_control.car_state_bridge import (
-    CarStateBridge, pose_is_fresh, validate_input_pose,
+    CarStateBridge, health_publish_due, pose_is_fresh, validate_input_pose,
 )
 from mecanum_vicon_control.math_utils import quaternion_from_yaw
 
@@ -62,10 +62,21 @@ def test_stale_zero_future_stamp_rejected(stamp_ns):
 @pytest.mark.parametrize('last_ns,now_ns,expected', [
     (None, 1_000_000_000, False), (1_000_000_000, 1_100_000_000, True),
     (1_000_000_000, 1_200_000_000, True), (1_000_000_000, 1_210_000_000, False),
-    (1_000_000_000, 900_000_000, False),
+    (1_000_000_000, 990_000_000, True), (1_000_000_000, 950_000_000, True),
+    (1_000_000_000, 949_000_000, False), (1_000_000_000, 900_000_000, False),
 ])
 def test_freshness(last_ns, now_ns, expected):
     assert pose_is_fresh(last_ns, now_ns, 0.2) == expected
+
+
+@pytest.mark.parametrize('last_ns,now_ns,expected', [
+    (None, 1_000_000_000, True),
+    (1_000_000_000, 1_049_999_999, False),
+    (1_000_000_000, 1_050_000_000, True),
+    (1_000_000_000, 1_100_000_000, True),
+])
+def test_health_status_rate_limit(last_ns, now_ns, expected):
+    assert health_publish_due(last_ns, now_ns) is expected
 
 
 def test_timeout_publishes_invalid_without_pose_or_command():
@@ -75,6 +86,7 @@ def test_timeout_publishes_invalid_without_pose_or_command():
                            get_clock=lambda: SimpleNamespace(now=lambda: SimpleNamespace(nanoseconds=1_300_000_000)))
     CarStateBridge.check_timeout(node)
     assert published == [False]
+    assert node.last_health_publish_ns == 1_300_000_000
 
 
 def test_reject_immediately_invalidates_even_after_recent_good_sample():

@@ -1,0 +1,11 @@
+{
+  "scope": "Continue next ordered step: real Sign drives XY+rotation SOFTWARE car",
+  "physical_car": "off; no motion or command outputs",
+  "firmware": "unchanged",
+  "accepted_xy_and_rectangle": "unchanged",
+  "translation_scale": 1.0,
+  "relative_yaw_scale": 1.0,
+  "forward": "outside Sign1-Sign5-Sign2 crossbar, away from stem Sign3/Sign4",
+  "control_point": "Sign5",
+  "yaw_limits_are_simulation_only": true
+}

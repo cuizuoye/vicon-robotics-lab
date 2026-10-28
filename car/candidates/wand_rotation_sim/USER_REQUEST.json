@@ -1,0 +1,14 @@
+{
+  "scope": "STEP2_OFFLINE_XY_YAW_SIMULATION_ONLY",
+  "previous_step_acceptance": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_rotation_preview_2026-10-26/DIRECTION_ACCEPTANCE.json",
+  "bar": ["Sign1", "Sign5", "Sign2"],
+  "control_point": "Sign5",
+  "forward": "OUTSIDE_CROSSBAR_AWAY_FROM_STEM",
+  "rotation_mapping": "RELATIVE_1TO1_RETURN_TO_START_HEADING",
+  "translation_mapping": "1TO1_IN_FIXED_ENGAGE_TIME_CAR_FRAME",
+  "live_ros_launch": false,
+  "firmware_changes": false,
+  "hardware_motion": false,
+  "accepted_program_changes": false,
+  "next_step_requires": "Separate real Sign to SOFTWARE car integration and acceptance; keep physical car powered off"
+}

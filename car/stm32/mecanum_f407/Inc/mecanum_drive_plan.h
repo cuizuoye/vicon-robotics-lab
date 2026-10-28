@@ -21,7 +21,8 @@ typedef struct {
 
 /*
  * 纯速度目标规划，绝不调用PWM/串口/使能。尺寸或X排列未确认时失败并全归零。
- * 上限：轮缘50mm/s、各轮300cps；不同CPR触发限速时仍全组同比例缩放。
+ * 上限由独立固件配置给出；4WG7及之前为50mm/s/300cps，4WG8为
+ * 200mm/s/1200cps。不同CPR触发限速时仍全组同比例缩放。
  * forward_cps送PI时不乘motor_sign；PI最终PWM方向才使用该符号。
  */
 bool mecanum_drive_plan(const mecanum_drive_geometry_t *geometry,

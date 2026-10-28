@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "new_tests": "46 passed in 6.22s",
+  "parent_tracking_tests": "56 passed in 1.26s",
+  "parent_xy_tests": "323 passed in 9.10s",
+  "parent_rotation_tests": "57 passed in 2.61s",
+  "real_ros_software_cases": 8,
+  "manual_checkboxes": 0,
+  "automatic_open": true,
+  "automatic_prepare": true,
+  "automatic_motion": false,
+  "fresh_space_click_required": true,
+  "site_conditions_machine_verified": false,
+  "site_preconditions_basis": "EXPLICIT_USER_STANDING_INSTRUCTION",
+  "max_active_s": 120.0,
+  "controller_bridge_console_bytes_unchanged": true,
+  "protected_parent_files_unchanged": 2090,
+  "firmware_flashed": false,
+  "physical_car_started": false,
+  "network_settings_changed": false,
+  "remote_display_environment_tested": true,
+  "actual_windows_x11_acceptance_pending": true
+}

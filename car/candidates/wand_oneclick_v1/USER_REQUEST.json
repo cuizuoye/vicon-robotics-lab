@@ -1,0 +1,9 @@
+{
+  "request": "先把手动输入打开操作台的步骤优化一下，将启动指令压缩，调整到只输入一条指令就可以直接打开操作台。而且我上一次手动输入指令打开操作台时，小车也无法正常启动。总而言之，启动操作台的方式要尽量做的适合所有人使用，哪怕是第一次上手的人",
+  "scope": "One-command novice GUI entry, Chinese site confirmations and readiness diagnostics, startup-only healthy-disabled reconnect repair; accepted algorithm/firmware/rectangle baseline unchanged",
+  "automatic_enable": false,
+  "automatic_fault_clear": false,
+  "active_feedback_timeout_s": 0.2,
+  "fresh_physical_confirmation_required_before_control_nodes": true,
+  "new_ground_motion_authorized_by_this_request": false
+}

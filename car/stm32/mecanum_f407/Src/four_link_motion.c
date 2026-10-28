@@ -21,7 +21,8 @@ bool four_link_bench_decode(const uint8_t *raw, size_t n, four_link_request_t *r
     case MC_MSG_CMD_VEL:
         if (h->payload_length != sizeof(r->body.velocity)) return false;
         memcpy(&r->body.velocity, p, sizeof(r->body.velocity));
-        return r->body.velocity.timeout_ms == 150 && !r->body.velocity.reserved &&
+        return r->body.velocity.timeout_ms == FOUR_DRIVE_COMMAND_TIMEOUT_MS &&
+               !r->body.velocity.reserved &&
                !r->body.velocity.control_mode;
     case MC_MSG_CONTROL_ENABLE:
         if (h->payload_length != sizeof(r->body.control) || (h->flags & MC_FLAG_ENABLED)) return false;
@@ -44,13 +45,20 @@ static void stop(four_link_bench_t *c, drive_bench_t *b, uint32_t fault, uint32_
 
 void four_link_bench_deadline(four_link_bench_t *c, drive_bench_t *b, uint32_t now)
 {
-    if (c->session_active && c->command_seen && !c->expired && now - c->last_command_ms >= 150) {
+    if (c->session_active && c->command_seen && !c->expired &&
+        now - c->last_command_ms >= FOUR_DRIVE_COMMAND_TIMEOUT_MS) {
         c->expired = true;
-        c->fault |= FOUR_LINK_EXPIRED;
-        /* Includes direction-settling intervals and an armed zero command. */
-        if (c->permitted || c->motion_started)
+        /* A lease gap is a fault only while the actuator gate is owned.  An
+         * unpermitted disabled-zero session may expire while the operator is
+         * still positioning the car; a new HELLO must recover it without a
+         * host-side fault reset.  Direction settling and armed zero retain the
+         * permit, so they still fail closed on the profile's fixed deadline. */
+        if (c->permitted || b->group.enabled) {
+            c->fault |= FOUR_LINK_EXPIRED;
             stop(c, b, FOUR_SPEED_FAULT_COMMAND, now);
-        else c->zero_seen = false;
+        } else {
+            c->zero_seen = false;
+        }
     }
     if (c->permitted && c->motion_started && now - c->first_motion_ms >= FOUR_LINK_MOTION_LIMIT_MS)
         stop(c, b, FOUR_SPEED_FAULT_DURATION, now);
@@ -59,11 +67,18 @@ void four_link_bench_deadline(four_link_bench_t *c, drive_bench_t *b, uint32_t n
 
 static bool plan_for(const drive_bench_t *b, const mc_cmd_vel_v1_t *v, mecanum_drive_plan_t *p)
 {
-    if (v->vx_mm_s < -50 || v->vx_mm_s > 50 || v->vy_mm_s < -50 || v->vy_mm_s > 50 ||
-        v->wz_mrad_s < -200 || v->wz_mrad_s > 200) return false;
+    if (v->vx_mm_s < -FOUR_DRIVE_MAX_BODY_MM_S ||
+        v->vx_mm_s > FOUR_DRIVE_MAX_BODY_MM_S ||
+        v->vy_mm_s < -FOUR_DRIVE_MAX_BODY_MM_S ||
+        v->vy_mm_s > FOUR_DRIVE_MAX_BODY_MM_S ||
+        v->wz_mrad_s < -FOUR_DRIVE_MAX_YAW_MRAD_S ||
+        v->wz_mrad_s > FOUR_DRIVE_MAX_YAW_MRAD_S) return false;
     const mecanum_body_velocity_t body = {v->vx_mm_s / 1000.0f, v->vy_mm_s / 1000.0f,
                                          v->wz_mrad_s / 1000.0f};
-    return mecanum_drive_plan(&b->group.geometry, &b->adopted, &body, 0.05f, p);
+    if (!mecanum_drive_plan(&b->group.geometry, &b->adopted, &body,
+                            FOUR_DRIVE_MAX_WHEEL_M_S, p)) return false;
+    four_drive_normalize_plan(p);
+    return true;
 }
 
 bool four_link_bench_process(four_link_bench_t *c, drive_bench_t *b,
@@ -90,7 +105,25 @@ bool four_link_bench_process(four_link_bench_t *c, drive_bench_t *b,
     if (h->message_type == MC_MSG_HEARTBEAT) return false; /* Not a velocity lease. */
     if (h->message_type == MC_MSG_CONTROL_ENABLE) {
         const mc_control_enable_v1_t *e = &r->body.control;
-        if (e->clear_latched_faults) { stop(c, b, FOUR_LINK_REJECTED, now); return false; }
+        if (e->clear_latched_faults) {
+#if defined(FOUR_LINK_GROUND9) || defined(FOUR_LINK_GROUNDA) || \
+    defined(FOUR_LINK_GROUNDB)
+            /* This command is a safe run-budget rearm, not a general fault
+             * clear.  It requires a fresh disabled-zero lease plus measured
+             * standstill, and refuses every real actuator/link fault. */
+            if (e->enabled || c->permitted || c->expired || c->fault ||
+                b->group.fault || !c->zero_seen || !c->command_seen ||
+                now - c->last_command_ms >= 100U ||
+                !four_drive_rearm(&b->group, now)) {
+                stop(c, b, FOUR_LINK_REJECTED, now); return false;
+            }
+            c->motion_started = c->transitioning = false;
+            c->first_motion_ms = 0U;
+            return false;
+#else
+            stop(c, b, FOUR_LINK_REJECTED, now); return false;
+#endif
+        }
         if (!e->enabled) { stop(c, b, 0, now); return false; }
         /* Repeated enables are not keepalives, and cannot restart/reset a run. */
         if (c->permitted) return false;
@@ -118,6 +151,9 @@ bool four_link_bench_process(four_link_bench_t *c, drive_bench_t *b,
     if (!c->permitted || c->expired || c->fault || b->group.fault || !plan_for(b, v, &plan)) {
         stop(c, b, FOUR_LINK_REJECTED, now); return false;
     }
+    bool effective_zero = true;
+    for (unsigned i = 0; i < 4; ++i)
+        effective_zero &= plan.forward_cps[i] == 0.0f;
     if (now - b->sampled_ms > 30) { stop(c, b, FOUR_SPEED_FAULT_TIMING, now); return false; }
     c->last_command_ms = now; c->last_command_sequence = h->sequence; c->command_seen = true;
     if (b->group.enabled) {
@@ -139,7 +175,8 @@ bool four_link_bench_process(four_link_bench_t *c, drive_bench_t *b,
         c->transitioning = true;
         return false;
     }
-    if (zero) return false; /* Armed zero never starts a run, but does renew its lease. */
+    if (zero || effective_zero)
+        return false; /* A deadband-only command renews the lease without starting a run. */
     if (c->transitioning) {
         /* Require measured standstill, not merely elapsed dead time. Latest command wins. */
         if (b->group.stationary_ms < 500 || now - b->group.stopped_ms < 500) return false;
@@ -152,6 +189,17 @@ bool four_link_bench_process(four_link_bench_t *c, drive_bench_t *b,
         b->group.stopped_ms = stopped_ms;
         c->transitioning = false;
     }
+#if defined(FOUR_LINK_GROUND6) || defined(FOUR_LINK_GROUND7) || \
+    defined(FOUR_LINK_GROUND8) || defined(FOUR_LINK_GROUND9) || \
+    defined(FOUR_LINK_GROUNDA) || defined(FOUR_LINK_GROUNDB)
+    float largest_target = 0.0f;
+    for (unsigned i = 0; i < 4; ++i) {
+        const float magnitude = fabsf(plan.forward_cps[i]);
+        if (magnitude > largest_target) largest_target = magnitude;
+    }
+    if (largest_target < FOUR_DRIVE_START_THRESHOLD_CPS)
+        return false; /* Fresh lease, but no output and no consumed run allowance. */
+#endif
     if (!four_drive_heartbeat(&b->group, now) ||
         !four_drive_arm(&b->group, &plan.applied_body, now)) {
         stop(c, b, b->group.fault ? b->group.fault : FOUR_LINK_REJECTED, now); return false;

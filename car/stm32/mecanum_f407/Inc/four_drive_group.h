@@ -25,9 +25,18 @@ bool four_drive_heartbeat(four_drive_group_t *group, uint32_t now);
 bool four_drive_arm(four_drive_group_t *group, const mecanum_body_velocity_t *requested,
                     uint32_t now);
 #ifdef FOUR_LINK_MOTION
+/* Snap wheel demands below the profile's measurable closed-loop floor to zero.
+ * This is intentionally a no-op for every profile before 4WG6. */
+void four_drive_normalize_plan(mecanum_drive_plan_t *plan);
 /* Separate motion image only: same-direction updates; reversal must settle first. */
 bool four_drive_retarget(four_drive_group_t *group, const mecanum_drive_plan_t *plan,
                          uint32_t now);
+#if defined(FOUR_LINK_GROUND9) || defined(FOUR_LINK_GROUNDA) || \
+    defined(FOUR_LINK_GROUNDB)
+/* Reset only the consumed run allowance.  Real faults, active output and a
+ * moving/unsettled chassis can never be cleared through this path. */
+bool four_drive_rearm(four_drive_group_t *group, uint32_t now);
+#endif
 #endif
 #ifdef RR_DIAGNOSTIC
 /* 独立镜像唯一固定单轮动作；不经过整车运动学，不接受任意速度。 */

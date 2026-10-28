@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "base_yaw_offset_rad": 2.356194490192345,
+  "hardware": {
+    "esp_ip": "192.168.50.1",
+    "network_interface": "wlx000000000000",
+    "required_motion_tag": "4WGB",
+    "wire_timeout_ms": 600
+  },
+  "safety": {
+    "arena_x_min": -0.082994080188,
+    "arena_x_max": 1.317005919812,
+    "arena_y_min": -1.751451439272,
+    "arena_y_max": -0.351451439272,
+    "ground_z_m": 0.10790704618641533,
+    "half_length_m": 0.19,
+    "half_width_m": 0.21,
+    "boundary_margin_m": 0.2,
+    "max_speed_mps": 0.05,
+    "max_session_s": 30.0,
+    "goal_boundary_policy": "clamp"
+  },
+  "input_workspace": {
+    "reference_margin_m": 0.5,
+    "policy": "Accept all fresh finite tracked Sign poses; the purple reference is not an input fence or a verified Vicon coverage polygon",
+    "mapping": "2x horizontal displacement; project the car goal into the existing fixed footprint-safe arena and existing session radius; no automatic rebase",
+    "human_safety": "The 0.50m graphical extension is not person detection or a certified person-car safety separation"
+  },
+  "confirmations": {
+    "fixed_arena_checked": false,
+    "footprint_measured": false,
+    "ground_height_measured": false,
+    "heading_checked": false,
+    "power_cut_ready": false,
+    "wiring_secured": false,
+    "battery_protection_checked": false,
+    "wire_watchdog_600ms_documented": false
+  },
+  "evidence": {
+    "outline_length_m": 0.19,
+    "outline_width_m": 0.21,
+    "car_heading_rad": 1.5164931576573302,
+    "footprint_policy": "Unchanged conservative full-dimension half extents; existing car arena and all timing protections retained",
+    "operator_request": "Operator explicitly accepts 2x plus bounded car goal and reference workspace at least 0.50m larger on every side",
+    "migration": "Software profile only; powered hardware identity, direction, braking and current site clearance still require live acceptance",
+    "reference_size_m": [
+      2.4,
+      2.4
+    ]
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "passed": true,
+  "ros_domain": 187,
+  "discovery": "LOCALHOST",
+  "cases": [
+    {
+      "case": "normal_stop",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click",
+        "stop"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "max_speed_mps": 0.11683301360585165,
+      "max_yaw_radps": 0.1,
+      "commands": 885,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.008812489999399986,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "occlusion",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "max_speed_mps": 0.10584018956724028,
+      "max_yaw_radps": 0.1,
+      "commands": 543,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.1990624440004467,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "source_digest",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ROTATION_SELECTED_SOURCE_INVALID",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "max_speed_mps": 0.10627275385679885,
+      "max_yaw_radps": 0.1,
+      "commands": 537,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.07022106599833933,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "yaw_intent",
+      "passed": true,
+      "phases": [
+        "WAITING",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "FINAL_REFERENCE_STEP_LIMIT",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "max_speed_mps": 0.10707900979842201,
+      "max_yaw_radps": 0.1,
+      "commands": 531,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.03992479699809337,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "actuator_fault",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ACTUATOR_FAULT"
+      ],
+      "max_speed_mps": 0.10772490766973254,
+      "max_yaw_radps": 0.1,
+      "commands": 548,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.02992725299918675,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "source_conflict",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "max_speed_mps": 0.10615635696898572,
+      "max_yaw_radps": 0.1,
+      "commands": 546,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.09153763400172465,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    }
+  ],
+  "actual_ros_nodes": true,
+  "actuator_backend": "SOFTWARE Plant only",
+  "hardware_bridge_constructed": false,
+  "physical_car_started": false,
+  "firmware_changed": false,
+  "network_settings_changed": false,
+  "real_sign_occlusion_acceptance_pending": true,
+  "physical_rotation_acceptance_pending": true
+}

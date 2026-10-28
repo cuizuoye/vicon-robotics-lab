@@ -1,0 +1,14 @@
+{
+  "scope": "4WS8_SUSPENDED_STAGES_2_3_4_SINGLE_5S",
+  "identity": "4WS8",
+  "image_sha256": "de87e3fb01df19af5bae75d479cef03376340bd486154ce4e0d75a2c285993ab",
+  "human_authorized": true,
+  "entry": "suspended",
+  "requested_stages": [2, 3, 4],
+  "maximum_action_s": 5,
+  "manual_hold_required": true,
+  "ground_motion_authorized": false,
+  "automatic_retry_authorized": false,
+  "direct_user_request": "直接测量0.5m/s和0.7m/s吧，0.7的也只需要测试一下0.4和0.8加速度即可",
+  "context": "Immediately following the successful stage0 physical suspended trial; wheels remain secured clear, Tenda connected, immediate battery cut available. This is not authorization for loaded ground motion or electrical/thermal qualification."
+}

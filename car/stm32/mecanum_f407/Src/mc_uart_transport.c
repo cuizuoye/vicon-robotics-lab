@@ -18,6 +18,15 @@ static volatile uint8_t queue_tail;
 static volatile uint8_t queue_count;
 static volatile bool receive_fault;
 static volatile bool discard_until_delimiter;
+static volatile bool startup_line_error_guard;
+
+static bool tolerate_startup_line_error(uint32_t error_code)
+{
+    const uint32_t tolerated =
+        HAL_UART_ERROR_PE | HAL_UART_ERROR_NE | HAL_UART_ERROR_FE;
+    return startup_line_error_guard && error_code != HAL_UART_ERROR_NONE &&
+           (error_code & ~tolerated) == 0U;
+}
 
 #ifdef MC_UART_DIAGNOSTICS
 volatile mc_uart_diagnostics_t mc_uart_diagnostics;
@@ -44,6 +53,7 @@ void mc_uart_transport_init(UART_HandleTypeDef *uart)
     queue_count = 0U;
     receive_fault = false;
     discard_until_delimiter = false;
+    startup_line_error_guard = false;
 #ifdef MC_UART_DIAGNOSTICS
     memset((void *)&mc_uart_diagnostics, 0, sizeof(mc_uart_diagnostics));
     mc_uart_diagnostics.tag = UINT32_C(0x31445255); /* URD1 */
@@ -51,6 +61,16 @@ void mc_uart_transport_init(UART_HandleTypeDef *uart)
     if (HAL_UART_Receive_IT(transport_uart, &rx_byte, 1U) != HAL_OK) {
         Error_Handler();
     }
+}
+
+void mc_uart_transport_enable_startup_line_error_guard(void)
+{
+    startup_line_error_guard = true;
+}
+
+void mc_uart_transport_confirm_valid_frame(void)
+{
+    startup_line_error_guard = false;
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *uart)
@@ -66,7 +86,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *uart)
        error callback. Never admit the errored byte; let that callback own
        abort/rearm while retaining the fault notification. */
     if (uart->ErrorCode != HAL_UART_ERROR_NONE) {
-        receive_fault = true;
+        if (!tolerate_startup_line_error(uart->ErrorCode)) receive_fault = true;
         working_length = 0U;
         discard_until_delimiter = true;
         return;
@@ -121,13 +141,15 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *uart)
     mc_uart_diagnostics.last_sr = uart->Instance->SR;
     mc_uart_diagnostics.last_error_ms = HAL_GetTick();
 #endif
-    receive_fault = true;
+    const bool tolerated = tolerate_startup_line_error(uart->ErrorCode);
+    if (!tolerated) receive_fault = true;
     working_length = 0U;
     discard_until_delimiter = true;
     /* Drop pre-error queued commands as well as the damaged partial packet.
        This is receive recovery only: no application fault is cleared. */
     queue_head = queue_tail = queue_count = 0U;
     if (HAL_UART_AbortReceive(transport_uart) != HAL_OK) {
+        receive_fault = true;
 #ifdef MC_UART_DIAGNOSTICS
         ++mc_uart_diagnostics.rearm_failures;
 #endif
@@ -135,10 +157,13 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *uart)
     }
     __HAL_UART_CLEAR_OREFLAG(transport_uart);
 #ifdef MC_UART_DIAGNOSTICS
-    if (HAL_UART_Receive_IT(transport_uart, &rx_byte, 1U) != HAL_OK)
+    if (HAL_UART_Receive_IT(transport_uart, &rx_byte, 1U) != HAL_OK) {
+        receive_fault = true;
         ++mc_uart_diagnostics.rearm_failures;
+    }
 #else
-    (void)HAL_UART_Receive_IT(transport_uart, &rx_byte, 1U);
+    if (HAL_UART_Receive_IT(transport_uart, &rx_byte, 1U) != HAL_OK)
+        receive_fault = true;
 #endif
 }
 

@@ -1,0 +1,513 @@
+{
+  "passed": true,
+  "ros_domain": 187,
+  "discovery": "LOCALHOST",
+  "cases": [
+    {
+      "case": "normal_stop",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click",
+        "stop"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.11650850003291595,
+      "max_yaw_radps": 0.1,
+      "commands": 1141,
+      "zero_before_click": true,
+      "car_x_m": 12.046590711675444,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.009479135002038674,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "occlusion",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.10612934563063893,
+      "max_yaw_radps": 0.1,
+      "commands": 794,
+      "zero_before_click": true,
+      "car_x_m": 12.05740440599629,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.15967924500000663,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "car_occlusion",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "CAR_POSE_TIMEOUT"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.10847224782195938,
+      "max_yaw_radps": 0.1,
+      "commands": 795,
+      "zero_before_click": true,
+      "car_x_m": 12.05125071929954,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.16968208400066942,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "source_digest",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ROTATION_SELECTED_SOURCE_INVALID"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": {
+        "reason": "SELECTED_SOURCE_MISSING",
+        "sequence": 234,
+        "sign_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+        "sign_stamp": 1793086305.0022178,
+        "car_stamp": 1793086305.0022447,
+        "missing_sign": true,
+        "missing_car": false,
+        "wait_s": 0.040565893999882974,
+        "queued": 3,
+        "issued_age_s": 0.04178639800011297
+      },
+      "max_speed_mps": 0.1084952010099551,
+      "max_yaw_radps": 0.1,
+      "commands": 800,
+      "zero_before_click": true,
+      "car_x_m": 12.056217097549968,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.07920969599945238,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "yaw_intent",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "FINAL_REFERENCE_STEP_LIMIT",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.10529385835967547,
+      "max_yaw_radps": 0.1,
+      "commands": 812,
+      "zero_before_click": true,
+      "car_x_m": 12.0571084438477,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.039366905999486335,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "actuator_fault",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ACTUATOR_FAULT"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.1060901536615065,
+      "max_yaw_radps": 0.1,
+      "commands": 808,
+      "zero_before_click": true,
+      "car_x_m": 12.05634647620518,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.06987749799736775,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "source_conflict",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.10616019264328544,
+      "max_yaw_radps": 0.1,
+      "commands": 808,
+      "zero_before_click": true,
+      "car_x_m": 12.057136769979197,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.08961156200166442,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "wide_motion",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click",
+        "stop"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.48732782437510697,
+      "max_yaw_radps": 0.0,
+      "commands": 2295,
+      "zero_before_click": true,
+      "car_x_m": 19.19036318668108,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.009586339998350013,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "feedback_250ms",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.11382226728726061,
+      "max_yaw_radps": 0.1,
+      "commands": 828,
+      "zero_before_click": true,
+      "car_x_m": 11.969259566172692,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 1.0091689490000135,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "feedback_310ms",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "FEEDBACK_INVALID"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.10916420535986555,
+      "max_yaw_radps": 0.1,
+      "commands": 818,
+      "zero_before_click": true,
+      "car_x_m": 12.058013262570011,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.060088561000156915,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "used_budget",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.1084678580788076,
+      "max_yaw_radps": 0.1,
+      "commands": 805,
+      "zero_before_click": true,
+      "car_x_m": 12.058444414775815,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.010735738000221318,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "reference_reorder",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "delivery_fixture": {
+        "delayed": 102,
+        "reordered": 100,
+        "dropped": 0,
+        "batched": 0
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.11398583264774638,
+      "max_yaw_radps": 0.1,
+      "commands": 830,
+      "zero_before_click": true,
+      "car_x_m": 11.967348757935165,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 1.0193211500009056,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "candidate_burst",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "delivery_fixture": {
+        "delayed": 50,
+        "reordered": 0,
+        "dropped": 0,
+        "batched": 50
+      },
+      "source_failure": null,
+      "max_speed_mps": 0.11416044191341268,
+      "max_yaw_radps": 0.1,
+      "commands": 829,
+      "zero_before_click": true,
+      "car_x_m": 11.974294532596293,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 1.0187913250010752,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "reference_loss",
+      "passed": true,
+      "phases": [
+        "WAITING",
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ROTATION_SELECTED_SOURCE_INVALID"
+      ],
+      "delivery_fixture": {
+        "delayed": 0,
+        "reordered": 0,
+        "dropped": 5,
+        "batched": 0
+      },
+      "source_failure": {
+        "reason": "SELECTED_SOURCE_MISSING",
+        "sequence": 232,
+        "sign_digest": "8f068001a4d885c6cfa448876371f38e9916eea4c23427c18af3868d200e4952",
+        "sign_stamp": 1793086381.1284094,
+        "car_stamp": 1793086381.128452,
+        "missing_sign": false,
+        "missing_car": true,
+        "wait_s": 0.04067415700046695,
+        "queued": 2,
+        "issued_age_s": 0.043185012000321876
+      },
+      "max_speed_mps": 0.1069620111444738,
+      "max_yaw_radps": 0.1,
+      "commands": 799,
+      "zero_before_click": true,
+      "car_x_m": 12.055082449572781,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.07906498400188866,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    }
+  ],
+  "actual_ros_nodes": true,
+  "actuator_backend": "SOFTWARE Plant only",
+  "hardware_bridge_constructed": false,
+  "physical_car_started": false,
+  "firmware_changed": false,
+  "network_settings_changed": false,
+  "real_sign_occlusion_acceptance_pending": true,
+  "physical_rotation_acceptance_pending": true
+}

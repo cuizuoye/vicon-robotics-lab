@@ -1,0 +1,18 @@
+{
+  "failed_session": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_servo_4ws8_2026-10-26/demo_3x3_20s/ready/ground_stage4_single_9vd3kzd9",
+  "observed": {
+    "entered_armed": false,
+    "entered_active": false,
+    "transport_latched_before_prepare": true,
+    "link_status_gaps_over_200ms": 54,
+    "maximum_link_status_gap_s_approx": 0.30,
+    "wheel_gaps_over_200ms": 52,
+    "maximum_wheel_gap_s_approx": 0.32,
+    "last_native_snapshot_before_first_latch": "4WS8/v4, USED flag set, permitted=false, all PWM/target/effective outputs zero, wheel speeds zero, fault_bits=0",
+    "later_reopens_reported": "ACTUATOR_FAULT / ESTOP; not automatically cleared"
+  },
+  "direct_software_issue": "Inherited idle reconnect rejects a healthy disabled-zero image with historical USED flag, although this new process has never requested prepare or motion. A startup feedback gap therefore latches before manual preparation.",
+  "repair_scope": "Separate runtime permits only unarmed startup reconnect after waiting out the600ms lease; requires genuine disabled-zero v4 feedback and no faults. First accepted ARMED or ACTIVE intent permanently disables the exception. Never clears ESTOP, never auto-enables, never relaxes active200ms feedback limit.",
+  "not_established": "Root physical/network cause of300ms packet gaps; not repaired by changing timeout or inferred to be Wi-Fi power saving (saved Tenda profile already disables power saving).",
+  "new_hardware_acceptance": false
+}

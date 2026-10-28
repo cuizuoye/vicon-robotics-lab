@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "identity": "4WSA",
+  "host_session_s": 600,
+  "independent_firmware_limit_ms": 630000,
+  "tests": "78 passed in 7.86s",
+  "native_actual_c_and_sanitizers": true,
+  "arm_built": true,
+  "real_ros_software_cases": 6,
+  "same_time_model_comparison": {
+    "software_only": true,
+    "same_time_errors": true,
+    "time_alignment_applied": false,
+    "identical_default_plant": true,
+    "results": [
+      {
+        "label": "existing_4ws8_yaw010",
+        "xy_rms_m": 0.0259018346766172,
+        "yaw_rms_deg": 26.02217947299191,
+        "max_command_yaw_radps": 0.1
+      },
+      {
+        "label": "candidate_4wsa_tier6",
+        "xy_rms_m": 0.03879184418172529,
+        "yaw_rms_deg": 4.295888804891353,
+        "max_command_yaw_radps": 1.2659125854675768
+      }
+    ],
+    "yaw_rms_improvement_percent": 83.49143349291707
+  },
+  "firmware": {
+    "path": "/home/PRIMARY_USER/vicon_mecanum_ws/docs/wand_sync_600s_2026-10-28/prepared/arm/mecanum_f407_4wsa_staged_NOT_FLASHED.bin",
+    "sha256": "7c3d9460470db0133a8665ce8599003abe95bf990a45797aefffa5d51fd68823",
+    "bytes": 52228,
+    "identity": "4WSA",
+    "authority_version": 6,
+    "diagnostic_payload_bytes": 204,
+    "independent_limit_ms": 630000,
+    "flashed": false,
+    "physical_qualified": false,
+    "stages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "suspended_limit_ms": 5000
+  },
+  "inherited_yaw_implementation": "reused 4WS9",
+  "hardware_launch_entry_blocked": true,
+  "original_entry_changed": false,
+  "protected_files_unchanged": 2545,
+  "firmware_flashed": false,
+  "physical_motion_started": false,
+  "network_settings_changed": false,
+  "stopping_electrical_thermal_qualified": false,
+  "continuous600s_physical_qualified": false,
+  "hardware_startup_console_migration_pending": true
+}

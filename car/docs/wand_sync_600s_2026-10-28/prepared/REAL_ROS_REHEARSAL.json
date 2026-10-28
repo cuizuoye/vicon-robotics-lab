@@ -1,0 +1,171 @@
+{
+  "passed": true,
+  "ros_domain": 187,
+  "discovery": "LOCALHOST",
+  "cases": [
+    {
+      "case": "normal_stop",
+      "passed": true,
+      "phases": [
+        "WAITING",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click",
+        "stop"
+      ],
+      "gate_faults": [],
+      "unexpected_active_faults": [],
+      "max_speed_mps": 0.11562512269038763,
+      "max_yaw_radps": 1.1864884086168193,
+      "commands": 870,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.014084244999821749,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "occlusion",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "WAND_POSE_TIMEOUT"
+      ],
+      "unexpected_active_faults": [],
+      "max_speed_mps": 0.11236679332045489,
+      "max_yaw_radps": 1.1899282297061642,
+      "commands": 543,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.21898867599998084,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "source_digest",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ROTATION_SELECTED_SOURCE_INVALID",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "unexpected_active_faults": [],
+      "max_speed_mps": 0.11258936519394341,
+      "max_yaw_radps": 1.1995027883716207,
+      "commands": 511,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.06979663399988567,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "yaw_intent",
+      "passed": true,
+      "phases": [
+        "WAITING",
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "FINAL_REFERENCE_STEP_LIMIT",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "unexpected_active_faults": [],
+      "max_speed_mps": 0.11293200414632036,
+      "max_yaw_radps": 1.1847046425484156,
+      "commands": 528,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.02989575500009778,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "actuator_fault",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ACTUATOR_FAULT"
+      ],
+      "unexpected_active_faults": [],
+      "max_speed_mps": 0.11260187513736133,
+      "max_yaw_radps": 1.1962599296853944,
+      "commands": 548,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.01094229099999211,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "source_conflict",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "unexpected_active_faults": [],
+      "max_speed_mps": 0.11217346927510957,
+      "max_yaw_radps": 1.1801243662924676,
+      "commands": 547,
+      "zero_before_click": true,
+      "stopped_after_injection_s": 0.08983785200007333,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    }
+  ],
+  "actual_ros_nodes": true,
+  "actuator_backend": "SOFTWARE Plant only",
+  "hardware_bridge_constructed": false,
+  "physical_car_started": false,
+  "firmware_changed": false,
+  "network_settings_changed": false,
+  "real_sign_occlusion_acceptance_pending": true,
+  "physical_rotation_acceptance_pending": true
+}

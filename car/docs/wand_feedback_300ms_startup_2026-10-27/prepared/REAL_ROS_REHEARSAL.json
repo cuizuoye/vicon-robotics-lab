@@ -1,0 +1,310 @@
+{
+  "passed": true,
+  "ros_domain": 187,
+  "discovery": "LOCALHOST",
+  "cases": [
+    {
+      "case": "normal_stop",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click",
+        "stop"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "max_speed_mps": 0.11656722678168337,
+      "max_yaw_radps": 0.1,
+      "commands": 1084,
+      "zero_before_click": true,
+      "car_x_m": 12.04593073813281,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.009346700000605779,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "occlusion",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "WAND_POSE_TIMEOUT"
+      ],
+      "max_speed_mps": 0.10686369287031003,
+      "max_yaw_radps": 0.1,
+      "commands": 751,
+      "zero_before_click": true,
+      "car_x_m": 12.056770942578456,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.19984490500064567,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "car_occlusion",
+      "passed": true,
+      "phases": [
+        "WAITING",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "CAR_POSE_TIMEOUT"
+      ],
+      "max_speed_mps": 0.10518114405811639,
+      "max_yaw_radps": 0.1,
+      "commands": 624,
+      "zero_before_click": true,
+      "car_x_m": 12.051072940823033,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.16997985000125482,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "source_digest",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ROTATION_SELECTED_SOURCE_INVALID",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "max_speed_mps": 0.10864989907753525,
+      "max_yaw_radps": 0.1,
+      "commands": 750,
+      "zero_before_click": true,
+      "car_x_m": 12.057183765770066,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.06996763600182021,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "yaw_intent",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "FINAL_REFERENCE_STEP_LIMIT",
+        "OPERATOR_ENABLE_RELEASED"
+      ],
+      "max_speed_mps": 0.10531649770009607,
+      "max_yaw_radps": 0.1,
+      "commands": 757,
+      "zero_before_click": true,
+      "car_x_m": 12.057176993028643,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.030340045999764698,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "actuator_fault",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "ACTUATOR_FAULT"
+      ],
+      "max_speed_mps": 0.1069049362060699,
+      "max_yaw_radps": 0.1,
+      "commands": 749,
+      "zero_before_click": true,
+      "car_x_m": 12.05599567840268,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.05937882999933208,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "source_conflict",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "max_speed_mps": 0.10913647850045133,
+      "max_yaw_radps": 0.1,
+      "commands": 753,
+      "zero_before_click": true,
+      "car_x_m": 12.058914805891408,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.05018701500011957,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "wide_motion",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click",
+        "stop"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "max_speed_mps": 0.486304636582284,
+      "max_yaw_radps": 0.0,
+      "commands": 2235,
+      "zero_before_click": true,
+      "car_x_m": 19.1907628370244,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.00961903200004599,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "feedback_250ms",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "max_speed_mps": 0.11397415827787685,
+      "max_yaw_radps": 0.1,
+      "commands": 784,
+      "zero_before_click": true,
+      "car_x_m": 11.970019100927095,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 1.0208185750016128,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "feedback_310ms",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT",
+        "FEEDBACK_INVALID"
+      ],
+      "max_speed_mps": 0.10671012367537953,
+      "max_yaw_radps": 0.1,
+      "commands": 757,
+      "zero_before_click": true,
+      "car_x_m": 12.057458952363564,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.059735004000685876,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    },
+    {
+      "case": "used_budget",
+      "passed": true,
+      "phases": [
+        "WAITING_ZERO_BASELINE",
+        "PREPARING",
+        "READY",
+        "MANUAL_ACTIVE"
+      ],
+      "service_and_click_calls": [
+        "start",
+        "fresh_click"
+      ],
+      "gate_faults": [
+        "COMMAND_TIMEOUT"
+      ],
+      "max_speed_mps": 0.10842121222772612,
+      "max_yaw_radps": 0.1,
+      "commands": 752,
+      "zero_before_click": true,
+      "car_x_m": 12.057269430777582,
+      "car_start_x_m": 12.0,
+      "stopped_after_injection_s": 0.009817476999160135,
+      "no_automatic_resume": true,
+      "new_start_rejected_after_consumed_trial": true
+    }
+  ],
+  "actual_ros_nodes": true,
+  "actuator_backend": "SOFTWARE Plant only",
+  "hardware_bridge_constructed": false,
+  "physical_car_started": false,
+  "firmware_changed": false,
+  "network_settings_changed": false,
+  "real_sign_occlusion_acceptance_pending": true,
+  "physical_rotation_acceptance_pending": true
+}

@@ -1,0 +1,72 @@
+{
+  "snapshot_date": "2026-10-28",
+  "scope": "PUBLIC CAR SOFTWARE SNAPSHOT, NOT HARDWARE AUTHORIZATION",
+  "evidence_origin": "Saved project records and operator acceptance; no live device queried during export",
+  "original_workspaces_modified": false,
+  "firmware_written_or_hardware_commands_sent_during_export": false,
+  "installed_firmware_last_recorded": {
+    "identity": "4WS8",
+    "sha256": "de87e3fb01df19af5bae75d479cef03376340bd486154ce4e0d75a2c285993ab",
+    "current_flash_not_read_this_export": true
+  },
+  "physical_evidence": {
+    "xy_follow": "Accepted bounded 19.52s trial, 1:1 XY, forward/return/omnidirectional follow and stopping",
+    "configured_speed_cap_mps": 0.7,
+    "configured_acceleration_cap_mps2": 0.8,
+    "achieved_caps_not_certified": true,
+    "historical_rectangle": "Separate historical version completed looping and a bounded disturbance return",
+    "slow_yaw": "Operator reports following rotation, but slow; not a high-speed angular qualification",
+    "native_entry": "tools/start_car_tracking_300ms_ready.sh",
+    "native_host_limit_s": 120,
+    "native_yaw_cap_radps": 0.1,
+    "native_yaw_acceleration_cap_radps2": 0.4,
+    "native_mcu_feedback_guard_ms": 300,
+    "wire_watchdog_ms": 600,
+    "long_run": "First60s passed; extended run stopped at98.6s on ROS COMMAND_TIMEOUT/SELECTED_SOURCE_MISSING"
+  },
+  "simulation_evidence": {
+    "real_sign_xy_070_200": "Synchronization, reversal, stop, occlusion and manual recovery accepted on software car",
+    "real_sign_xy_yaw_a2": "Normal combined follow and operator stop accepted; A2 occlusion/manual recovery not accepted",
+    "a2_yaw_radps_radps2": [2.0, 12.0]
+  },
+  "independent_candidates": {
+    "4WSA": {
+      "source": "car/docs/wand_sync_600s_2026-10-28/prepared",
+      "identity": "4WSA v6",
+      "host_limit_s": 600,
+      "independent_mcu_limit_ms": 630000,
+      "diagnostic_bytes": 204,
+      "stages": [0, 1, 2, 3, 4, 5, 6],
+      "stage4_xy_speed_acceleration": [0.7, 0.8],
+      "stage4_yaw_speed_acceleration": [1.5, 6.0],
+      "flashed": false,
+      "physical_qualified": false,
+      "hardware_startup_admission_pending": true,
+      "launch_entry_blocked": true
+    },
+    "ros_bound_history": "Offline and actual ROS software cases passed; physical acceptance pending",
+    "browser_fast": "Local Chrome strict60s read-only passed; Windows remote pending; hardware launch blocked"
+  },
+  "spatial_policy": {
+    "mapping": "1:1 XY and relative yaw; Z not a drive command; Sign5 reference",
+    "bar": ["Sign1", "Sign5", "Sign2"],
+    "stem": ["Sign3", "Sign4"],
+    "forward": "Outward from crossbar, away from stem",
+    "current_native_fixed_fence": false,
+    "whole_vicon_coverage_surveyed": false,
+    "obstacle_detection": false
+  },
+  "pending": [
+    "4WSA live admission, full backup/flash/readback and stage0 suspended acceptance",
+    "Loaded angular tracking and combined motion",
+    "600s continuous physical operation",
+    "Stopping envelope, peak current, thermal behavior",
+    "Full Vicon coverage survey and Windows browser acceptance"
+  ],
+  "public_export_limits": [
+    "All hardware profiles are revoked drafts or software fixtures",
+    "Historical preparers are archival, not independently portable deployment recipes",
+    "Original machine manifests, raw sessions, credentials, Flash/NVS and proprietary SDK are excluded",
+    "Drone evidence remains the separate Oct15 snapshot"
+  ]
+}

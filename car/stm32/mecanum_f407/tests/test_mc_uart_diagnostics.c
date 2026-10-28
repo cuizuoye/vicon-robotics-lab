@@ -90,6 +90,30 @@ int main(void)
     tx_result=1;
     assert(!mc_uart_transport_send_frame(MC_MSG_HELLO_ACK,MC_FLAG_RESPONSE,1,7,0,NULL,0));
     assert(mc_uart_diagnostics.tx_failures==1);
-    puts("PASS: FE callback ordering, BUSY receive recovery, damaged-frame resync, stale queue discard and fault guards");
+
+    /* The opt-in startup guard ignores only recoverable line transitions until
+       the application confirms a CRC-valid MC-Link frame. */
+    rearm_result=0; tx_result=0; receiving=false;
+    mc_uart_transport_init(&u);
+    mc_uart_transport_enable_startup_line_error_guard();
+    u.ErrorCode=HAL_UART_ERROR_FE;
+    feed(&u,1);
+    HAL_UART_ErrorCallback(&u);
+    assert(!mc_uart_transport_take_fault());
+    feed(&u,0); /* leave discard mode after the damaged startup byte */
+    mc_uart_transport_confirm_valid_frame();
+    u.ErrorCode=HAL_UART_ERROR_FE;
+    feed(&u,1);
+    HAL_UART_ErrorCallback(&u);
+    assert(mc_uart_transport_take_fault());
+
+    receiving=false;
+    mc_uart_transport_init(&u);
+    mc_uart_transport_enable_startup_line_error_guard();
+    u.ErrorCode=HAL_UART_ERROR_ORE;
+    feed(&u,1);
+    HAL_UART_ErrorCallback(&u);
+    assert(mc_uart_transport_take_fault());
+    puts("PASS: strict UART faults plus bounded pre-frame PE/FE/NE startup recovery");
     return 0;
 }

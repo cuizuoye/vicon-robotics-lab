@@ -1,0 +1,21 @@
+{
+  "request": "那就按这个方案做，先离线完成单击空格启动、再次空格或Esc停止的独立模式，保留120秒倒计时和现有安全保护，补齐回归测试。不刷固件、不启动小车，也不要影响原来的长按版本。",
+  "operator_input_mode": "SPACE_TOGGLE_120S_V1",
+  "start": "fresh READY followed by a complete physical Space tap",
+  "stop": ["second Space key-down", "Escape", "stop button", "120s expiry", "existing faults and focus/watchdog guards"],
+  "key_release_during_session_stops": false,
+  "synthetic_key_hold": false,
+  "original_range_request": "/home/PRIMARY_USER/vicon_mecanum_ws/candidates/wand_demo_120s/USER_REQUEST.json",
+  "original_range_request_sha256": "2bd13bbb25600655979108ec96204a20e2c64d2803b826d536c25130efe801d9",
+  "goal_forward_m": [-1.5, 0.5],
+  "goal_left_m": [-0.4, 0.5],
+  "buffer_m": 0.5,
+  "mapping_scale": 1.0,
+  "max_active_s": 120.0,
+  "stage": 4,
+  "firmware_change": false,
+  "automatic_hardware_launch": false,
+  "full_vicon_coverage_measured": false,
+  "stopping_distance_qualified": false,
+  "electrical_thermal_qualified": false
+}

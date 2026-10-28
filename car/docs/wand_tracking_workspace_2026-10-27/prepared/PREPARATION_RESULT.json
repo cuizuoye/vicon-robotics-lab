@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "new_tests": "56 passed in 2.35s",
+  "translation_regression": "323 passed in 14.17s",
+  "rotation_regression": "57 passed in 4.12s",
+  "real_ros_software_cases": 8,
+  "protected_parent_files_unchanged": 1983,
+  "fixed_fence_enabled": false,
+  "target_radius_limit_enabled": false,
+  "mapping_scale": 1.0,
+  "max_active_s": 120.0,
+  "pose_timeout_s": 0.2,
+  "xy_speed_mps": 0.7,
+  "xy_accel_mps2": 0.8,
+  "yaw_rate_radps": 0.1,
+  "yaw_accel_radps2": 0.4,
+  "hardware_started": false,
+  "flashed": false,
+  "network_changed": false,
+  "original_entry_changed": false,
+  "full_vicon_coverage_measured": false,
+  "obstacle_detection_available": false
+}

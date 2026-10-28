@@ -1,0 +1,13 @@
+{
+  "request": "超过本入口15厘米上限的意思是：sign只要移动距离超过15cm就会触发停机？将这个距离延长到可以正常演示的范围，15cm太短了",
+  "prior_duration_request": "5秒窗口太短了，反应不过来，修改到20秒作用",
+  "interpreted_scope": "Replace the short-path pilot limits with the previously requested fixed 3x3m goal region. Keep 1:1 mapping, stage4 0.70m/s and 0.80m/s2, 20s one-shot observation, all source/output protections and the original footprint fence. Offline preparation only; no automatic hardware launch.",
+  "goal_forward_m": [0.0, 3.0],
+  "goal_left_m": [0.0, 3.0],
+  "buffer_m": 0.5,
+  "mapping_scale": 1.0,
+  "max_active_s": 20.0,
+  "stage": 4,
+  "firmware_change": false,
+  "automatic_hardware_launch": false
+}

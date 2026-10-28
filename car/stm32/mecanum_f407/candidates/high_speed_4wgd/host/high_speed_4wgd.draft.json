@@ -1,0 +1,41 @@
+{
+  "schema": "OFFLINE_HIGH_SPEED_4WGD_DRAFT_V1",
+  "hardware_authorized": false,
+  "hardware_entry_implemented": true,
+  "hardware_entry_scope": "Separately generated domain95 packages; real admission remains blocked until explicit physical review",
+  "accepted_low_speed_profile": "src/mecanum_wand_hardware/config/hardware_acceptance.corner_2x2_4wgc_governed_2026-10-23.json",
+  "accepted_profile_sha256": "7ad78970f707bc98d71b9028d6a1b20edeb690cf7d1102ca611801e2c89733ff",
+  "firmware": {
+    "identity": "4WGD",
+    "diagnostic_bytes": 156,
+    "output_authority_version": 1,
+    "motor_target_rpm_cap": 400,
+    "raw_feedback_trip_rpm": 440,
+    "independent_pwm_cap_permille": 800,
+    "startup_pwm_cap_permille": 300,
+    "wheel_ramp_cps_per_s": 800,
+    "command_watchdog_ms": 600,
+    "absolute_motion_budget_s": 150
+  },
+  "pc_first_stage": {
+    "speed_mps": 0.2,
+    "accel_mps2": 0.08,
+    "yaw_rate_radps": 0.1,
+    "relative_xy_scale": 2,
+    "sign_z_controls_planar_motion": false,
+    "goal_policy": "fixed spatial clamp + governed instantaneous reference",
+    "feedback_timeout_s": 0.2,
+    "session_s": 120,
+    "automatic_resume": false
+  },
+  "before_hardware_entry": {
+    "dedicated_authenticated_transport_and_independent_final_gate": "GENERATED_PRIVATE_PACKAGES; independent first-stage 0.20m/s only; NOT started",
+    "fresh_flash_readback_and_explicit_programming_authorization": "REQUIRED_LATER",
+    "zero_output_coast_distance_at_each_stage": "NOT_MEASURED",
+    "peak_and_sustained_motor_current": "NOT_MEASURED",
+    "battery_bus_sag_and_driver_temperature": "NOT_MEASURED",
+    "fixed_arena_with_stage_specific_stopping_margin": "NOT_REVIEWED",
+    "full_400rpm_loaded_speed_and_high_speed_gains": "NOT_VALIDATED"
+  },
+  "note": "User accepted 0.20m/s first stage then gradual increases. 400RPM is an output-shaft demand cap, not guaranteed loaded speed or an 80% PWM equivalence. Existing real-car runtime must reject this draft."
+}

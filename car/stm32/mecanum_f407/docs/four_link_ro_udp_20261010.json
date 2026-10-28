@@ -1,0 +1,2664 @@
+{
+  "mode": "udp",
+  "baud": 921600,
+  "motion_enabled": false,
+  "battery_disconnected_confirmed": true,
+  "phases": [
+    {
+      "name": "healthy",
+      "telemetry": [
+        {
+          "sample_time_ms": 62991,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 4,
+          "host_time_s": 0.07615255299970158
+        },
+        {
+          "sample_time_ms": 63091,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 9,
+          "host_time_s": 0.17683697999746073
+        },
+        {
+          "sample_time_ms": 63191,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 14,
+          "host_time_s": 0.2834911209974962
+        },
+        {
+          "sample_time_ms": 63291,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 19,
+          "host_time_s": 0.41578070799732814
+        },
+        {
+          "sample_time_ms": 63391,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 24,
+          "host_time_s": 0.5164767709975422
+        },
+        {
+          "sample_time_ms": 63491,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 29,
+          "host_time_s": 0.5914097869972466
+        },
+        {
+          "sample_time_ms": 63591,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 33,
+          "host_time_s": 0.6853504689970578
+        },
+        {
+          "sample_time_ms": 63691,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 38,
+          "host_time_s": 0.7884056889997737
+        },
+        {
+          "sample_time_ms": 63791,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 43,
+          "host_time_s": 0.8835127309976087
+        },
+        {
+          "sample_time_ms": 63891,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 48,
+          "host_time_s": 0.9834131889983837
+        },
+        {
+          "sample_time_ms": 63991,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 53,
+          "host_time_s": 1.087494813997182
+        },
+        {
+          "sample_time_ms": 64091,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 58,
+          "host_time_s": 1.1918980329974147
+        },
+        {
+          "sample_time_ms": 64191,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 63,
+          "host_time_s": 1.2902820629969938
+        },
+        {
+          "sample_time_ms": 64291,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 68,
+          "host_time_s": 1.4120309840000118
+        },
+        {
+          "sample_time_ms": 64391,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 72,
+          "host_time_s": 1.4860582829969644
+        },
+        {
+          "sample_time_ms": 64491,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 77,
+          "host_time_s": 1.6165442130004521
+        },
+        {
+          "sample_time_ms": 64591,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 82,
+          "host_time_s": 1.683998882999731
+        },
+        {
+          "sample_time_ms": 64691,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 87,
+          "host_time_s": 1.7968679019977571
+        },
+        {
+          "sample_time_ms": 64791,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 92,
+          "host_time_s": 1.883999257999676
+        },
+        {
+          "sample_time_ms": 64891,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 97,
+          "host_time_s": 1.9802039679998416
+        },
+        {
+          "sample_time_ms": 64991,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 102,
+          "host_time_s": 2.083320592999371
+        },
+        {
+          "sample_time_ms": 65091,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 107,
+          "host_time_s": 2.1837340089987265
+        },
+        {
+          "sample_time_ms": 65191,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 112,
+          "host_time_s": 2.288450590996945
+        },
+        {
+          "sample_time_ms": 65291,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 117,
+          "host_time_s": 2.3840464829991106
+        },
+        {
+          "sample_time_ms": 65391,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 122,
+          "host_time_s": 2.491359954998188
+        },
+        {
+          "sample_time_ms": 65491,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 126,
+          "host_time_s": 2.595953689997259
+        },
+        {
+          "sample_time_ms": 65591,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 131,
+          "host_time_s": 2.6957551809973666
+        },
+        {
+          "sample_time_ms": 65691,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 136,
+          "host_time_s": 2.7799920849975024
+        },
+        {
+          "sample_time_ms": 65791,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 141,
+          "host_time_s": 2.883467285999359
+        },
+        {
+          "sample_time_ms": 65891,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 146,
+          "host_time_s": 2.9885954079982184
+        },
+        {
+          "sample_time_ms": 65991,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 151,
+          "host_time_s": 3.08750228399731
+        },
+        {
+          "sample_time_ms": 66091,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 156,
+          "host_time_s": 3.1915008469986788
+        },
+        {
+          "sample_time_ms": 66191,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 160,
+          "host_time_s": 3.295780788997945
+        },
+        {
+          "sample_time_ms": 66291,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 165,
+          "host_time_s": 3.3961599079993903
+        },
+        {
+          "sample_time_ms": 66391,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 170,
+          "host_time_s": 3.479706639998767
+        },
+        {
+          "sample_time_ms": 66491,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 174,
+          "host_time_s": 3.5801011650000873
+        },
+        {
+          "sample_time_ms": 66591,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 180,
+          "host_time_s": 3.6831808440001623
+        },
+        {
+          "sample_time_ms": 66691,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 185,
+          "host_time_s": 3.7885499249969143
+        },
+        {
+          "sample_time_ms": 66791,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 190,
+          "host_time_s": 3.888352281999687
+        },
+        {
+          "sample_time_ms": 66891,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 195,
+          "host_time_s": 3.991419924997899
+        },
+        {
+          "sample_time_ms": 66991,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 200,
+          "host_time_s": 4.092012699999032
+        },
+        {
+          "sample_time_ms": 67091,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 204,
+          "host_time_s": 4.195862425000087
+        },
+        {
+          "sample_time_ms": 67191,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 208,
+          "host_time_s": 4.28372882399708
+        },
+        {
+          "sample_time_ms": 67291,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 214,
+          "host_time_s": 4.380125596999278
+        },
+        {
+          "sample_time_ms": 67391,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 219,
+          "host_time_s": 4.484013453999069
+        },
+        {
+          "sample_time_ms": 67491,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 224,
+          "host_time_s": 4.583651872999326
+        },
+        {
+          "sample_time_ms": 67591,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 229,
+          "host_time_s": 4.687661235999258
+        },
+        {
+          "sample_time_ms": 67691,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 234,
+          "host_time_s": 4.787338838999858
+        },
+        {
+          "sample_time_ms": 67791,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 239,
+          "host_time_s": 4.891640155998175
+        },
+        {
+          "sample_time_ms": 67891,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 244,
+          "host_time_s": 4.992297499000415
+        }
+      ],
+      "diagnostics": [
+        {
+          "tag": "4RO1",
+          "ticks": 6299,
+          "updates": 6299,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 40,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.09999308499754989
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6309,
+          "updates": 6309,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 40,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.20319380699947942
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6319,
+          "updates": 6319,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 40,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.30819777799842996
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6329,
+          "updates": 6329,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 40,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.41580492699722527
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6339,
+          "updates": 6339,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 40,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.5198723649991734
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6349,
+          "updates": 6349,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 40,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.6117851460003294
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6359,
+          "updates": 6359,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 40,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.7200159509993682
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6369,
+          "updates": 6369,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.8156778039992787
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6379,
+          "updates": 6379,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 0.9036939399993571
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6389,
+          "updates": 6389,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.0447596419980982
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6399,
+          "updates": 6399,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.1032767519973277
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6409,
+          "updates": 6409,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.2073205019987654
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6419,
+          "updates": 6419,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.307167667997419
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6429,
+          "updates": 6429,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.412059895999846
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6439,
+          "updates": 6439,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.527779449999798
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6449,
+          "updates": 6449,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.6165757449998637
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6459,
+          "updates": 6459,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.7390622319981048
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6469,
+          "updates": 6469,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.8028160499998194
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6479,
+          "updates": 6479,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 1.8993317919994297
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6489,
+          "updates": 6489,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.003280877997895
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6499,
+          "updates": 6499,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.104731125997205
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6509,
+          "updates": 6509,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.206713305997255
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6519,
+          "updates": 6519,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.308888329000183
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6529,
+          "updates": 6529,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.4112132959999144
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6539,
+          "updates": 6539,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.5139645829985966
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6549,
+          "updates": 6549,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.599394206998113
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6559,
+          "updates": 6559,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.708409685998049
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6569,
+          "updates": 6569,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.7993730989983305
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6579,
+          "updates": 6579,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 2.903999627997109
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6589,
+          "updates": 6589,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.035585072997492
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6599,
+          "updates": 6599,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.108156690999749
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6609,
+          "updates": 6609,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.2111739199972362
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6619,
+          "updates": 6619,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.3160285630001454
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6629,
+          "updates": 6629,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.4165071389979857
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6639,
+          "updates": 6639,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.499399065000034
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6649,
+          "updates": 6649,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.6033200589990884
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6659,
+          "updates": 6659,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.7041407609976886
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6669,
+          "updates": 6669,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.8078105739987222
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6679,
+          "updates": 6679,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 3.9118438999976206
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6689,
+          "updates": 6689,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.011503140998684
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6699,
+          "updates": 6699,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.115721128997393
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6709,
+          "updates": 6709,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.21605960099987
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6719,
+          "updates": 6719,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.316335056999378
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6729,
+          "updates": 6729,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.399387059998844
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6739,
+          "updates": 6739,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.503156350998324
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6749,
+          "updates": 6749,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.60371795500032
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6759,
+          "updates": 6759,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.7078868789976696
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6769,
+          "updates": 6769,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.8082391649986675
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6779,
+          "updates": 6779,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 4.911876641999697
+        }
+      ],
+      "hello_ack": [
+        1
+      ],
+      "sample_hz": 97.95918367346938,
+      "telemetry_hz": 10.0
+    },
+    {
+      "name": "no_commands",
+      "telemetry": [
+        {
+          "sample_time_ms": 67991,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 246,
+          "host_time_s": 5.096554407999065
+        },
+        {
+          "sample_time_ms": 68091,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 125,
+          "fault_bits": 1,
+          "last_command_sequence": 246,
+          "host_time_s": 5.181884289999289
+        },
+        {
+          "sample_time_ms": 68191,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 125,
+          "fault_bits": 1,
+          "last_command_sequence": 246,
+          "host_time_s": 5.279889796998759
+        },
+        {
+          "sample_time_ms": 68291,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 125,
+          "fault_bits": 1,
+          "last_command_sequence": 246,
+          "host_time_s": 5.387101790998713
+        }
+      ],
+      "diagnostics": [
+        {
+          "tag": "4RO1",
+          "ticks": 6789,
+          "updates": 6789,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.01172469499943
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6799,
+          "updates": 6799,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.096568482000293
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6809,
+          "updates": 6809,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.200456349997694
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6819,
+          "updates": 6819,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.30007444399962
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6829,
+          "updates": 6829,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.404154609997931
+        }
+      ],
+      "hello_ack": []
+    },
+    {
+      "name": "new_session",
+      "telemetry": [
+        {
+          "sample_time_ms": 68391,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 2,
+          "host_time_s": 5.498682858997199
+        },
+        {
+          "sample_time_ms": 68491,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 7,
+          "host_time_s": 5.591360804999567
+        },
+        {
+          "sample_time_ms": 68591,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 11,
+          "host_time_s": 5.699826042000495
+        },
+        {
+          "sample_time_ms": 68691,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 16,
+          "host_time_s": 5.7964149529980205
+        },
+        {
+          "sample_time_ms": 68791,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 21,
+          "host_time_s": 5.879279698998289
+        },
+        {
+          "sample_time_ms": 68891,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 26,
+          "host_time_s": 5.9846130429978075
+        },
+        {
+          "sample_time_ms": 68991,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 31,
+          "host_time_s": 6.088300338000408
+        },
+        {
+          "sample_time_ms": 69091,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 36,
+          "host_time_s": 6.188072191998799
+        },
+        {
+          "sample_time_ms": 69191,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 41,
+          "host_time_s": 6.291747416998987
+        },
+        {
+          "sample_time_ms": 69291,
+          "wheel_rpm": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "encoder_counts": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "battery_mv": 0,
+          "state_flags": 109,
+          "fault_bits": 0,
+          "last_command_sequence": 46,
+          "host_time_s": 6.39194358199893
+        }
+      ],
+      "diagnostics": [
+        {
+          "tag": "4RO1",
+          "ticks": 6839,
+          "updates": 6839,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.531607709999662
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6849,
+          "updates": 6849,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.611877766998077
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6859,
+          "updates": 6859,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.715243885999371
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6869,
+          "updates": 6869,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.799498139000207
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6879,
+          "updates": 6879,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 5.899662422998517
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6889,
+          "updates": 6889,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 6.004160961998423
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6899,
+          "updates": 6899,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 6.108546974999626
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6909,
+          "updates": 6909,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 6.207851425999252
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6919,
+          "updates": 6919,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 6.317145228997106
+        },
+        {
+          "tag": "4RO1",
+          "ticks": 6929,
+          "updates": 6929,
+          "dt_min": 10,
+          "dt_max": 10,
+          "irq_us_max": 61,
+          "compares": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpio_low": 1,
+          "watchdog_reset": 0,
+          "host_time_s": 6.411783455998375
+        }
+      ],
+      "hello_ack": [
+        1
+      ]
+    }
+  ],
+  "success": true,
+  "invalid_uart_packets": 0
+}

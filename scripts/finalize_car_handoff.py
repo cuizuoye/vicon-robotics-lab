@@ -62,7 +62,7 @@ def main():
     (ROOT/'handoff/CAR_VALIDATION_2026-10-28.json').write_text(json.dumps(validation,indent=2)+'\n')
     names=subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard','-z'],cwd=ROOT).decode().split('\0')
     files={name:sha(ROOT/name) for name in sorted(set(names)) if name and
-           (name.startswith(('car/','scripts/','shared/vicon_receiver_snapshot_20261028/')) or name in ('README.md','AGENTS.md'))
+           (name.startswith(('car/','scripts/','shared/vicon_receiver_snapshot_20261028/')) or name in ('README.md','AGENTS.md','.gitignore'))
            and (ROOT/name).is_file()}
     (ROOT/'handoff/CAR_PUBLIC_FILES_2026-10-28.json').write_text(json.dumps(dict(
         date='2026-10-28',scope='Final public source hashes, not hardware admission',files=files),indent=2)+'\n')

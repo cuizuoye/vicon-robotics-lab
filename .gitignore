@@ -40,3 +40,5 @@ drone/px4_firmware/
 drone/Micro-XRCE-DDS-Agent/
 core
 core.*
+# Python control modules are source, not crash dumps.
+!**/core.py

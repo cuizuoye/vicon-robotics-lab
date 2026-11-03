@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "error": null,
+  "reason": "STAGE6_LONG600_TIME_COMPLETE",
+  "requested_active_s": 600.0,
+  "observed_active_s": 600.003050377,
+  "motion_first_s": 0.0,
+  "static_pose_republished_with_original_new_frame_stamps": true,
+  "injected_fault": null,
+  "injected_input_stall_ms": 120.0,
+  "actual_raw_ROS_domain": 197,
+  "actual_control_ROS_domain": 196,
+  "actual_native_C_loopback": true,
+  "accepted_commands": 1,
+  "max_control_gap_s": 0.0371792150000374,
+  "frames": 59746,
+  "raw_publisher_max_gap_s": 0.02192596500003674,
+  "source_diagnostics": {
+    "callbacks": 418467,
+    "completed_frames": 59781,
+    "discarded_unselected": 0,
+    "graph": {
+      "age_s": 0.08843900199997279,
+      "duration_s": 0.0007396949999929348,
+      "ready": true
+    },
+    "max_batch_s": 0.01325481900005343,
+    "max_loop_gap_s": 0.12319833399999425
+  },
+  "native_output_zero": true,
+  "stop_confirmed": true,
+  "physical_output": false,
+  "firmware_changed": false,
+  "network_settings_changed": false,
+  "source_result_sha256": "35fe7f389e0cc36f21e88d58f09da13ff68bb8dda54c92063c59de26d32fc409",
+  "input": "Synthetic Vicon raw topics, NOT real Tracker",
+  "qualification_scope": "Software static-source soak, NOT complete candidate or physical qualification",
+  "generated_on_export": false
+}

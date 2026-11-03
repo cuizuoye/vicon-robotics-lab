@@ -1,0 +1,134 @@
+{
+  "revision": "BACKGROUND_SESSION_DISPLAY_V2",
+  "original_result_sha256": "08ada108f8ecb23b459e6d934c779a551dbcc9f7a8fc2447d2830a7daeee5457",
+  "inherited_session_unit": {
+    "passed": true,
+    "checks": 18,
+    "hardware_output": false,
+    "ROS_initialized": false
+  },
+  "inherited_client_unit": {
+    "passed": true,
+    "checks": 16,
+    "stub_DOM": true,
+    "hardware_output": false
+  },
+  "admission": {
+    "passed": true,
+    "retained_tests": 45,
+    "new_tests": 20,
+    "total_tests": 65,
+    "hardware_opened": false
+  },
+  "terminal_view_unit": {
+    "passed": true,
+    "checks": 3,
+    "actual_client_source": true,
+    "stub_DOM": true,
+    "hardware_output": false
+  },
+  "cases": [
+    {
+      "case": "no_start",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "background",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "renderer_stall",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "local_stop",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "second_space",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "estop",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": false,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "close",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "occlusion",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "node_stall",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "worker_stall",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    },
+    {
+      "case": "timer",
+      "passed": true,
+      "actual_browser": true,
+      "actual_ROS_native_C_loopback": true,
+      "stop_confirmed": true,
+      "native_C_output_zero": true,
+      "physical_output": false
+    }
+  ],
+  "physical_output": false,
+  "scope": "Saved V2 software evidence; not final V3 candidate qualification",
+  "rerun_during_export": false
+}

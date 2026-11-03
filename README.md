@@ -23,10 +23,13 @@ bash scripts/test_offline.sh
 不复制原电脑的 Codex 登录信息；新电脑独立登录。不要依靠旧对话推断当前安全状态。
 环境前提和双机工作方法见 [接力与回退](handoff/WORKFLOW.md)，
 本次迁移验证结果见 [VALIDATION.json](handoff/VALIDATION.json)。
-小车最新交付见 [2026-10-28状态](handoff/CAR_STATE_2026-10-28.json) 和
-[技术报告](car/reports/2026-10-28/Vicon标定杆遥操作ROS全向小车项目技术说明.docx)。
-本次源码导出的实测结果见 [CAR_VALIDATION](handoff/CAR_VALIDATION_2026-10-28.json)。
-`VALIDATION.json` 保留的是10月15日历史收据，不代表最新小车版本。
+小车最新交付见 [2026-11-03状态](handoff/CAR_STATE_2026-11-03.json)、
+[更新技术说明](car/reports/2026-11-03/TECHNICAL_REPORT.md) 和
+[简历项目表述](car/reports/2026-11-03/RESUME.md)。
+最新源码在 [独立快照](car/snapshots/2026-11-03/README.md)，新增验证见
+[CAR_VALIDATION](handoff/CAR_VALIDATION_2026-11-03.json)。
+[10月28日Word报告](car/reports/2026-10-28/Vicon标定杆遥操作ROS全向小车项目技术说明.docx)
+保留为历史版本；`VALIDATION.json` 是10月15日历史收据，均不能替代最新交接状态。
 
 ## 目录
 
@@ -41,14 +44,18 @@ bash scripts/test_offline.sh
 
 ## 当前进度与限制
 
-- 小车：已完成受限条件下的真实Sign平移跟随、返回与停车；历史独立矩形方案
-  完成受扰回轨。已保存4WS8演示源码，0.70m/s、0.80m/s²是配置上限，非测速认证。
+- 小车：已完成真实Sign驱动实车的1:1平移及相对旋转跟随；4WSC档6进行了
+  约60秒正常跟随和定时停车的操作者验收，配置上限0.70m/s、2.00m/s²，非测速认证。
+  历史独立矩形方案完成循环和受扰回轨；不会被新版候选自动替换。
 - Vicon同时提供Sign输入和car01实测位姿，构成整车位置外环；STM32编码器闭合
-  轮速内环。相对旋转和更高加速度已有仿真证据，不能替代新固件实车验收。
-- 新增4WSA独立600秒候选：分档XY与yaw耦合整形、204字节状态、MCU630秒截止；
-  **仅离线准备，未刷写**。原生演示仍是4WS8的120秒入口，不自动升级。
-- ROS参考帧修复、浏览器快速只读端分别保留为独立候选。Windows远程和长时间
-  连续运行仍待验收；不宣称已支持整个Vicon区域或具备避障能力。
+  轮速内环。采用速度前馈、误差反馈和XY/yaw耦合限幅，取消中间位置参考点。
+- 最新部署记录为4WSC STOPFIX_V1，协议v8、208字节诊断、MCU630秒独立截止。
+  这是历史读回核对记录，本次上传没有连接芯片、刷写或启动小车。
+- 浏览器Canvas界面与后台会话解耦，允许已启动会话在切换应用/最小化时继续；
+  关闭页面、断连、定位失效、控制超时和操作停止仍撤权。Windows远程实机未验收。
+- 最新静止数据源修复完成600.003秒实际ROS节点＋原生C回环软件耐久，
+  包含120ms输入处理停顿；**不是实车600秒验收**，新候选完整资格仍未完成。
+  真实Tracker持续性、实车长时运行、停车包络和电气温升仍需现场验证；不具备避障能力。
 - 无人机：真机是自定义 PX4 **1.14.3**，不是 SITL 的 1.17。已完成固件修补、
   TRS/HOME若干未解锁验证及重建刚体的一次短时静止融合；**未完成自主起飞验收**。
 - 无人机物理 hold、历史故障守卫和刚体版本守卫保留。一次例外通过不能放开全局守卫。
@@ -86,6 +93,7 @@ README的目录约定本地安装。它不影响纯 Python 策略与小车离线
 ```bash
 bash scripts/test_offline.sh           # 小车通用回归 + 原无人机回归
 bash scripts/test_car_release.sh       # 导出的4WSA C控制器和78项主机测试
+bash scripts/test_car_update_20261103.sh # 4WSC七组C测试＋27项数据源单元测试
 python3 scripts/public_scan.py
 ```
 

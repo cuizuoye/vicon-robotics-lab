@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-03",
+  "validation_environment": "Separate public checkout on original Linux host, not clean OS",
+  "commands": [
+    "bash scripts/doctor.sh",
+    "bash scripts/test_offline.sh",
+    "bash scripts/test_car_release.sh",
+    "bash scripts/test_car_update_20261103.sh",
+    "/usr/bin/python3 -m pytest -q scripts/test_public_scan.py",
+    "python3 scripts/public_scan.py",
+    "git diff --check"
+  ],
+  "python_regression_counts": {
+    "car": 570,
+    "wand_control": 243,
+    "drone_unchanged": 789,
+    "historical_4wsa_host": 78
+  },
+  "source_pipeline_unit_tests": 27,
+  "native_4wsc_asan_ubsan_suites": 7,
+  "historical_native_4wsa_suites": 4,
+  "public_scanner_unit_tests": 6,
+  "primary_selected_source_hashes_unchanged": 1678,
+  "public_source_bytes": 9247943,
+  "full_car_ros_build_passed": true,
+  "legacy_rectangle_and_motion_native_passed": true,
+  "latest_arm_cross_build_during_export": false,
+  "esp_idf_full_build_during_export": false,
+  "full_vicon_sdk_build_during_export": false,
+  "software_600s_evidence_imported_not_rerun": true,
+  "complete_latest_candidate_qualification": false,
+  "physical_600s_passed": false,
+  "hardware_commands_sent": false,
+  "firmware_written": false,
+  "network_settings_changed": false,
+  "primary_workspace_changed": false,
+  "drone_and_shared_receiver_changed": false
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "base_yaw_offset_rad": 2.356194490192345,
+  "hardware": {
+    "esp_ip": "192.168.50.1",
+    "network_interface": "wlx000000000000",
+    "required_motion_tag": "4WGC",
+    "wire_timeout_ms": 600,
+    "diagnostic_payload_bytes": 156,
+    "output_authority_version": 1
+  },
+  "safety": {
+    "arena_x_min": -1.800264386424,
+    "arena_x_max": 1.178696867313,
+    "arena_y_min": -1.498819527764,
+    "arena_y_max": 1.480141725974,
+    "ground_z_m": 0.10790704618641533,
+    "half_length_m": 0.095,
+    "half_width_m": 0.105,
+    "boundary_margin_m": 0.2,
+    "max_speed_mps": 0.05,
+    "max_session_s": 120,
+    "max_goal_radius_m": 3,
+    "goal_boundary_policy": "clamp",
+    "goal_reference_policy": "governed"
+  },
+  "input_workspace": {
+    "reference_margin_m": 0.5,
+    "policy": "Fresh tracked Sign XY only; reference extent is not verified coverage or person detection",
+    "mapping": "2x XY absolute final target, fixed-boundary clamp; speed-governed instantaneous reference; no automatic rebase"
+  },
+  "confirmations": {
+    "fixed_arena_checked": false,
+    "footprint_measured": false,
+    "ground_height_measured": false,
+    "heading_checked": false,
+    "power_cut_ready": false,
+    "wiring_secured": false,
+    "battery_protection_checked": false,
+    "wire_watchdog_600ms_documented": false
+  },
+  "evidence": {
+    "source_profile": "hardware_acceptance.corner_2x2_4wgc_2026-10-23.json",
+    "source_profile_sha256": "513914a3c5877e8809421b987603956a081e15454081c8d343d0597b32ab1843",
+    "change_scope": "PC-only opt-in target governor and explicit released/stationary reprepare; firmware, timing guards, speed, arena, network and original rectangle unchanged",
+    "outline_length_m": 0.19,
+    "outline_width_m": 0.21,
+    "car_heading_rad": 1.526260405304856,
+    "preview_start_xy_m": [
+      0.6437034797013303,
+      -1.0528685411524479
+    ],
+    "nominal_center_workspace": {
+      "frame": "recorded start heading: forward and left",
+      "forward_min_m": 0,
+      "forward_max_m": 2,
+      "left_min_m": 0,
+      "left_max_m": 2,
+      "placement_padding_m": 0.1
+    },
+    "operator_request": "2026-10-23: repair large target guidance and transient feedback recovery, preserve safety, no firmware changes, then continue hardware testing",
+    "site_scope": "Same fixed arena and original rectangle start/heading; new site or Vicon origin requires new review. No new site measurement is implied."
+  }
+}

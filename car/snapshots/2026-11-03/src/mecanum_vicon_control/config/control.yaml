@@ -1,0 +1,78 @@
+car_state_bridge:
+  ros__parameters:
+    input_pose_topic: /vicon/car01/base
+    output_pose_topic: /car/pose
+    output_odom_topic: /car/odometry
+    world_frame: map
+    base_frame: base_link
+    base_offset_x_m: 0.0
+    base_offset_y_m: 0.0
+    base_offset_yaw_rad: 0.0
+    max_jump_m: 0.5
+    max_jump_yaw_rad: 1.2
+    reacquire_after_s: 0.5
+    publish_tf: true
+
+pose_controller:
+  ros__parameters:
+    pose_topic: /car/pose
+    goal_topic: /car/goal_pose
+    cmd_topic: /car/cmd_vel_raw
+    control_rate_hz: 50.0
+    kp_x: 0.9
+    kp_y: 0.9
+    kp_yaw: 1.5
+    max_vx_mps: 0.30
+    max_vy_mps: 0.30
+    max_wz_radps: 0.8
+    max_linear_accel_mps2: 0.45
+    max_angular_accel_radps2: 1.2
+    position_tolerance_m: 0.02
+    yaw_tolerance_rad: 0.035
+
+safety_watchdog:
+  ros__parameters:
+    pose_topic: /car/pose
+    input_cmd_topic: /car/cmd_vel_raw
+    output_cmd_topic: /car/cmd_vel
+    pose_timeout_s: 0.20
+    command_timeout_s: 0.20
+    check_rate_hz: 50.0
+    startup_grace_s: 2.0
+    start_enabled: false
+
+simulated_vicon_car:
+  ros__parameters:
+    cmd_topic: /car/cmd_vel
+    pose_topic: /vicon/car01/base
+    frame_id: map
+    publish_rate_hz: 100.0
+    command_timeout_s: 0.30
+    velocity_time_constant_s: 0.12
+    x_gain: 0.98
+    y_gain: 0.88
+    yaw_gain: 0.95
+    position_noise_std_m: 0.0005
+
+cmd_vel_udp_bridge:
+  ros__parameters:
+    cmd_topic: /car/cmd_vel
+    enable_topic: /car/safety_enabled
+    estop_topic: /car/estop
+    control_enable_topic: /car/control_enable
+    clear_faults_topic: /car/clear_faults
+    esp_ip: ''
+    network_interface: ''
+    # Opt in only after the current AP has passed a no-power comparison.
+    udp_low_latency_qos: false
+    command_port: 46000
+    telemetry_port: 46001
+    send_rate_hz: 50.0
+    command_timeout_s: 0.20
+    wire_timeout_ms: 150
+    hello_retry_s: 0.30
+    link_receive_timeout_s: 0.50
+    command_progress_timeout_s: 1.00
+    max_vx_mps: 0.30
+    max_vy_mps: 0.30
+    max_wz_radps: 0.80

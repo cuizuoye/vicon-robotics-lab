@@ -1,0 +1,24 @@
+#ifndef FIRST_STAGE_4W20_PROFILE_H
+#define FIRST_STAGE_4W20_PROFILE_H
+/* Separate commissioning image: the 400rpm/80% candidate stays unchanged. */
+#include "../../high_speed_4wgd/Inc/four_speed_pwm_profile.h"
+#undef FOUR_HIGH_TARGET_RPM
+#define FOUR_HIGH_TARGET_RPM 100.0f
+#undef FOUR_HIGH_FEEDBACK_RPM
+#define FOUR_HIGH_FEEDBACK_RPM 120.0f
+#undef FOUR_SPEED_DUTY_LIMIT_PERMILLE
+#define FOUR_SPEED_DUTY_LIMIT_PERMILLE 350
+#undef FOUR_DRIVE_TARGET_LIMIT_CPS
+#define FOUR_DRIVE_TARGET_LIMIT_CPS 1700.0f
+#undef FOUR_DRIVE_MAX_LINEAR_M_S
+#define FOUR_DRIVE_MAX_LINEAR_M_S 0.20f
+#undef FOUR_DRIVE_MAX_WHEEL_M_S
+#define FOUR_DRIVE_MAX_WHEEL_M_S 0.30f
+#undef FOUR_DRIVE_MAX_BODY_MM_S
+#define FOUR_DRIVE_MAX_BODY_MM_S 200
+#undef FOUR_DRIVE_MAX_YAW_RAD_S
+#define FOUR_DRIVE_MAX_YAW_RAD_S 0.10f
+#undef FOUR_DRIVE_MAX_YAW_MRAD_S
+#define FOUR_DRIVE_MAX_YAW_MRAD_S 100
+_Static_assert(FOUR_SPEED_DUTY_LIMIT_PERMILLE==350,"keep the exercised power ceiling");
+#endif

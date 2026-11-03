@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign遥操作 · Vicon世界坐标</title><link rel="stylesheet" href="/style.css"><script src="/input_guard.js" defer></script><script src="/focus_evidence.js" defer></script><script src="/page_warmup.js" defer></script><script src="/app.js" defer></script></head>
+<body><header><h1>Sign遥操作 · 后台独立演示</h1><p id="mode">等待自检 · 当前未使能 · 硬件模式须明确审批</p></header>
+<main><section class="map"><p class="legend">蓝：car01　橙：Sign 1:1映射目标</p>
+<canvas id="map" width="800" height="420" tabindex="0" aria-label="Vicon世界XY坐标：小车与Sign映射目标"></canvas>
+<div id="instruction" class="instruction">请点击页面获得焦点。连接不会使能小车。</div>
+<div id="status" role="status">尚未连接</div></section>
+<aside><p id="connection" hidden>等待浏览器获得焦点</p>
+<p id="timing" hidden>浏览器主线程心跳≤100ms；原后端保护保留</p>
+<p id="pose">位置、朝向：等待反馈</p><p id="countdown">倒计时：等待连接</p>
+<button id="stop">结束本次只读检查</button><button id="estop" class="danger" hidden>紧急停止（软件锁存）</button>
+<button id="restart" hidden>返回启动检查</button>
+<fieldset id="simulation" hidden><legend>仅限软件仿真的虚拟Sign</legend>
+<label>前后 <input id="x" type="range" min="-0.6" max="0.6" step="0.01" value="0"></label>
+<label>左右 <input id="y" type="range" min="-0.6" max="0.6" step="0.01" value="0"></label>
+<label>转角 <input id="yaw" type="range" min="-90" max="90" step="1" value="0"></label>
+<label><input id="visible" type="checkbox" checked> 软件Sign可见</label><button id="center">虚拟杆回中（不是停车键）</button></fieldset>
+</aside></main><footer id="footer">自动READY后单击空格开始；再次空格 / Esc停止。</footer></body></html>

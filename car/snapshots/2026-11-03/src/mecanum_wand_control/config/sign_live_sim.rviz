@@ -1,0 +1,47 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Global Options:
+    Background Color: 30; 35; 40
+    Fixed Frame: wand_sim_map
+    Frame Rate: 20
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid 25cm
+      Enabled: true
+      Cell Size: 0.25
+      Plane Cell Count: 32
+      Reference Frame: <Fixed Frame>
+    - Class: rviz_default_plugins/MarkerArray
+      Name: REAL SIGN - SIM CAR
+      Enabled: true
+      Topic:
+        Value: /wand_sim/markers
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 2
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Physical car reference and live source status
+      Enabled: true
+      Topic:
+        Value: /wand_sim/source_markers
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Depth: 2
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 5.0
+      Pitch: 0.85
+      Yaw: 0.70
+      Focal Point:
+        X: 0.6
+        Y: -0.6
+        Z: 0.4
+Window Geometry:
+  Width: 1100
+  Height: 800

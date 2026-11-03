@@ -1,0 +1,25 @@
+{
+  "original_result_sha256": "a7411c740824cc380af790b4978bc01970f482bf97cfce27e8a41b39517bf2fc",
+  "identity": "4WSC",
+  "image_sha256": "b471a2a3fe5b24b7b23844a0452a5923bd3b9fc14a78df2a5ffaa9707a7e5769",
+  "stage": 6,
+  "physical_trial": true,
+  "backend_trial_passed": true,
+  "operator_observation_reviewed": true,
+  "operator_feedback": "演示完成，也正常，后续更高加速度暂时不需要了，我认为现在的加速度已经足够，先拓展到600s。",
+  "chosen_baseline": {
+    "speed_mps": 0.7,
+    "accel_mps2": 2.0,
+    "yaw_rate_radps": 2.0,
+    "yaw_accel_radps2": 12.0
+  },
+  "active_duration_s": 60.00820169600047,
+  "stop_confirmed": true,
+  "gate_output_zero": true,
+  "qualified_long_demo": false,
+  "physical_stop_envelope_verified": false,
+  "electrical_thermal_verified": false,
+  "qualification_scope": "Operator-confirmed stage6 following and normal timer stop. Duration change requested; no claim of physical high-speed stopping, current, thermal or 600s qualification.",
+  "configuration_limits_are_not_measured_peak_performance": true,
+  "revalidated_during_export": false
+}

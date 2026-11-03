@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign跟随 · 独立浏览器操作台</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><header><h1>Sign跟随 · Windows本地绘图</h1><p id="mode">等待连接 · 本入口不支持实车输出</p></header>
+<main><section class="map"><p class="legend">蓝：软件小车　橙：目标　青：参考点（自动缩放，非电子围栏）</p>
+<canvas id="map" width="800" height="420" tabindex="0" aria-label="软件小车与目标轨迹"></canvas>
+<div id="instruction" class="instruction">请点击页面获得焦点。连接不会使能小车。</div>
+<div id="status" role="status">尚未连接</div></section>
+<aside><h2>连接与安全状态</h2><p id="connection">等待浏览器获得焦点</p>
+<p id="timing">浏览器主线程心跳≤100ms；原后端保护保留</p>
+<p id="pose">位置、朝向：等待软件数据</p><p id="countdown">倒计时：等待连接</p>
+<button id="stop">结束本次只读检查</button><button id="estop" class="danger" hidden>软件急停（锁存）</button>
+<fieldset id="simulation" hidden><legend>仅限软件仿真的虚拟Sign</legend>
+<label>前后 <input id="x" type="range" min="-0.6" max="0.6" step="0.01" value="0"></label>
+<label>左右 <input id="y" type="range" min="-0.6" max="0.6" step="0.01" value="0"></label>
+<label>转角 <input id="yaw" type="range" min="-90" max="90" step="1" value="0"></label>
+<label><input id="visible" type="checkbox" checked> 软件Sign可见</label><button id="center">虚拟杆回中（不是停车键）</button></fieldset>
+</aside></main><footer id="footer">只读与软件仿真均无实车输出。窗口失焦、卡顿、断连仍终止；不会自动恢复。</footer></body></html>

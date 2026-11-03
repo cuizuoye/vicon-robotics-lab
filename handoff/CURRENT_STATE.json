@@ -1,14 +1,17 @@
 {
-  "snapshot_date": "2026-10-28",
+  "snapshot_date": "2026-11-03",
   "scope": "PUBLIC SOFTWARE HANDOFF, NOT LIVE HARDWARE AUTHORIZATION",
   "development_paused_on_primary": false,
-  "car_current_state": "handoff/CAR_STATE_2026-10-28.json",
+  "car_current_state": "handoff/CAR_STATE_2026-11-03.json",
   "car": {
-    "details": "handoff/CAR_STATE_2026-10-28.json",
-    "evidence_date": "2026-10-28",
-    "last_recorded_mcu": "4WS8; not read from the board during this export",
+    "details": "handoff/CAR_STATE_2026-11-03.json",
+    "evidence_date": "2026-11-03",
+    "last_recorded_mcu": "4WSC STOPFIX_V1; November 2 readback record, not re-read during export",
     "real_xy_following_accepted_with_limits": true,
-    "new_4wsa_candidate_flashed": false,
+    "real_xy_yaw_stage6_operator_observation_passed": true,
+    "actual_peak_speed_certified": false,
+    "physical_600s_qualified": false,
+    "latest_static_source_candidate_released": false,
     "public_export_grants_motion_authority": false
   },
   "legacy_car_section_below_evidence_date": "2026-10-15; historical only, superseded by car_current_state",

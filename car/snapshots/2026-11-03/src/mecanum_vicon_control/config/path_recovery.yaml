@@ -1,0 +1,31 @@
+path_recovery_controller:
+  ros__parameters:
+    pose_topic: /car/pose
+    goal_topic: /car/goal_pose
+    cmd_topic: /car/cmd_vel_raw
+    world_frame: map
+    control_rate_hz: 50.0
+    pose_timeout_s: 0.20
+
+    # Offline default.  A future hardware launch must override this explicitly
+    # and remain within the selected STM32 profile's independent limits.
+    nominal_speed_mps: 0.10
+    max_linear_speed_mps: 0.10
+    max_wz_radps: 0.20
+    max_linear_accel_mps2: 0.30
+    max_angular_accel_radps2: 0.80
+
+    kp_along: 0.9
+    kp_cross_track: 1.2
+    kp_yaw: 1.5
+    lookahead_m: 0.20
+    tracking_cross_speed_mps: 0.06
+    recovery_cross_speed_mps: 0.10
+    recovery_tangent_speed_mps: 0.03
+
+    recovery_enter_m: 0.08
+    recovery_exit_m: 0.03
+    recovery_settle_s: 0.50
+    max_recoverable_deviation_m: 0.45
+    position_tolerance_m: 0.02
+    yaw_tolerance_rad: 0.035

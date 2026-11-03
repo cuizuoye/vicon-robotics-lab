@@ -1,0 +1,38 @@
+{
+  "original_deployment_sha256": "4efad26c629ee51d214d2dca865253b6a129acf301e948b18c4fc1893b367e97",
+  "verified_at_utc": "2026-11-02T05:39:10.734686+00:00",
+  "identity": "4WSC",
+  "firmware_revision": "STOPFIX_V1",
+  "protocol_authority_version": 8,
+  "diagnostic_payload_bytes": 208,
+  "backup_verified": true,
+  "two_full_backups_identical": true,
+  "image_sha256": "c02b27867b1c92f3284e00c340775b7a5afe89985393e647cf7c0e34b90f81c0",
+  "image_bytes": 53332,
+  "independent_readback_verified": true,
+  "image_prefix_matches_byte_for_byte": true,
+  "option_bytes_unchanged": true,
+  "normal_motion_equivalence": {
+    "passed": true,
+    "unchanged_stages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "compared_control_ticks": 15000,
+    "per_tick_wheel_and_status_payload_equal": true,
+    "excluded_fields": [],
+    "synthetic_encoders_only": true,
+    "physical_motion": false
+  },
+  "equivalence_original_sha256": "1f6ded2b8baceb875bb50ace40112bb6976de6351c8fdfb8a04c90241ee66fd9",
+  "raw_flash_device_ids_and_permission_not_included": true,
+  "revalidated_during_export": false
+}

@@ -1,0 +1,89 @@
+{
+  "date": "2026-11-03",
+  "scope": "Public car software handoff, not live motion authority",
+  "supersedes_car_state": "handoff/CAR_STATE_2026-10-28.json",
+  "latest_source": "car/snapshots/2026-11-03",
+  "technical_report": "car/reports/2026-11-03/TECHNICAL_REPORT.md",
+  "resume": "car/reports/2026-11-03/RESUME.md",
+  "last_recorded_deployment": {
+    "evidence_date": "2026-11-02",
+    "identity": "4WSC",
+    "revision": "STOPFIX_V1",
+    "image_bytes": 53332,
+    "image_sha256": "c02b27867b1c92f3284e00c340775b7a5afe89985393e647cf7c0e34b90f81c0",
+    "double_full_backup_and_independent_readback_recorded": true,
+    "protocol_authority_version": 8,
+    "diagnostic_payload_bytes": 208,
+    "board_not_connected_or_read_by_this_export": true,
+    "raw_backup_and_private_receipt_not_exported": true
+  },
+  "physical_observations": {
+    "historical_rectangle_loop_and_disturbance_recovery": "Operator accepted in separate historical version",
+    "stage6_xy_yaw_following": {
+      "operator_accepted": true,
+      "active_s": 60.00820169600047,
+      "normal_timer_stop_confirmed": true,
+      "configuration_limits": {
+        "speed_mps": 0.7,
+        "accel_mps2": 2.0,
+        "yaw_rate_radps": 2.0,
+        "yaw_accel_radps2": 12.0,
+        "wheel_rpm": 400
+      },
+      "actual_peak_speed_measured": false,
+      "image_sha256": "b471a2a3fe5b24b7b23844a0452a5923bd3b9fc14a78df2a5ffaa9707a7e5769",
+      "later_stopfix_normal_motion_equivalence": "15000 synthetic control ticks; not new physical certification"
+    },
+    "background_long_trials": {
+      "physical_600s_passed": false,
+      "interrupted_active_s_approx": [275.191, 206.499],
+      "reasons": ["RAW_IPC_OR_GEOMETRY_INVALID", "FINAL_GATE: ROTATION_SELECTED_SOURCE_INVALID"],
+      "zero_output_and_stop_confirmed": true,
+      "static_source_repair_is_separate_candidate": true
+    }
+  },
+  "browser": {
+    "canvas_world_grid_and_axes": true,
+    "one_to_one_xy_relative_yaw": true,
+    "z_translation_mapped": false,
+    "intermediate_position_reference": false,
+    "fixed_electronic_fence": false,
+    "obstacle_detection": false,
+    "background_backend_session_independent_of_rendering": true,
+    "close_refresh_disconnect_still_stop": true,
+    "windows_remote_physical_acceptance": false
+  },
+  "sign_revision": {
+    "bar": ["Sign1", "Sign4", "Sign3"],
+    "junction": "Sign4",
+    "stem": ["Sign2", "Sign5"],
+    "forward": "away from the long stem",
+    "public_geometry_is_synthetic_not_site_calibration": true
+  },
+  "static_source_candidate": {
+    "revision": "BACKGROUND_STATIC_SOURCE_V3",
+    "software_600s_result": "car/reports/2026-11-03/evidence/STATIC_600S.json",
+    "actual_ros_and_native_c_loopback": true,
+    "synthetic_raw_vicon_input": true,
+    "observed_active_s": 600.003050377,
+    "source_unit_tests": 27,
+    "full_candidate_qualification_complete": false,
+    "released_as_live_entry": false,
+    "physical_retest_complete": false
+  },
+  "pending": [
+    "Complete final static-source browser and fault-injection qualification",
+    "Real Tracker continuous input and actual car 600-second acceptance",
+    "Physical stopping envelope, transient current, motor and driver temperature",
+    "Measured full Vicon coverage and physical endpoint latency",
+    "Experimental higher acceleration and adaptive scheduling remain separate candidates"
+  ],
+  "export_actions": {
+    "firmware_written": false,
+    "hardware_commands_sent": false,
+    "network_settings_changed": false,
+    "primary_workspace_changed": false,
+    "drone_and_shared_receiver_changed": false,
+    "motion_authority_transferred": false
+  }
+}
